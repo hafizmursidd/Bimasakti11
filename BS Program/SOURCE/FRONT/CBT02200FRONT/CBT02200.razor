@@ -1,0 +1,213 @@
+﻿@using CBT02200COMMON.DTO.CBT02200
+@attribute [R_Page(Title = "Transaction List")]
+@page "/CBT02200"
+@inherits R_Page
+
+<R_StackLayout Row>
+    <R_ItemLayout col="4">
+        <R_StackLayout Row>
+            <R_ItemLayout col="3">
+                <R_Label>@_localizer["_Department"]</R_Label>
+            </R_ItemLayout>
+            <R_ItemLayout col="2">
+                <R_TextBox @bind-Value="loViewModel.loHeader.CDEPT_CODE"
+                           R_ConductorSource="_conductorHeaderRef"
+                           OnLostFocus="@DeptCode_OnLostFocus"
+                           Enabled="true" />
+            </R_ItemLayout>
+            <R_ItemLayout>
+                <R_Lookup R_Before_Open_Lookup="@Before_Open_lookupDept" R_After_Open_Lookup="@After_Open_lookupDept">
+                    ...
+                </R_Lookup>
+            </R_ItemLayout>
+            <R_ItemLayout col="5">
+                <R_TextBox @bind-Value="loViewModel.loHeader.CDEPT_NAME"
+                           Enabled="false" />
+            </R_ItemLayout>
+        </R_StackLayout>
+        <R_StackLayout Row>
+            <R_ItemLayout col="3">
+                <R_Label>@_localizer["_BankCode"]</R_Label>
+            </R_ItemLayout>
+            <R_ItemLayout col="2">
+                <R_TextBox @bind-Value="loViewModel.loHeader.CCB_CODE"
+                           R_ConductorSource="_conductorHeaderRef"
+                           OnLostFocus="@BankCode_OnLostFocus"
+                           Enabled="@(!string.IsNullOrWhiteSpace(loViewModel.loHeader.CDEPT_CODE))" />
+            </R_ItemLayout>
+            <R_ItemLayout>
+                <R_Lookup R_Before_Open_Lookup="@Before_Open_LookUpBank" R_After_Open_Lookup="@After_Open_LookUpBank" Enabled="@(!string.IsNullOrWhiteSpace(loViewModel.loHeader.CDEPT_CODE))">
+                    ...
+                </R_Lookup>
+            </R_ItemLayout>
+            <R_ItemLayout col="5">
+                <R_TextBox @bind-Value="loViewModel.loHeader.CCB_NAME"
+                           Enabled="false" />
+            </R_ItemLayout>
+        </R_StackLayout>
+    </R_ItemLayout>
+    <R_ItemLayout col="5">
+        <R_StackLayout Row>
+            <R_ItemLayout col="11">
+                <R_StackLayout Row>
+                    <R_ItemLayout col="3">
+                        <R_Label>@_localizer["_Period"]</R_Label>
+                    </R_ItemLayout>
+                    <R_ItemLayout col="3">
+                        <R_NumericTextBox @bind-Value="loViewModel.loHeader.IPERIOD_YY"
+                                          Max="loViewModel.loPeriodYearRange.IMAX_YEAR"
+                                          Min="loViewModel.loPeriodYearRange.IMIN_YEAR"
+                                          ThousandSeparator="false" />
+                    </R_ItemLayout>
+                    <R_ItemLayout col="2">
+                        <R_ComboBox Data="@loPeriodMonth"
+                                    @bind-Value="loViewModel.loHeader.CPERIOD_MM"
+                                    ValueField="@nameof(PeriodMonth.CCODE)"
+                                    TextField="@nameof(PeriodMonth.CCODE)" />
+                    </R_ItemLayout>
+
+                    <R_ItemLayout>
+                        <R_Label>@_localizer["_Status"]</R_Label>
+                    </R_ItemLayout>
+                    <R_ItemLayout col="3">
+                        <R_ComboBox Data="@loViewModel.loStatusList"
+                                    Value="loViewModel.loHeader.CSTATUS"
+                                    ValueChanged="@((string poParam) => TestValueChange(poParam))"
+                                    ValueField="@nameof(GetStatusDTO.CCODE)"
+                                    TextField="@nameof(GetStatusDTO.CNAME)">
+                        </R_ComboBox>
+                    </R_ItemLayout>
+                </R_StackLayout>
+            </R_ItemLayout>
+        </R_StackLayout>
+        <R_StackLayout Row>
+            <R_ItemLayout col="11">
+                <R_StackLayout Row>
+                    <R_ItemLayout col="3">
+                        <R_Label>@_localizer["_AccountNo"]</R_Label>
+                    </R_ItemLayout>
+                    <R_ItemLayout col="4">
+                        <R_TextBox @bind-Value="loViewModel.loHeader.CCB_ACCOUNT_NO"
+                                   R_ConductorSource="_conductorHeaderRef"
+                                   OnLostFocus="@AccountNo_OnLostFocus"
+                                   Enabled="@(!string.IsNullOrWhiteSpace(loViewModel.loHeader.CDEPT_CODE) && !string.IsNullOrWhiteSpace(loViewModel.loHeader.CCB_CODE))" />
+                    </R_ItemLayout>
+                    <R_ItemLayout>
+                        <R_Lookup R_Before_Open_Lookup="@Before_Open_lookupAccountNo" R_After_Open_Lookup="@After_Open_lookupAccountNo" Enabled="@(!string.IsNullOrWhiteSpace(loViewModel.loHeader.CDEPT_CODE) && !string.IsNullOrWhiteSpace(loViewModel.loHeader.CCB_CODE))">
+                            ...
+                        </R_Lookup>
+                    </R_ItemLayout>
+                    <R_ItemLayout col="5">
+                        <R_TextBox @bind-Value="loViewModel.loHeader.CCB_ACCOUNT_NAME"
+                                   Enabled="false" />
+                    </R_ItemLayout>
+                </R_StackLayout>
+            </R_ItemLayout>
+        </R_StackLayout>
+    </R_ItemLayout>
+
+    <R_ItemLayout col="3">
+        <R_StackLayout Row>
+            <R_ItemLayout col="5">
+                <R_TextBox @bind-Value="loViewModel.loHeader.CSEARCH_TEXT" />
+            </R_ItemLayout>
+            <R_ItemLayout>
+                <R_Button OnClick="OnclickSearch">@_localizer["_Search"]</R_Button>
+            </R_ItemLayout>
+            <R_ItemLayout>
+                <R_Button OnClick="OnClickShowAll">@_localizer["_ShowAll"]</R_Button>
+            </R_ItemLayout>
+        </R_StackLayout>
+    </R_ItemLayout>
+</R_StackLayout>
+
+<R_StackLayout Row>
+
+</R_StackLayout>
+
+<R_StackLayout Row>
+    <R_ItemLayout col="2"></R_ItemLayout>
+</R_StackLayout>
+
+<R_StackLayout Row>
+    <R_Grid @ref="_gridHeaderRef"
+            DataSource="@loViewModel.loChequeHeaderList"
+            R_ConductorSource ="_conductorHeaderRef"
+            R_ServiceGetListRecord="ChequeHeaderGrid_ServiceGetListRecord"
+            R_GridType="R_eGridType.Navigator"
+            Pageable
+            AllowAddNewRow="false"
+            AllowDeleteRow="false"
+            AllowEditRow="false"
+            Height="200px">
+        <R_GridColumns>
+            <R_GridTextColumn Width="146px" FieldName="@nameof(CBT02200GridDTO.CREF_NO)" HeaderText="@_localizer["_ReferenceNo"]"></R_GridTextColumn>
+            <R_GridDatePickerColumn Width="140px" FieldName="@nameof(CBT02200GridDTO.DREF_DATE)" HeaderText="@_localizer["_ReferenceDate"]"></R_GridDatePickerColumn>
+            <R_GridTextColumn Width="132px" FieldName="@nameof(CBT02200GridDTO.CCHEQUE_NO)" HeaderText="@_localizer["_ChequeNo"]"></R_GridTextColumn>
+            <R_GridDatePickerColumn Width="140px" FieldName="@nameof(CBT02200GridDTO.DCHEQUE_DATE)" HeaderText="@_localizer["_ChequeDate"]"></R_GridDatePickerColumn>
+            <R_GridDatePickerColumn Width="140px" FieldName="@nameof(CBT02200GridDTO.DDUE_DATE)" HeaderText="@_localizer["_DueDate"]"></R_GridDatePickerColumn>
+            <R_GridTextColumn Width="500px" FieldName="@nameof(CBT02200GridDTO.CTRANS_DESC)" HeaderText="@_localizer["_Description"]"></R_GridTextColumn>
+            <R_GridTextColumn Width="100px" FieldName="@nameof(CBT02200GridDTO.CCURRENCY_CODE)" HeaderText="@_localizer["_Currency"]"></R_GridTextColumn>
+            <R_GridNumericColumn Width="97px" FieldName="@nameof(CBT02200GridDTO.NTRANS_AMOUNT)" HeaderText="@_localizer["_Amount"]"></R_GridNumericColumn>
+            <R_GridTextColumn Width="86px" FieldName="@nameof(CBT02200GridDTO.CSTATUS_NAME)" HeaderText="@_localizer["_Status"]"></R_GridTextColumn>
+            <R_GridTextColumn Width="150px" FieldName="@nameof(CBT02200GridDTO.CUPDATE_BY)" HeaderText="@_localizer["_UpdatedBy"]"></R_GridTextColumn>
+            <R_GridTextColumn Width="150px" FieldName="@nameof(CBT02200GridDTO.DUPDATE_DATE)" HeaderText="@_localizer["_UpdatedDate"]"></R_GridTextColumn>
+            <R_GridTextColumn Width="150px" FieldName="@nameof(CBT02200GridDTO.CCREATE_BY)" HeaderText="@_localizer["_CreatedBy"]"></R_GridTextColumn>
+            <R_GridTextColumn Width="150px" FieldName="@nameof(CBT02200GridDTO.DCREATE_DATE)" HeaderText="@_localizer["_CreatedDate"]"></R_GridTextColumn>
+
+        </R_GridColumns>
+    </R_Grid>
+    </R_StackLayout>
+
+    <R_StackLayout Row>
+    <R_Grid @ref="_gridDetailRef"
+            DataSource="@loViewModel.loChequeDetailList"
+            Pageable
+            AllowAddNewRow="false"
+            AllowDeleteRow="false"
+            AllowEditRow="false"
+            R_ServiceGetListRecord="ChequeDetailGrid_ServiceGetListRecord"
+            R_GridType="R_eGridType.Original"
+            R_ServiceGetRecord="@ChequeDetailGrid_ServiceGetRecord"
+            R_Display="@ChequeDetailGrid_Display"
+            Height="240px">
+        <R_GridColumns>
+            <R_GridNumericColumn Width="67px" FieldName="@nameof(CBT02200GridDetailDTO.INO)" HeaderText="@_localizer["_No"]"></R_GridNumericColumn>
+            <R_GridTextColumn Width="120px" FieldName="@nameof(CBT02200GridDetailDTO.CGLACCOUNT_NO)" HeaderText="@_localizer["_AccountNo"]"></R_GridTextColumn>
+            <R_GridTextColumn Width="165px" FieldName="@nameof(CBT02200GridDetailDTO.CGLACCOUNT_NAME)" HeaderText="@_localizer["_AccountName"]"></R_GridTextColumn>
+            <R_GridTextColumn Width="120px" FieldName="@nameof(CBT02200GridDetailDTO.CCENTER_NAME)" HeaderText="@_localizer["_Center"]"></R_GridTextColumn>
+            <R_GridTextColumn Width="100px" FieldName="@nameof(CBT02200GridDetailDTO.CCASH_FLOW_CODE)" HeaderText="@_localizer["_CashFlowCode"]"></R_GridTextColumn>
+            <R_GridTextColumn Width="120px" FieldName="@nameof(CBT02200GridDetailDTO.CCASH_FLOW_NAME)" HeaderText="@_localizer["_CashFlowName"]"></R_GridTextColumn>
+            <R_GridNumericColumn Width="92px" FieldName="@nameof(CBT02200GridDetailDTO.NDEBIT)" HeaderText="@_localizer["_Debit"]" Visible="@IsDebitVisible"></R_GridNumericColumn>
+            <R_GridNumericColumn Width="92px" FieldName="@nameof(CBT02200GridDetailDTO.NCREDIT)" HeaderText="@_localizer["_Credit"]" Visible="@IsCreditVisible"></R_GridNumericColumn>
+            <R_GridTextColumn Width="475px" FieldName="@nameof(CBT02200GridDetailDTO.CDETAIL_DESC)" HeaderText="@_localizer["_Description"]"></R_GridTextColumn>
+            <R_GridTextColumn Width="120px" FieldName="@nameof(CBT02200GridDetailDTO.CDOCUMENT_NO)" HeaderText="@_localizer["_VoucherNo"]"></R_GridTextColumn>
+            <R_GridDatePickerColumn Width="150px" FieldName="@nameof(CBT02200GridDetailDTO.DDOCUMENT_DATE)" HeaderText="@_localizer["_VoucherDate"]"></R_GridDatePickerColumn>
+            <R_GridNumericColumn Width="110px" FieldName="@nameof(CBT02200GridDetailDTO.NLDEBIT)" HeaderText="@_localizer["_DBLocal"]" Visible="@IsDebitVisible"></R_GridNumericColumn>
+            <R_GridNumericColumn Width="110px" FieldName="@nameof(CBT02200GridDetailDTO.NLCREDIT)" HeaderText="@_localizer["_CRLocal"]" Visible="@IsCreditVisible"></R_GridNumericColumn>
+            <R_GridNumericColumn Width="110px" FieldName="@nameof(CBT02200GridDetailDTO.NBDEBIT)" HeaderText="@_localizer["_DBBase"]" Visible="@IsDebitVisible"></R_GridNumericColumn>
+            <R_GridNumericColumn Width="110px" FieldName="@nameof(CBT02200GridDetailDTO.NBCREDIT)" HeaderText="@_localizer["_CRBase"]" Visible="@IsCreditVisible"></R_GridNumericColumn>
+        </R_GridColumns>
+    </R_Grid>
+    </R_StackLayout>
+
+    <R_StackLayout Row>
+    <R_ItemLayout>
+        <R_Button Enabled="@(loViewModel.loChequeHeader.CSTATUS == "10"
+                          && loViewModel.loTransCodeInfo.LAPPROVAL_FLAG)"
+                  OnClick="ApproveChequeProcess">
+            @_localizer["_Approve"]
+        </R_Button>
+    </R_ItemLayout>
+</R_StackLayout>
+
+
+<R_Conductor @ref="_conductorHeaderRef"
+             R_ViewModel="loViewModel"
+             R_IsHeader
+             R_ServiceGetRecord="ChequeHeaderGrid_ServiceGetRecord"
+             R_Display="ChequeHeaderGrid_Display"> </R_Conductor>
+
+<R_ConductorGrid @ref="_conductorDetailRef" R_ConductorParent="@_conductorHeaderRef"></R_ConductorGrid>
+
+<R_PredefinedDock Title="@_localizer["_TransactionEntry"]" R_InstantiateDock="@Predef_ChequeEntry" R_AfterOpenPredefinedDock="@AfterPredef_ChequeEntry"></R_PredefinedDock>

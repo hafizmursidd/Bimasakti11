@@ -1,0 +1,154 @@
+﻿@page "/CBT00200"
+@inherits R_Page
+@attribute [R_Page(Title = "Transaction List")]
+
+<R_StackLayout Row>
+    <R_ItemLayout>
+        <R_Label>@_localizer["_Departement"]</R_Label>
+    </R_ItemLayout>
+    <R_ItemLayout col="1">
+        <R_TextBox @bind-Value="_viewModel.JornalParam.CDEPT_CODE"
+                   R_ConductorSource="_conductorRef"
+                   OnLostFocus="@DeptCode_OnLostFocus"
+                   Enabled="true" />
+    </R_ItemLayout>
+    <R_ItemLayout>
+        <R_Lookup R_Before_Open_Lookup="@Before_Open_lookupDept" R_After_Open_Lookup="@After_Open_lookupDept">
+            ...
+        </R_Lookup>
+    </R_ItemLayout>
+    <R_ItemLayout col="2">
+        <R_TextBox @bind-Value="_viewModel.JornalParam.CDEPT_NAME"
+                   Enabled="false" />
+    </R_ItemLayout>
+
+    <R_ItemLayout Style="width:auto">
+        <R_Label>@_localizer["_JournalPeriod"]</R_Label>
+    </R_ItemLayout>
+    <R_ItemLayout col="1">
+        <R_NumericTextBox @bind-Value="_viewModel.JournalPeriodYear"
+                          ThousandSeparator="false"
+                          />
+    </R_ItemLayout>
+    <R_ItemLayout col="1">
+        <R_ComboBox Data="@_viewModel.PeriodMonthList"
+                    @bind-Value="_viewModel.JournalPeriodMonth"
+                    ValueField="Key"
+                    TextField="Value"
+                    />
+    </R_ItemLayout>
+
+    <R_ItemLayout col="1" Class="text-center">
+        <R_Label>@_localizer["_Status"]</R_Label>
+    </R_ItemLayout>
+    <R_ItemLayout col="1">
+        <R_ComboBox Data="@_viewModel.VAR_GSB_CODE_LIST"
+                    @bind-Value="_viewModel.JornalParam.CSTATUS"
+                    ValueField="@nameof(CBT00200GSGSBCodeDTO.CCODE)"
+                    TextField="@nameof(CBT00200GSGSBCodeDTO.CNAME)"
+                    >
+        </R_ComboBox>
+    </R_ItemLayout>
+    <R_ItemLayout col="1">
+        <R_TextBox @bind-Value="_viewModel.JornalParam.CSEARCH_TEXT"
+                    />
+    </R_ItemLayout>
+    <R_ItemLayout>
+        <R_Button OnClick="OnclickSearch">@_localizer["_Search"]</R_Button>
+    </R_ItemLayout>
+    <R_ItemLayout>
+        <R_Button OnClick="OnClickShowAll">@_localizer["_ShowAll"]</R_Button>
+    </R_ItemLayout>
+</R_StackLayout>
+
+<R_StackLayout Row>
+    <R_Grid @ref="_gridRef"
+            DataSource="@_viewModel.JournalGrid"
+            R_ConductorSource="_conductorRef"
+            R_ServiceGetListRecord="JournalGrid_ServiceGetListRecord"
+            R_GridType="R_eGridType.Navigator"
+            Pageable
+            AllowAddNewRow="false"
+            AllowDeleteRow="false"
+            AllowEditRow="false"
+            Height="200px">
+        <R_GridColumns>
+            <R_GridTextColumn Width="146px" FieldName="@nameof(CBT00200DTO.CREF_NO)" HeaderText="@_localizer["_ReferenceNo"]"></R_GridTextColumn>
+            <R_GridDatePickerColumn Width="140px" FieldName="@nameof(CBT00200DTO.DREF_DATE)" HeaderText="@_localizer["_ReferenceDate"]"></R_GridDatePickerColumn>
+            <R_GridTextColumn Width="132px" FieldName="@nameof(CBT00200DTO.CDOC_NO)" HeaderText="@_localizer["_DocumentNo"]"></R_GridTextColumn>
+            <R_GridTextColumn Width="300px" FieldName="@nameof(CBT00200DTO.CTRANS_DESC)" HeaderText="@_localizer["_Description"]"></R_GridTextColumn>
+            <R_GridTextColumn Width="100px" FieldName="@nameof(CBT00200DTO.CCURRENCY_CODE)" HeaderText="@_localizer["_Currency"]"></R_GridTextColumn>
+            <R_GridNumericColumn Width="97px" FieldName="@nameof(CBT00200DTO.NTRANS_AMOUNT)" HeaderText="@_localizer["_Amount"]"></R_GridNumericColumn>
+            <R_GridTextColumn Width="86px" FieldName="@nameof(CBT00200DTO.CSTATUS_NAME)" HeaderText="@_localizer["_Status"]"></R_GridTextColumn>
+            <R_GridTextColumn Width="150px" FieldName="@nameof(CBT00200DTO.CUPDATE_BY)" HeaderText="@_localizer["_UpdatedBy"]"></R_GridTextColumn>
+            <R_GridTextColumn Width="150px" FieldName="@nameof(CBT00200DTO.DUPDATE_DATE)" HeaderText="@_localizer["_UpdatedDate"]"></R_GridTextColumn>
+            <R_GridTextColumn Width="150px" FieldName="@nameof(CBT00200DTO.CCREATE_BY)" HeaderText="@_localizer["_CreatedBy"]"></R_GridTextColumn>
+            <R_GridTextColumn Width="150px" FieldName="@nameof(CBT00200DTO.DCREATE_DATE)" HeaderText="@_localizer["_CreatedDate"]"></R_GridTextColumn>
+
+        </R_GridColumns>
+    </R_Grid>
+</R_StackLayout>
+
+<R_StackLayout Row>
+    <R_Grid @ref="_gridDetailRef"
+            DataSource="@_viewModel.JournalDetailGrid"
+            Pageable
+            R_ServiceGetListRecord="JournalGridDetail_ServiceGetListRecord"
+            R_GridType="R_eGridType.Original"
+            R_ServiceGetRecord="@JournalGridDetail_ServiceGetRecord"
+            R_Display="@JournalGridDetail_Display"
+            AllowAddNewRow="false"
+            AllowDeleteRow="false"
+            AllowEditRow="false"
+            Height="240px">
+        <R_GridColumns>
+            <R_GridNumericColumn Width="67px" FieldName="@nameof(CBT00210DTO.INO)" HeaderText="@_localizer["_No"]"></R_GridNumericColumn>
+            <R_GridTextColumn Width="120px" FieldName="@nameof(CBT00210DTO.CGLACCOUNT_NO)" HeaderText="@_localizer["_AccountNo"]"></R_GridTextColumn>
+            <R_GridTextColumn Width="165px" FieldName="@nameof(CBT00210DTO.CGLACCOUNT_NAME)" HeaderText="@_localizer["_AccountName"]"></R_GridTextColumn>
+            <R_GridTextColumn Width="120px" FieldName="@nameof(CBT00210DTO.CCENTER_NAME)" HeaderText="@_localizer["_Center"]"></R_GridTextColumn>
+            <R_GridTextColumn Width="200px" FieldName="@nameof(CBT00210DTO.CCASH_FLOW_CODE)" HeaderText="@_localizer["_CashFlowCode"]"></R_GridTextColumn>
+            <R_GridTextColumn Width="250px" FieldName="@nameof(CBT00210DTO.CCASH_FLOW_NAME)" HeaderText="@_localizer["_CashFlowName"]"></R_GridTextColumn>
+            <R_GridNumericColumn Width="92px" FieldName="@nameof(CBT00210DTO.NDEBIT)" HeaderText="@_localizer["_Debit"]"></R_GridNumericColumn>
+            <R_GridNumericColumn Width="92px" FieldName="@nameof(CBT00210DTO.NCREDIT)" HeaderText="@_localizer["_Credit"]"></R_GridNumericColumn>
+            <R_GridTextColumn Width="300px" FieldName="@nameof(CBT00210DTO.CDETAIL_DESC)" HeaderText="@_localizer["_Description"]"></R_GridTextColumn>
+            <R_GridTextColumn Width="120px" FieldName="@nameof(CBT00210DTO.CDOCUMENT_NO)" HeaderText="@_localizer["_VoucherNo"]"></R_GridTextColumn>
+            <R_GridDatePickerColumn Width="140px" FieldName="@nameof(CBT00210DTO.DDOCUMENT_DATE)" HeaderText="@_localizer["_VoucherDate"]"></R_GridDatePickerColumn>
+            <R_GridNumericColumn Width="110px" FieldName="@nameof(CBT00210DTO.NLDEBIT)" HeaderText="@_localizer["_DbLocal"]"></R_GridNumericColumn>
+            <R_GridNumericColumn Width="110px" FieldName="@nameof(CBT00210DTO.NLCREDIT)" HeaderText="@_localizer["_CrLocal"]"></R_GridNumericColumn>
+            <R_GridNumericColumn Width="110px" FieldName="@nameof(CBT00210DTO.NBDEBIT)" HeaderText="@_localizer["_DbBase"]"></R_GridNumericColumn>
+            <R_GridNumericColumn Width="110px" FieldName="@nameof(CBT00210DTO.NBCREDIT)" HeaderText="@_localizer["_CrBase"]"></R_GridNumericColumn>
+        </R_GridColumns>
+    </R_Grid>
+</R_StackLayout>
+
+    <R_StackLayout Row>
+    <R_ItemLayout>
+        <R_Button Enabled="@(_viewModel.JournalGrid.Count > 0 && (_viewModel.Data.CSTATUS == "10" && _viewModel.VAR_GSM_TRANSACTION_CODE.LAPPROVAL_FLAG == true))" 
+            OnClick="ApproveJournalProcess">
+            @_localizer["_Approve"]
+            </R_Button>
+    </R_ItemLayout>
+    <R_ItemLayout>
+        <R_Button Enabled="@( 
+                            (_viewModel.Data.CSTATUS == "20" || _viewModel.Data.CSTATUS == "80") && 
+                            int.Parse(_viewModel.Data.CREF_PRD) >= int.Parse(_viewModel.VAR_CB_SYSTEM_PARAM.CSOFT_PERIOD))"
+                  OnClick="CommitJournalProcess">
+            @lcCommitLabel
+        </R_Button>
+    </R_ItemLayout>
+    @* <R_ItemLayout>
+        <R_Detail R_Before_Open_Detail="R_Before_Testing_Detail"
+                      R_After_Open_Detail="R_After_Testing_Detail">Testing</R_Detail>
+    </R_ItemLayout> *@
+</R_StackLayout>
+
+
+<R_Conductor @ref="_conductorRef"
+    R_ViewModel="_viewModel"
+    R_IsHeader
+    R_ServiceGetRecord="JournalGrid_ServiceGetRecord"
+    R_Display="JournalGrid_Display" />
+
+<R_ConductorGrid @ref="_conductorDetailRef" R_ConductorParent="@_conductorRef"></R_ConductorGrid>
+
+<R_PredefinedDock Title="@_localizer["_JournalEntry"]" R_InstantiateDock="@Predef_JournalEntry" R_AfterOpenPredefinedDock="@AfterPredef_JournalEntry"></R_PredefinedDock>

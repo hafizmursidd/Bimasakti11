@@ -1,0 +1,345 @@
+﻿@inherits R_Page                
+
+<R_GroupBox Title="Journal Description" TitleClass="text-danger" >
+    <R_StackLayout Row>
+        <R_ItemLayout Style="width: 116px">
+            <R_Label>@(_localizer["_Departement"])*</R_Label>
+        </R_ItemLayout>
+        <R_ItemLayout col="1">
+            <R_TextBox @ref="_DeptCode_TextBox"
+                       @bind-Value="_JournalEntryViewModel.Data.CDEPT_CODE"
+                       R_ConductorSource="_conductorRef"
+                       R_EnableAdd
+                       OnLostFocus="@DeptCode_OnLostFocus"
+                       MaxLength="20" />
+            </R_ItemLayout>
+            <R_ItemLayout col="0">
+            <R_Lookup R_ConductorSource="_conductorRef" R_Before_Open_Lookup="@Before_Open_lookupDept" R_After_Open_Lookup="@After_Open_lookupDept" R_EnableAdd>...</R_Lookup>
+        </R_ItemLayout>
+        <R_ItemLayout col="3">
+            <R_TextBox @bind-Value="_JournalEntryViewModel.Data.CDEPT_NAME"
+                       R_ConductorSource="_conductorRef"
+                       Enabled="false"
+                       />
+        </R_ItemLayout>
+    </R_StackLayout>
+
+    <R_StackLayout Row>
+        <R_ItemLayout Style="width: 116px">
+            <R_Label>@(_localizer["_ReferenceNo"])*</R_Label>
+        </R_ItemLayout>
+        <R_ItemLayout col="2">
+            <R_TextBox @bind-Value="_JournalEntryViewModel.Data.CREF_NO"
+                       MaxLength="30"
+                       Enabled="@(_conductorRef.R_ConductorMode == R_eConductorMode.Add 
+                                && _JournalEntryViewModel.VAR_GSM_TRANSACTION_CODE.LINCREMENT_FLAG == false 
+                                && _JournalEntryViewModel.VAR_CB_SYSTEM_PARAM.LCB_NUMBERING == false)" />
+        </R_ItemLayout>
+        <R_ItemLayout>
+            <R_Label>@(_localizer["_RefDate"])*</R_Label>
+        </R_ItemLayout>
+        <R_ItemLayout col="2">
+            <R_DatePicker Value="@_JournalEntryViewModel.RefDate"
+                          R_ConductorSource="_conductorRef"
+                          ValueChanged="((DateTime? value) => RefDate_ValueChange(value))"
+                          R_EnableAdd
+                          R_EnableEdit />
+        </R_ItemLayout>
+    </R_StackLayout>
+
+    <R_StackLayout Row>
+        <R_ItemLayout Style="width: 116px">
+            <R_Label>@(_localizer["_CashCode"])*</R_Label>
+        </R_ItemLayout>
+        <R_ItemLayout col="1">
+            <R_TextBox @bind-Value="_JournalEntryViewModel.Data.CCB_CODE"
+                       Enabled="@(!string.IsNullOrWhiteSpace(_JournalEntryViewModel.Data.CDEPT_CODE) && _conductorRef.R_ConductorMode != R_eConductorMode.Normal)"
+                       OnLostFocus="@CashCode_OnLostFocus"
+                       MaxLength="20" />
+            </R_ItemLayout>
+            <R_ItemLayout col="0">
+            <R_Lookup  R_Before_Open_Lookup="@Before_Open_lookupCashCode" R_After_Open_Lookup="@After_Open_lookupCashCode" Enabled="@(!string.IsNullOrWhiteSpace(_JournalEntryViewModel.Data.CDEPT_CODE) && _conductorRef.R_ConductorMode != R_eConductorMode.Normal)">...</R_Lookup>
+        </R_ItemLayout>
+        <R_ItemLayout col="3">
+            <R_TextBox @bind-Value="_JournalEntryViewModel.Data.CCB_NAME"
+                       R_ConductorSource="_conductorRef"
+                       Enabled="false"
+                       />
+        </R_ItemLayout>
+        <R_ItemLayout Style="width:180px">
+            <R_Label>@(_localizer["_BaseRate"])</R_Label>
+        </R_ItemLayout>
+        <R_ItemLayout >
+            <R_Label>@(_localizer["_CurrencyRate"])</R_Label>
+        </R_ItemLayout>
+    </R_StackLayout>
+
+    <R_StackLayout Row>
+        <R_ItemLayout Style="width: 116px">
+            <R_Label>@(_localizer["_PaymentAmount"])*</R_Label>
+        </R_ItemLayout>
+        <R_ItemLayout Style="width: 60px">
+            <R_TextBox @bind-Value="_JournalEntryViewModel.Data.CCURRENCY_CODE" Enabled="false"></R_TextBox>
+        </R_ItemLayout>
+        <R_ItemLayout col="2">
+            <R_NumericTextBox R_ConductorSource="_conductorRef" Arrows="false" @bind-Value="_JournalEntryViewModel.Data.NTRANS_AMOUNT" TextAlignment="@R_eTextAlignment.Right" R_EnableAdd R_EnableEdit></R_NumericTextBox>
+        </R_ItemLayout>
+        <R_ItemLayout Style="width:70px"></R_ItemLayout>
+        <R_ItemLayout>
+            <R_Label>@(_localizer["_LocalCurrency"])</R_Label>
+        </R_ItemLayout>
+        <R_ItemLayout col="1">
+                <R_NumericTextBox @bind-Value="_JournalEntryViewModel.Data.NLBASE_RATE"
+                              Arrows="false"
+                              Decimals="6"
+                              TextAlignment="@R_eTextAlignment.Right"
+                              Enabled="@(_conductorRef.R_ConductorMode != R_eConductorMode.Normal 
+                                        && _JournalEntryViewModel.Data.CCURRENCY_CODE != _JournalEntryViewModel.VAR_GSM_COMPANY.CLOCAL_CURRENCY_CODE 
+                                        && !string.IsNullOrWhiteSpace(_JournalEntryViewModel.Data.CCURRENCY_CODE))"
+                             />
+        </R_ItemLayout>
+        <R_ItemLayout Style="width: 60px">
+            <R_TextBox @bind-Value="_JournalEntryViewModel.Data.CCURRENCY_CODE" Enabled="false"></R_TextBox>
+        </R_ItemLayout>
+        <R_ItemLayout>
+            <R_Label>=</R_Label>
+        </R_ItemLayout>
+        <R_ItemLayout col="1">
+            <R_NumericTextBox @bind-Value="_JournalEntryViewModel.Data.NLCURRENCY_RATE"
+                              Arrows="false"
+                              Decimals="6"
+                              TextAlignment="@R_eTextAlignment.Right"
+                              Enabled="@(_conductorRef.R_ConductorMode != R_eConductorMode.Normal 
+                                        && _JournalEntryViewModel.Data.CCURRENCY_CODE != _JournalEntryViewModel.VAR_GSM_COMPANY.CLOCAL_CURRENCY_CODE 
+                                        && !string.IsNullOrWhiteSpace(_JournalEntryViewModel.Data.CCURRENCY_CODE))"
+                             />
+        </R_ItemLayout>
+        <R_ItemLayout Style="width: 60px">
+            <R_TextBox @bind-Value="_JournalEntryViewModel.VAR_GSM_COMPANY.CLOCAL_CURRENCY_CODE" Enabled="false"></R_TextBox>
+        </R_ItemLayout>
+        <R_ItemLayout>
+            <R_Label>@(_localizer["_TotalDebit"])</R_Label>
+        </R_ItemLayout>
+        <R_ItemLayout col="1">
+            <R_NumericTextBox @bind-Value="_JournalEntryViewModel.Data.NDEBIT_AMOUNT"
+                              Arrows="false"
+                              TextAlignment="@R_eTextAlignment.Right"
+                              Enabled="false"   
+                               />
+        </R_ItemLayout>
+    </R_StackLayout>
+
+    <R_StackLayout Row>
+        <R_ItemLayout Style="width: 440px">
+        </R_ItemLayout>
+        <R_ItemLayout>
+            <R_Label>@(_localizer["_BaseCurrency"])</R_Label>
+        </R_ItemLayout>
+        <R_ItemLayout col="1">
+                <R_NumericTextBox @bind-Value="_JournalEntryViewModel.Data.NBBASE_RATE"
+                              Arrows="false"
+                              Decimals="6"
+                              TextAlignment="@R_eTextAlignment.Right"
+                              Enabled="@(_conductorRef.R_ConductorMode != R_eConductorMode.Normal 
+                                        && _JournalEntryViewModel.Data.CCURRENCY_CODE != _JournalEntryViewModel.VAR_GSM_COMPANY.CBASE_CURRENCY_CODE 
+                                        && !string.IsNullOrWhiteSpace(_JournalEntryViewModel.Data.CCURRENCY_CODE))"
+                              />
+        </R_ItemLayout>
+        <R_ItemLayout Style="width: 60px">
+            <R_TextBox @bind-Value="_JournalEntryViewModel.Data.CCURRENCY_CODE" Enabled="false"></R_TextBox>
+        </R_ItemLayout>
+        <R_ItemLayout>
+            <R_Label>=</R_Label>
+        </R_ItemLayout>
+        <R_ItemLayout col="1">
+            <R_NumericTextBox @bind-Value="_JournalEntryViewModel.Data.NBCURRENCY_RATE"
+                              Arrows="false"
+                              Decimals="6"
+                              TextAlignment="@R_eTextAlignment.Right"
+                              Enabled="@(_conductorRef.R_ConductorMode != R_eConductorMode.Normal 
+                                        && _JournalEntryViewModel.Data.CCURRENCY_CODE != _JournalEntryViewModel.VAR_GSM_COMPANY.CBASE_CURRENCY_CODE 
+                                        && !string.IsNullOrWhiteSpace(_JournalEntryViewModel.Data.CCURRENCY_CODE))" />
+        </R_ItemLayout>
+        <R_ItemLayout Style="width: 60px">
+            <R_TextBox @bind-Value="_JournalEntryViewModel.VAR_GSM_COMPANY.CBASE_CURRENCY_CODE" Enabled="false"></R_TextBox>
+        </R_ItemLayout>
+        <R_ItemLayout>
+            <R_Label>@(_localizer["_TotalCredit"])</R_Label>
+        </R_ItemLayout>
+        <R_ItemLayout col="1">
+            <R_NumericTextBox @bind-Value="_JournalEntryViewModel.Data.NCREDIT_AMOUNT"
+                              Arrows="false"
+                              TextAlignment="@R_eTextAlignment.Right"
+                              Enabled="false"   
+                               />
+        </R_ItemLayout>
+    </R_StackLayout>
+
+    <R_StackLayout Row>
+        <R_ItemLayout Style="width: 116px">
+            <R_Label>@(_localizer["_DocumentNo"])*</R_Label>
+        </R_ItemLayout>
+        <R_ItemLayout col="2">
+            <R_TextBox @bind-Value="_JournalEntryViewModel.Data.CDOC_NO"
+                       R_ConductorSource="_conductorRef"
+                       MaxLength="30"
+                       R_EnableAdd R_EnableEdit />
+        </R_ItemLayout>
+        <R_ItemLayout>
+            <R_Label>@(_localizer["_DocDate"])*</R_Label>
+        </R_ItemLayout>
+        <R_ItemLayout col="2">
+            <R_DatePicker @bind-Value="@_JournalEntryViewModel.DocDate"
+                          R_ConductorSource="_conductorRef"
+                            R_EnableAdd
+                            R_EnableEdit />
+        </R_ItemLayout>
+    </R_StackLayout>
+
+    <R_StackLayout Row>
+        <R_ItemLayout Style="width: 116px">
+            <R_Label>@(_localizer["_Description"])*</R_Label>
+        </R_ItemLayout>
+        <R_ItemLayout col="5">
+            <R_TextArea @bind-Value="_JournalEntryViewModel.Data.CTRANS_DESC"
+                        R_ConductorSource="_conductorRef"
+                        MaxLength="200"
+                        R_EnableAdd
+                        R_EnableEdit />
+        </R_ItemLayout>
+        <R_ItemLayout Style="width: 34px"></R_ItemLayout>
+        <R_ItemLayout Style="width: auto">
+            <R_StackLayout Row>
+                <R_ItemLayout col="3">
+                    <R_Label>@_localizer["_UpdatedBy"]</R_Label>
+                </R_ItemLayout>
+                <R_ItemLayout col="3">
+                    <R_TextBox @bind-Value="_JournalEntryViewModel.Data.CUPDATE_BY"
+                               R_ConductorSource="_conductorRef"
+                               Enabled="false" />
+                </R_ItemLayout>
+                <R_ItemLayout col="6">
+                    <R_DateTimePicker @bind-Value="_JournalEntryViewModel.Data.DUPDATE_DATE"
+                                 R_ConductorSource="_conductorRef"
+                                 Enabled="false" />
+                </R_ItemLayout>
+            </R_StackLayout>
+            <R_StackLayout Row>
+                <R_ItemLayout col="3">
+                    <R_Label>@_localizer["_CreatedBy"]</R_Label>
+                </R_ItemLayout>
+                <R_ItemLayout col="3">
+                    <R_TextBox @bind-Value="_JournalEntryViewModel.Data.CCREATE_BY"
+                               R_ConductorSource="_conductorRef"
+                               Enabled="false" />
+                </R_ItemLayout>
+                <R_ItemLayout col="6">
+                    <R_DateTimePicker @bind-Value="_JournalEntryViewModel.Data.DCREATE_DATE"
+                                 R_ConductorSource="_conductorRef"
+                                 Enabled="false" />
+                </R_ItemLayout>
+            </R_StackLayout>
+        </R_ItemLayout>
+    </R_StackLayout>
+
+    <R_StackLayout Row>
+        <R_ItemLayout Style="width: 116px">
+            <R_Label>@(_localizer["_Status"])</R_Label>
+        </R_ItemLayout>
+        <R_ItemLayout col="2">
+            <R_TextBox @bind-Value="@_JournalEntryViewModel.Data.CSTATUS_NAME" Enabled="false"></R_TextBox>
+        </R_ItemLayout>
+    </R_StackLayout>
+
+    <R_StackLayout Row Class="mt-2">
+        <R_ItemLayout col="4">
+            <R_AddButton R_Conductor="_conductorRef" Enabled="@(EnableHeaderNormalMode && EnableDetailNormalMode)"></R_AddButton>
+            <R_Button OnClick="CopyJournalEntryProcess" Enabled="@(EnableHaveRecId && EnableHeaderNormalMode && EnableDetailNormalMode)">@_localizer["_Copy"]</R_Button>
+            <R_EditButton R_Conductor="_conductorRef" Enabled="@(EnableEdit && EnableHeaderNormalMode && EnableDetailNormalMode)"></R_EditButton>
+            <R_Button Enabled="@(EnableEdit && EnableHeaderNormalMode && EnableDetailNormalMode)" OnClick="@BtnDelete_OnClick">@_localizer["_Delete"]</R_Button>
+        </R_ItemLayout>
+        <R_ItemLayout col="3">
+            <R_CancelButton R_Conductor="_conductorRef"></R_CancelButton>
+            <R_SaveButton R_Conductor="_conductorRef"></R_SaveButton>
+            <R_Lookup R_Before_Open_Lookup="@Before_Open_lookupPrint" Enabled="@(EnableHaveRecId && EnableHeaderNormalMode && EnableDetailNormalMode)">@_localizer["_Print"]</R_Lookup>
+        </R_ItemLayout>
+        <R_ItemLayout col="2"></R_ItemLayout>
+        <R_ItemLayout col="3">
+            <R_Button Enabled="@(EnableSubmit && EnableHeaderNormalMode && EnableDetailNormalMode)" OnClick="SubmitJournalProcess">@lcLabelSubmit</R_Button>
+            <R_Button Enabled="@(EnableApprove && EnableHeaderNormalMode && EnableDetailNormalMode)" OnClick="ApproveJournalProcess">@_localizer["_Approve"]</R_Button>
+            <R_Button Enabled="@(EnableCommit && EnableHeaderNormalMode && EnableDetailNormalMode)" OnClick="CommitJournalProcess">@lcLabelCommit</R_Button>
+        </R_ItemLayout>
+    </R_StackLayout>
+</R_GroupBox>
+
+<R_GroupBox Title="Journal Detail" TitleClass="text-danger">
+    <R_StackLayout Row>
+        <R_Grid @ref="_gridDetailRef"
+                DataSource="_JournalListViewModel.JournalDetailGrid"
+                Pageable
+                R_ConductorGridSource="_conductorDetailRef"
+                R_GridType="R_eGridType.Original"
+                R_ServiceGetListRecord="JournalDet_ServiceGetListRecord"
+                Height="230px"
+                Enabled="@(EnableHeaderNormalMode)"
+                AllowAddNewRow="true"
+                AllowDeleteRow="true"
+                AllowEditRow="true"
+                R_DisableDeleteConfirmation
+                R_ServiceGetRecord="@JournalDet_ServiceGetRecord"
+                R_Display="@JournalDet_RDisplay"
+                R_AfterAdd="@JournalDet_AfterAdd"
+                R_Validation="@JournalDet_Validation"
+                R_ServiceDelete="@JournalDet_ServiceDelete"
+                R_BeforeEdit="@JournalDet_BeforeEdit"
+                R_BeforeDelete="@JournalDet_BeforeDelete"
+                R_Saving="@JournalDet_Saving"
+                R_ServiceSave="@JournalDet_ServiceSave"
+                R_CheckGridAdd="@JournalDet_CheckGridAdd"
+                R_Before_Open_Grid_Lookup="Before_Open_Lookup"
+                R_After_Open_Grid_Lookup="After_Open_Lookup">
+            <R_GridColumns>
+                <R_GridNumericColumn Width="67px" FieldName="@nameof(CBT00210DTO.INO)" HeaderText="@_localizer["_No"]"></R_GridNumericColumn>
+                <R_GridLookupColumn Width="200px" FieldName="@nameof(CBT00210DTO.CGLACCOUNT_NO)" R_EnableAdd="true" R_EnableEdit="true" HeaderText="@_localizer["_AccountNo"]"></R_GridLookupColumn>
+                <R_GridTextColumn Width="250px" FieldName="@nameof(CBT00210DTO.CGLACCOUNT_NAME)" R_EnableAdd="false" R_EnableEdit="false" HeaderText="@_localizer["_AccountName"]"></R_GridTextColumn>
+                <R_GridComboBoxColumn Width="180px" Data="@_JournalEntryViewModel.VAR_CENTER_LIST"
+                                      FieldName="@nameof(CBT00210DTO.CCENTER_CODE)"
+                                      ValueField="@nameof(CBT00200GSCenterDTO.CCENTER_CODE)"
+                                      TextField="@nameof(CBT00200GSCenterDTO.CCENTER_NAME)"
+                                      PopupMaxHeight="120px"
+                                      HeaderText="@_localizer["_Center"]"
+                                      Enabled="@(_conductorDetailRef.R_ConductorMode != R_eConductorMode.Normal && EnableCenterList)" />
+                <R_GridLookupColumn Width="200px" FieldName="@nameof(CBT00210DTO.CCASH_FLOW_CODE)" R_EnableAdd="true" R_EnableEdit="true" HeaderText="@_localizer["_CashFlowCode"]"></R_GridLookupColumn>
+                <R_GridTextColumn Width="250px" FieldName="@nameof(CBT00210DTO.CCASH_FLOW_NAME)" Enabled="false" HeaderText="@_localizer["_CashFlowName"]"></R_GridTextColumn>
+                <R_GridNumericColumn Width="180px" Decimals="2" FieldName="@nameof(CBT00210DTO.NDEBIT)" R_EnableAdd R_EnableEdit HeaderText="@_localizer["_Debit"]"></R_GridNumericColumn>
+                <R_GridNumericColumn Width="180px" Decimals="2" FieldName="@nameof(CBT00210DTO.NCREDIT)" R_EnableAdd R_EnableEdit HeaderText="@_localizer["_Credit"]"></R_GridNumericColumn>
+                <R_GridTextColumn Width="500px" FieldName="@nameof(CBT00210DTO.CDETAIL_DESC)" R_EnableAdd R_EnableEdit HeaderText="@_localizer["_Description"]"></R_GridTextColumn>
+                <R_GridTextColumn Width="120px" FieldName="@nameof(CBT00210DTO.CDOCUMENT_NO)" MaxLength="30" R_EnableAdd R_EnableEdit HeaderText="@_localizer["_VoucherNo"]"></R_GridTextColumn>
+                <R_GridDatePickerColumn Width="150px" FieldName="@nameof(CBT00210DTO.DDOCUMENT_DATE)" R_EnableAdd R_EnableEdit HeaderText="@_localizer["_VoucherDate"]"></R_GridDatePickerColumn>
+                <R_GridNumericColumn Width="150px" FieldName="@nameof(CBT00210DTO.NLDEBIT)" Enabled="false" HeaderText="@_localizer["_DbLocal"]"></R_GridNumericColumn>
+                <R_GridNumericColumn Width="150px" FieldName="@nameof(CBT00210DTO.NLCREDIT)" Enabled="false" HeaderText="@_localizer["_CrLocal"]"></R_GridNumericColumn>
+                <R_GridNumericColumn Width="150px" FieldName="@nameof(CBT00210DTO.NBDEBIT)" Enabled="false" HeaderText="@_localizer["_DbBase"]"></R_GridNumericColumn>
+                <R_GridNumericColumn Width="150px" FieldName="@nameof(CBT00210DTO.NBCREDIT)" Enabled="false" HeaderText="@_localizer["_CrBase"]"></R_GridNumericColumn>
+            </R_GridColumns>
+            </R_Grid>
+    </R_StackLayout>
+</R_GroupBox>
+
+ <R_Conductor @ref="_conductorRef"
+              R_ViewModel="_JournalEntryViewModel"
+              R_IsHeader
+              R_ServiceGetRecord="@JournalForm_GetRecord"
+              R_ServiceSave="@JournalForm_ServiceSave"
+              R_AfterAdd="@JournalForm_AfterAdd"
+              R_Display="@JournalForm_RDisplay"
+              R_BeforeCancel="@JournalForm_BeforeCancel"
+              R_Validation="@ValidationFormGLT00100JournalEntry"
+              R_DisableCancelConfirmation
+              R_SetOther="@JournalForm_SetOther"
+ >
+ </R_Conductor>
+
+<R_ConductorGrid @ref="@_conductorDetailRef"
+                 R_ConductorParent="_conductorRef"
+                 R_SetOther="@JournalDet_SetOther" 
+                 />

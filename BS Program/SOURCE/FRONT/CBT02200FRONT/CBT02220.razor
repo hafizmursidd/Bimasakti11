@@ -1,0 +1,368 @@
+﻿@using CBT02200COMMON.DTO.CBT02210;
+@attribute [R_Page(Title = "Cheque Payment Journal")]
+@using R_BlazorFrontEnd.Enums;
+@inherits R_Page
+
+<R_GroupBox Title="Cheque Description" TitleClass="text-danger">
+    <R_StackLayout Row>
+        <R_ItemLayout Style="width: 116px">
+            <R_Label>@_localizer["_Department"]*</R_Label>
+        </R_ItemLayout>
+        <R_ItemLayout col="1">
+            <R_TextBox @ref="_DeptCodeRef"
+                       @bind-Value="loChequeEntryViewModel.Data.CDEPT_CODE"
+                       R_ConductorSource="_conductorRef"
+                       R_EnableAdd
+                       OnLostFocus="@DeptCode_OnLostFocus"
+                       MaxLength="20" />
+            </R_ItemLayout>
+            <R_ItemLayout col="0">
+            <R_Lookup R_ConductorSource="_conductorRef" R_Before_Open_Lookup="@Before_Open_lookupDept" R_After_Open_Lookup="@After_Open_lookupDept" R_EnableAdd>...</R_Lookup>
+        </R_ItemLayout>
+        <R_ItemLayout col="3">
+            <R_TextBox @bind-Value="loChequeEntryViewModel.Data.CDEPT_NAME"
+                       R_ConductorSource="_conductorRef"
+                       Enabled="false" />
+        </R_ItemLayout>
+    </R_StackLayout>
+
+    <R_StackLayout Row>
+        <R_ItemLayout Style="width: 116px">
+            <R_Label>@(_localizer["_ReferenceNo"])*</R_Label>
+        </R_ItemLayout>
+        <R_ItemLayout col="2">
+            <R_TextBox @bind-Value="loChequeEntryViewModel.Data.CREF_NO"
+                       R_ConductorSource="_conductorRef"
+                       MaxLength="30"
+                       Enabled="@(_conductorRef.R_ConductorMode == R_eConductorMode.Add
+                                && loChequeEntryViewModel.loTransCodeInfo.LINCREMENT_FLAG == false
+                                && loChequeEntryViewModel.loCBSystemParam.LCB_NUMBERING == false)" />
+        </R_ItemLayout>
+        <R_ItemLayout>
+            <R_Label>@(_localizer["_RefDate"])*</R_Label>
+        </R_ItemLayout>
+        <R_ItemLayout col="2">
+            <R_DatePicker Value="@loChequeEntryViewModel.Data.DREF_DATE"
+                          R_ConductorSource="_conductorRef"
+                          ValueChanged="@((DateTime? poParam) => RefDate_ValueChange(poParam))"
+                            R_EnableAdd
+                            R_EnableEdit />
+        </R_ItemLayout>
+    </R_StackLayout>
+
+    <R_StackLayout Row>
+        <R_ItemLayout Style="width: 116px">
+            <R_Label>@(_localizer["_ChequeNo"])*</R_Label>
+        </R_ItemLayout>
+        <R_ItemLayout col="2">
+            <R_TextBox @bind-Value="loChequeEntryViewModel.Data.CCHEQUE_NO"
+                       R_ConductorSource="_conductorRef"
+                       MaxLength="20"
+                       R_EnableAdd
+                       R_EnableEdit />
+        </R_ItemLayout>
+        <R_ItemLayout>
+            <R_Label>@(_localizer["_ChequeDate"])*</R_Label>
+        </R_ItemLayout>
+        <R_ItemLayout col="2">
+            <R_DatePicker @bind-Value="@loChequeEntryViewModel.Data.DCHEQUE_DATE"
+                          R_ConductorSource="_conductorRef"
+                          Enabled="@(_conductorRef.R_ConductorMode != R_eConductorMode.Normal
+                                && loChequeEntryViewModel.loCBSystemParam.LINPUT_CHEQUE_DATE)" />
+        </R_ItemLayout>
+    </R_StackLayout>
+
+    <R_StackLayout Row>
+        <R_ItemLayout Style="width: 116px">
+            <R_Label>@(_localizer["_DueDate"])*</R_Label>
+        </R_ItemLayout>
+        <R_ItemLayout col="2">
+            <R_DatePicker @bind-Value="@loChequeEntryViewModel.Data.DDUE_DATE"
+                          R_ConductorSource="_conductorRef"
+                            R_EnableAdd
+                            R_EnableEdit />
+        </R_ItemLayout>
+        <R_ItemLayout>
+            <R_Label>@(_localizer["_ClearedDate"])*</R_Label>
+        </R_ItemLayout>
+        <R_ItemLayout col="2">
+            <R_DatePicker Value="@loChequeEntryViewModel.Data.DCLEAR_DATE"
+                          R_ConductorSource="_conductorRef"
+                          Enabled="false" />
+        </R_ItemLayout>
+    </R_StackLayout>
+
+    <R_StackLayout Row>
+        <R_ItemLayout Style="width: 116px">
+            <R_Label>@(_localizer["_BankCode"])*</R_Label>
+        </R_ItemLayout>
+        <R_ItemLayout col="1">
+            <R_TextBox @bind-Value="loChequeEntryViewModel.Data.CCB_CODE"
+                       Enabled="@(!string.IsNullOrWhiteSpace(loChequeEntryViewModel.Data.CDEPT_CODE) && _conductorRef.R_ConductorMode != R_eConductorMode.Normal)"
+                       OnLostFocus="@BankCode_OnLostFocus"
+                       MaxLength="20" />
+        </R_ItemLayout>
+        <R_ItemLayout col="0">
+            <R_Lookup R_Before_Open_Lookup="@Before_Open_lookupBankCode" R_After_Open_Lookup="@After_Open_lookupBankCode" Enabled="@(!string.IsNullOrWhiteSpace(loChequeEntryViewModel.Data.CDEPT_CODE) && _conductorRef.R_ConductorMode != R_eConductorMode.Normal)">...</R_Lookup>
+        </R_ItemLayout>
+        <R_ItemLayout col="3">
+            <R_TextBox @bind-Value="loChequeEntryViewModel.Data.CCB_NAME"
+                       R_ConductorSource="_conductorRef"
+                       Enabled="false" />
+        </R_ItemLayout>
+    </R_StackLayout>
+
+    <R_StackLayout Row>
+        <R_ItemLayout Style="width: 116px">
+            <R_Label>@(_localizer["_AccountNo"])*</R_Label>
+        </R_ItemLayout>
+        <R_ItemLayout col="1">
+            <R_TextBox @bind-Value="loChequeEntryViewModel.Data.CCB_ACCOUNT_NO"
+                       Enabled="@(!string.IsNullOrWhiteSpace(loChequeEntryViewModel.Data.CCB_CODE) && _conductorRef.R_ConductorMode != R_eConductorMode.Normal)"
+                       OnLostFocus="@BankCodeAccount_OnLostFocus"
+                       MaxLength="20" />
+        </R_ItemLayout>
+        <R_ItemLayout col="0">
+            <R_Lookup R_Before_Open_Lookup="@Before_Open_lookupBankCodeAccount" R_After_Open_Lookup="@After_Open_lookupBankCodeAccount" Enabled="@(!string.IsNullOrWhiteSpace(loChequeEntryViewModel.Data.CCB_CODE) && _conductorRef.R_ConductorMode != R_eConductorMode.Normal)">...</R_Lookup>
+        </R_ItemLayout>
+        <R_ItemLayout col="3">
+            <R_TextBox @bind-Value="loChequeEntryViewModel.Data.CCB_ACCOUNT_NAME"
+                       R_ConductorSource="_conductorRef"
+                       Enabled="false" />
+        </R_ItemLayout>
+        <R_ItemLayout Style="width:150px">
+            <R_Label>@(_localizer["_BaseRate"])</R_Label>
+            </R_ItemLayout>
+            <R_ItemLayout>
+                <R_Label>@(_localizer["_CurrencyRate"])</R_Label>
+            </R_ItemLayout>
+        </R_StackLayout>
+
+        <R_StackLayout Row>
+        <R_ItemLayout Style="width: 116px">
+            <R_Label>@(_localizer["_ReceiptAmount"])*</R_Label>
+        </R_ItemLayout>
+        <R_ItemLayout Style="width: 50px">
+            <R_TextBox @bind-Value="loChequeEntryViewModel.Data.CCURRENCY_CODE" Enabled="false"></R_TextBox>
+        </R_ItemLayout>
+        <R_ItemLayout col="2">
+            <R_NumericTextBox R_ConductorSource="_conductorRef" Arrows="false" @bind-Value="loChequeEntryViewModel.Data.NTRANS_AMOUNT" TextAlignment="@R_eTextAlignment.Right" R_EnableAdd R_EnableEdit></R_NumericTextBox>
+        </R_ItemLayout>
+        <R_ItemLayout Style="width:70px"></R_ItemLayout>
+        <R_ItemLayout>
+            <R_Label>@(_localizer["_LocalCurrency"])</R_Label>
+            </R_ItemLayout>
+            <R_ItemLayout col="1">
+                <R_NumericTextBox @bind-Value="loChequeEntryViewModel.Data.NLBASE_RATE"
+                              Arrows="false"
+                              Decimals="6"
+                              TextAlignment="@R_eTextAlignment.Right"
+                              Enabled="@(_conductorRef.R_ConductorMode != R_eConductorMode.Normal
+                                        && loChequeEntryViewModel.Data.CCURRENCY_CODE != loChequeEntryViewModel.loCompanyInfo.CLOCAL_CURRENCY_CODE
+                                        && !string.IsNullOrWhiteSpace(loChequeEntryViewModel.Data.CCURRENCY_CODE))" />
+            </R_ItemLayout>
+            <R_ItemLayout Style="width: 50px">
+                <R_TextBox @bind-Value="loChequeEntryViewModel.Data.CCURRENCY_CODE" Enabled="false"></R_TextBox>
+            </R_ItemLayout>
+            <R_ItemLayout>
+                <R_Label>=</R_Label>
+            </R_ItemLayout>
+            <R_ItemLayout col="1">
+                <R_NumericTextBox @bind-Value="loChequeEntryViewModel.Data.NLCURRENCY_RATE"
+                              Arrows="false"
+                              Decimals="6"
+                              TextAlignment="@R_eTextAlignment.Right"
+                              Enabled="@(_conductorRef.R_ConductorMode != R_eConductorMode.Normal
+                                        && loChequeEntryViewModel.Data.CCURRENCY_CODE != loChequeEntryViewModel.loCompanyInfo.CLOCAL_CURRENCY_CODE
+                                        && !string.IsNullOrWhiteSpace(loChequeEntryViewModel.Data.CCURRENCY_CODE))" />
+            </R_ItemLayout>
+            <R_ItemLayout Style="width: 50px">
+                <R_TextBox @bind-Value="loChequeEntryViewModel.loCompanyInfo.CLOCAL_CURRENCY_CODE" Enabled="false"></R_TextBox>
+            </R_ItemLayout>
+            <R_ItemLayout>
+                <R_Label>@(_localizer["_TotalDebit"])</R_Label>
+            </R_ItemLayout>
+            <R_ItemLayout col="2">
+                <R_NumericTextBox @bind-Value="loChequeEntryViewModel.Data.NDEBIT_AMOUNT"
+                              Arrows="false"
+                              TextAlignment="@R_eTextAlignment.Right"
+                              Enabled="false" />
+            </R_ItemLayout>
+        </R_StackLayout>
+
+        <R_StackLayout Row>
+        <R_ItemLayout Style="width: 430px">
+        </R_ItemLayout>
+        <R_ItemLayout>
+            <R_Label>@(_localizer["_BaseCurrency"])</R_Label>
+            </R_ItemLayout>
+            <R_ItemLayout col="1">
+                <R_NumericTextBox @bind-Value="loChequeEntryViewModel.Data.NBBASE_RATE"
+                              Arrows="false"
+                              Decimals="6"
+                              TextAlignment="@R_eTextAlignment.Right"
+                              Enabled="@(_conductorRef.R_ConductorMode != R_eConductorMode.Normal
+                                        && loChequeEntryViewModel.Data.CCURRENCY_CODE != loChequeEntryViewModel.loCompanyInfo.CBASE_CURRENCY_CODE
+                                        && !string.IsNullOrWhiteSpace(loChequeEntryViewModel.Data.CCURRENCY_CODE))" />
+            </R_ItemLayout>
+            <R_ItemLayout Style="width: 50px">
+                <R_TextBox @bind-Value="loChequeEntryViewModel.Data.CCURRENCY_CODE" Enabled="false"></R_TextBox>
+            </R_ItemLayout>
+            <R_ItemLayout>
+                <R_Label>=</R_Label>
+            </R_ItemLayout>
+            <R_ItemLayout col="1">
+                <R_NumericTextBox @bind-Value="loChequeEntryViewModel.Data.NBCURRENCY_RATE"
+                              Arrows="false"
+                              Decimals="6"
+                              TextAlignment="@R_eTextAlignment.Right"
+                              Enabled="@(_conductorRef.R_ConductorMode != R_eConductorMode.Normal
+                                        && loChequeEntryViewModel.Data.CCURRENCY_CODE != loChequeEntryViewModel.loCompanyInfo.CBASE_CURRENCY_CODE
+                                        && !string.IsNullOrWhiteSpace(loChequeEntryViewModel.Data.CCURRENCY_CODE))" />
+            </R_ItemLayout>
+            <R_ItemLayout Style="width: 50px">
+                <R_TextBox @bind-Value="loChequeEntryViewModel.loCompanyInfo.CBASE_CURRENCY_CODE" Enabled="false"></R_TextBox>
+            </R_ItemLayout>
+            <R_ItemLayout>
+                <R_Label>@(_localizer["_TotalCredit"])</R_Label>
+            </R_ItemLayout>
+            <R_ItemLayout col="2">
+                <R_NumericTextBox @bind-Value="loChequeEntryViewModel.Data.NCREDIT_AMOUNT"
+                              Arrows="false"
+                              TextAlignment="@R_eTextAlignment.Right"
+                              Enabled="false" />
+            </R_ItemLayout>
+        </R_StackLayout>
+
+        <R_StackLayout Row>
+        <R_ItemLayout Style="width: 116px">
+            <R_Label>@(_localizer["_Description"])*</R_Label>
+        </R_ItemLayout>
+        <R_ItemLayout col="5">
+            <R_TextArea @bind-Value="loChequeEntryViewModel.Data.CTRANS_DESC"
+                        R_ConductorSource="_conductorRef"
+                        MaxLength="200"
+                        R_EnableAdd
+                        R_EnableEdit />
+        </R_ItemLayout>
+        <R_ItemLayout col="1"></R_ItemLayout>
+        <R_ItemLayout>
+            <R_StackLayout Row>
+                <R_ItemLayout col="3">
+                    <R_Label>@_localizer["_UpdatedBy"]</R_Label>
+                </R_ItemLayout>
+                <R_ItemLayout col="3">
+                    <R_TextBox @bind-Value="loChequeEntryViewModel.Data.CUPDATE_BY"
+                               R_ConductorSource="_conductorRef"
+                               Enabled="false" />
+                </R_ItemLayout>
+                <R_ItemLayout Style="width: auto">
+                    <R_DateTimePicker @bind-Value="loChequeEntryViewModel.Data.DUPDATE_DATE"
+                                      R_ConductorSource="_conductorRef"
+                                      Enabled="false" />
+                </R_ItemLayout>
+            </R_StackLayout>
+            <R_StackLayout Row>
+                <R_ItemLayout col="3">
+                    <R_Label>@_localizer["_CreatedBy"]</R_Label>
+                </R_ItemLayout>
+                <R_ItemLayout col="3">
+                    <R_TextBox @bind-Value="loChequeEntryViewModel.Data.CCREATE_BY"
+                               R_ConductorSource="_conductorRef"
+                               Enabled="false" />
+                </R_ItemLayout>
+                <R_ItemLayout Style="width: auto">
+                    <R_DateTimePicker @bind-Value="loChequeEntryViewModel.Data.DCREATE_DATE"
+                                      R_ConductorSource="_conductorRef"
+                                      Enabled="false" />
+                </R_ItemLayout>
+            </R_StackLayout>
+        </R_ItemLayout>
+    </R_StackLayout>
+    <div hidden="@IsHidden">
+        <R_StackLayout Row>
+            <R_ItemLayout Style="width: 116px">
+                <R_Label>@(_localizer["_Status"])</R_Label>
+                </R_ItemLayout>
+                <R_ItemLayout col="1">
+                    <R_TextBox @bind-Value="@loChequeEntryViewModel.Data.CSTATUS_NAME" Enabled="false"></R_TextBox>
+                </R_ItemLayout>
+            </R_StackLayout>
+            <R_StackLayout Row Class="mt-2">
+            <R_ItemLayout col="4">
+                <R_EditButton R_Conductor="_conductorRef" Enabled="@(EnableEdit && _conductorRef.R_ConductorMode == R_eConductorMode.Normal)"></R_EditButton>
+                <R_Button Enabled="@(EnableEdit && _conductorRef.R_ConductorMode == R_eConductorMode.Normal)" OnClick="@BtnDelete_OnClick">@_localizer["_Delete"]</R_Button>
+            </R_ItemLayout>
+            <R_ItemLayout col="3">
+                <R_CancelButton R_Conductor="_conductorRef"></R_CancelButton>
+                <R_SaveButton R_Conductor="_conductorRef"></R_SaveButton>
+                <R_Lookup R_Before_Open_Lookup="@Before_Open_lookupPrint" Enabled="@(EnableHaveRecId && _conductorRef.R_ConductorMode == R_eConductorMode.Normal)">@_localizer["_Print"]</R_Lookup>
+            </R_ItemLayout>
+            <R_ItemLayout col="2"></R_ItemLayout>
+            <R_ItemLayout col="3">
+                <R_Button Enabled="@(EnableSubmit && _conductorRef.R_ConductorMode == R_eConductorMode.Normal)" OnClick="SubmitChequeProcess">@lcLabelSubmit</R_Button>
+                <R_Button Enabled="@(EnableApprove && _conductorRef.R_ConductorMode == R_eConductorMode.Normal)" OnClick="ApproveChequeProcess">@_localizer["_Approve"]</R_Button>
+            </R_ItemLayout>
+        </R_StackLayout>
+    </div>
+    </R_GroupBox>
+
+    <R_GroupBox Title="Cheque Detail" TitleClass="text-danger">
+    <R_StackLayout Row>
+        <R_Grid @ref="_gridDetailRef"
+                DataSource="loChequeEntryViewModel.loChequeDetailList"
+                Pageable
+                R_ConductorGridSource="_conductorDetailRef"
+                R_GridType="R_eGridType.Original"
+                R_ServiceGetListRecord="ChequeDetailServiceGetListRecord"
+                Height="230px"
+                AllowAddNewRow="false"
+                AllowDeleteRow="false"
+                AllowEditRow="false"
+                R_ServiceGetRecord="@ChequeDetailServiceGetRecord"
+                R_Display="@ChequeDetailDisplay"
+                R_Before_Open_Grid_Lookup="Before_Open_Lookup"
+                R_After_Open_Grid_Lookup="After_Open_Lookup">
+            <R_GridColumns>
+                <R_GridNumericColumn Width="67px" FieldName="@nameof(CBT02210DetailDTO.INO)" HeaderText="@_localizer["_No"]"></R_GridNumericColumn>
+                <R_GridLookupColumn Width="200px" FieldName="@nameof(CBT02210DetailDTO.CGLACCOUNT_NO)" R_EnableAdd="true" R_EnableEdit="true" HeaderText="@_localizer["_AccountNo"]"></R_GridLookupColumn>
+                <R_GridTextColumn Width="250px" FieldName="@nameof(CBT02210DetailDTO.CGLACCOUNT_NAME)" R_EnableAdd="false" R_EnableEdit="false" HeaderText="@_localizer["_AccountName"]"></R_GridTextColumn>
+                <R_GridComboBoxColumn Width="180px" Data="@loChequeEntryViewModel.loCenterList"
+                                      FieldName="@nameof(CBT02210DetailDTO.CCENTER_CODE)"
+                                      ValueField="@nameof(GetCenterListDTO.CCENTER_CODE)"
+                                      TextField="@nameof(GetCenterListDTO.CCENTER_NAME)"
+                                      PopupMaxHeight="120px"
+                                      HeaderText="@_localizer["_Center"]"
+                                      Enabled="@(_conductorDetailRef.R_ConductorMode != R_eConductorMode.Normal && EnableCenterList)" />
+                <R_GridLookupColumn Width="200px" FieldName="@nameof(CBT02210DetailDTO.CCASH_FLOW_CODE)" R_EnableAdd="true" R_EnableEdit="true" HeaderText="@_localizer["_CashFlowCode"]"></R_GridLookupColumn>
+                <R_GridTextColumn Width="250px" FieldName="@nameof(CBT02210DetailDTO.CCASH_FLOW_NAME)" Enabled="false" HeaderText="@_localizer["_CashFlowName"]"></R_GridTextColumn>
+                <R_GridNumericColumn Width="180px" Decimals="2" FieldName="@nameof(CBT02210DetailDTO.NDEBIT)" R_EnableAdd R_EnableEdit HeaderText="@_localizer["_Debit"]"></R_GridNumericColumn>
+                <R_GridNumericColumn Width="180px" Decimals="2" FieldName="@nameof(CBT02210DetailDTO.NCREDIT)" R_EnableAdd R_EnableEdit HeaderText="@_localizer["_Credit"]"></R_GridNumericColumn>
+                <R_GridTextColumn Width="500px" FieldName="@nameof(CBT02210DetailDTO.CDETAIL_DESC)" R_EnableAdd R_EnableEdit HeaderText="@_localizer["_Description"]"></R_GridTextColumn>
+                <R_GridTextColumn Width="200px" FieldName="@nameof(CBT02210DetailDTO.CDOCUMENT_NO)" R_EnableAdd R_EnableEdit HeaderText="@_localizer["_VoucherNo"]"></R_GridTextColumn>
+                <R_GridDatePickerColumn Width="150px" FieldName="@nameof(CBT02210DetailDTO.DDOCUMENT_DATE)" R_EnableAdd R_EnableEdit HeaderText="@_localizer["_VoucherDate"]"></R_GridDatePickerColumn>
+                <R_GridNumericColumn Width="150px" FieldName="@nameof(CBT02210DetailDTO.NLDEBIT)" Enabled="false" HeaderText="@_localizer["_DbLocal"]"></R_GridNumericColumn>
+                <R_GridNumericColumn Width="150px" FieldName="@nameof(CBT02210DetailDTO.NLCREDIT)" Enabled="false" HeaderText="@_localizer["_CrLocal"]"></R_GridNumericColumn>
+                <R_GridNumericColumn Width="150px" FieldName="@nameof(CBT02210DetailDTO.NBDEBIT)" Enabled="false" HeaderText="@_localizer["_DbBase"]"></R_GridNumericColumn>
+                <R_GridNumericColumn Width="150px" FieldName="@nameof(CBT02210DetailDTO.NBCREDIT)" Enabled="false" HeaderText="@_localizer["_CrBase"]"></R_GridNumericColumn>
+            </R_GridColumns>
+            </R_Grid>
+            </R_StackLayout>
+            </R_GroupBox>
+
+            <R_Conductor @ref="_conductorRef"
+             R_ViewModel="loChequeEntryViewModel"
+              R_IsHeader
+             R_ServiceGetRecord="@ChequeForm_GetRecord"
+             R_ServiceSave="@ChequeForm_ServiceSave"
+             R_AfterAdd="@ChequeForm_AfterAdd"
+             R_SetAdd="@ChequeForm_SetAdd"
+             R_Display="@ChequeForm_Display"
+             R_BeforeCancel="@ChequeForm_BeforeCancel"
+             R_Validation="@ValidationFormCBT02200ChequeEntry"
+              R_DisableCancelConfirmation>
+</R_Conductor>
+
+<R_ConductorGrid @ref="@_conductorDetailRef"
+                 R_ConductorParent="_conductorRef"
+                      R_DisableDeleteConfirmation />
