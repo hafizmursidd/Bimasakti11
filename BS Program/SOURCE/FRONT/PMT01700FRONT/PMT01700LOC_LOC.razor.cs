@@ -59,17 +59,19 @@ namespace PMT01700FRONT
             {
                 //lControlChoosenData = true;
                 _viewModel.oParameter = R_FrontUtility.ConvertObjectToObject<PMT01700ParameterFrontChangePageDTO>(poParameter);
-                await _viewModel.GetVAR_GSM_TRANSACTION_CODE();
                 LOpenAsNormalPage = string.IsNullOrEmpty(_viewModel.oParameter.CALLER_ACTION);
+                await _viewModel.GetVAR_GSM_TRANSACTION_CODE();
+                //await _viewModel.GetComboBoxDataCLeaseMode();
+                //await _viewModel.GetComboBoxDataCChargesMode();
                 if (!LOpenAsNormalPage)
                 {
-                    PageWidth = "width: 1250px;";
-                    var loData = R_FrontUtility.ConvertObjectToObject<PMT010700_LOC_LOC_SelectedLOCDTO>(poParameter);
+                    PageWidth = "width: 1100px;";
+                    var loData = R_FrontUtility.ConvertObjectToObject<PMT01700ParameterLOO_Offer_SelectedOfferDTO>(poParameter);
                     if (loData != null)
                     {
-                        _viewModel.oParameter = R_FrontUtility.ConvertObjectToObject<PMT01700ParameterFrontChangePageDTO>(loData);
+                        _viewModel.oParameter = R_FrontUtility.ConvertObjectToObject<PMT01700ParameterFrontChangePageDTO>(loData.Data);
                         _viewModel.oParameter.CTRANS_CODE = "802053";
-                        _viewModel.oTempDataForAdd = loData;
+                        _viewModel.oTempDataForAdd = loData.Data!;
                         await _conductor.Add();
                     }
 
@@ -446,6 +448,8 @@ namespace PMT01700FRONT
 
             try
             {
+                _lDataCREF_NO = !_viewModel.oVarGSMTransactionCode.LINCREMENT_FLAG;
+
                 _oEventCallBack.LCRUD_MODE = true;
                 var loTempConvertData = R_FrontUtility.ConvertObjectToObject<PMT010700_LOC_LOC_SelectedLOCDTO>(_viewModel.oTempDataForAdd);
                 //loData = loTempConvertData;
@@ -464,11 +468,13 @@ namespace PMT01700FRONT
                 /* in the top is a mandatory field */
 
                 loData.CTRANS_CODE = _viewModel.oParameter.CTRANS_CODE;
-                loData.CPROPERTY_ID = _viewModel.oParameter.CPROPERTY_ID;
 
+                loData.CPROPERTY_ID = _viewModel.oParameter.CPROPERTY_ID;
+              //  loData.CREF_NO = _viewModel.oParameter.CREF_NO;
+             //   loData.CORIGINAL_REF_NO = _viewModel.oParameter.CREF_NO;
                 /* in the top is a mandatory field */
-                loData.CLEASE_MODE = _viewModel.loComboBoxDataCLeaseMode.First().CCODE;
-                loData.CCHARGE_MODE = _viewModel.loComboBoxDataCChargesMode.First().CCODE;
+                //loData.CLEASE_MODE = _viewModel.loComboBoxDataCLeaseMode.First().CCODE;
+                //loData.CCHARGE_MODE = _viewModel.loComboBoxDataCChargesMode.First().CCODE;
 
                 loData.DREF_DATE = loTempConvertData.DREF_DATE ?? DateTime.Now;
                 loData.DFOLLOW_UP_DATE = loTempConvertData.DFOLLOW_UP_DATE ?? DateTime.Now;
@@ -481,6 +487,12 @@ namespace PMT01700FRONT
                 loData.CBILLING_RULE_CODE = loTempConvertData.CBILLING_RULE_CODE;
                 loData.NBOOKING_FEE = loTempConvertData.NBOOKING_FEE;
                 loData.CTC_CODE = loTempConvertData.CTC_CODE;
+                loData.CNOTES = loTempConvertData.CNOTES;
+
+                //CR07/12/2024 //TRANSCODE ANAD CREF NO FROM LOO
+                loData.CLINK_TRANS_CODE = loTempConvertData.CTRANS_CODE;
+                loData.CLINK_REF_NO = loTempConvertData.CREF_NO;
+
             }
             catch (Exception ex)
             {
@@ -499,14 +511,13 @@ namespace PMT01700FRONT
             {
                 if (!LOpenAsNormalPage)
                 {
-                    await Close(true, _viewModel.Data);
+                    await Close(true, "INI SUCCESS BOSS");
                 }
 
                 _isCheckerDataFound = true;
                 _oEventCallBack.LCRUD_MODE = true;
                 //_oEventCallBack.LACTIVEUnitInfoHasData = true;
                 _oEventCallBack.CCRUD_MODE = "A_ADD";//Meaning of Agreement Add
-
                 _oEventCallBack.ODATA_PARAMETER = new PMT01700ParameterFrontChangePageDTO()
                 {
                     CPROPERTY_ID = _viewModel.Data.CPROPERTY_ID,
@@ -536,6 +547,7 @@ namespace PMT01700FRONT
 
             R_DisplayException(loException);
         }
+
 
         private void R_SetEdit(R_SetEventArgs eventArgs)
         {
@@ -1155,40 +1167,36 @@ namespace PMT01700FRONT
 
         #region Lookup Button BillingRule Lookup
 
-        private R_Lookup? R_LookupBillingRuleLookup;
-        private void BeforeOpenLookUpBillingRuleLookup(R_BeforeOpenLookupEventArgs eventArgs)
+        private R_Lookup? R_LookupCurrencyLookup;
+        private void BeforeOpenLookUpCurrencyLookup(R_BeforeOpenLookupEventArgs eventArgs)
         {
-            LML01000ParameterDTO? param = null;
+          GSL00300ParameterDTO? param = null;
             if (!string.IsNullOrEmpty(_viewModel.oParameter.CPROPERTY_ID))
             {
-                param = new LML01000ParameterDTO
+                param = new GSL00300ParameterDTO
                 {
                     CCOMPANY_ID = _clientHelper.CompanyId,
-                    CUSER_ID = _clientHelper.UserId,
-                    CPROPERTY_ID = _viewModel.oParameter.CPROPERTY_ID,
-                    CBILLING_RULE_TYPE = "02",
-                    CUNIT_TYPE_CTG_ID = _viewModel.oParameter.COTHER_UNIT_ID,
-                    LACTIVE_ONLY = true,
-
+                    CUSER_ID = _clientHelper.UserId
                 };
             }
+
             eventArgs.Parameter = param;
-            eventArgs.TargetPageType = typeof(LML01000);
+            eventArgs.TargetPageType = typeof(GSL00300);
         }
 
-        private void AfterOpenLookUpBillingRuleLookup(R_AfterOpenLookupEventArgs eventArgs)
+        private void AfterOpenLookUpCurrencyLookup(R_AfterOpenLookupEventArgs eventArgs)
         {
             R_Exception loException = new R_Exception();
-            LML01000DTO? loTempResult = null;
+            GSL00300DTO? loTempResult = null;
 
             try
             {
-                loTempResult = (LML01000DTO)eventArgs.Result;
+                loTempResult = (GSL00300DTO)eventArgs.Result;
                 if (loTempResult == null)
                     return;
 
-                _viewModel.Data.CBILLING_RULE_CODE = loTempResult.CBILLING_RULE_CODE;
-                _viewModel.Data.CBILLING_RULE_NAME = loTempResult.CBILLING_RULE_NAME;
+
+                _viewModel.Data.CCURRENCY_CODE = loTempResult.CCURRENCY_CODE;
             }
             catch (Exception ex)
             {
@@ -1199,7 +1207,7 @@ namespace PMT01700FRONT
 
         }
 
-        private async Task OnLostFocusBillingRule()
+        private async Task OnLostFocusCurrency()
         {
             R_Exception loEx = new R_Exception();
 
@@ -1209,20 +1217,19 @@ namespace PMT01700FRONT
 
                 if (string.IsNullOrWhiteSpace(_viewModel.Data.CBILLING_RULE_CODE))
                 {
-                    loGetData.CBILLING_RULE_CODE = "";
+                    loGetData.CCURRENCY_CODE = "";
                     return;
                 }
 
-                LookupLML01000ViewModel loLookupViewModel = new LookupLML01000ViewModel();
-                LML01000ParameterDTO loParam = new LML01000ParameterDTO()
+                LookupGSL00300ViewModel loLookupViewModel = new LookupGSL00300ViewModel();
+                GSL00300ParameterDTO loParam = new GSL00300ParameterDTO()
                 {
                     CCOMPANY_ID = _clientHelper.CompanyId,
                     CUSER_ID = _clientHelper.UserId,
-                    CPROPERTY_ID = _viewModel.oParameter.CPROPERTY_ID,
-                    CSEARCH_TEXT = loGetData.CBILLING_RULE_CODE ?? "",
+                    CSEARCH_TEXT = loGetData.CCURRENCY_CODE ?? "",
                 };
 
-                var loResult = await loLookupViewModel.GetBillingRule(loParam);
+                var loResult = await loLookupViewModel.GetCurrency(loParam);
 
                 if (loResult == null)
                 {
@@ -1234,8 +1241,7 @@ namespace PMT01700FRONT
                 }
                 else
                 {
-                    loGetData.CBILLING_RULE_CODE = loResult.CBILLING_RULE_CODE;
-                    loGetData.CBILLING_RULE_NAME = loResult.CBILLING_RULE_NAME;
+                    loGetData.CCURRENCY_CODE = loResult.CCURRENCY_CODE;
                 }
             }
             catch (Exception ex)

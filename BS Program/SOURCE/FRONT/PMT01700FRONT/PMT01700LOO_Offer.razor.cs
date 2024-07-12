@@ -36,6 +36,7 @@ using Lookup_PMModel.ViewModel.LML01000;
 using Lookup_PMCOMMON.DTOs.LML01100;
 using Lookup_PMModel.ViewModel.LML01100;
 using PMT01700COMMON.DTO.Utilities.ParamDb.LOO;
+using PMT01700COMMON.DTO._3._LOC._2._LOC;
 
 namespace PMT01700FRONT
 {
@@ -68,11 +69,15 @@ namespace PMT01700FRONT
             var loEx = new R_Exception();
             try
             {
-                var loParam = new PMT01700ParameterLOO_Offer_SelectedOfferDTO()
+                var loParam = new PMT01700ParameterLOO_Offer_SelectedOfferDTO
                 {
                     Data = _viewModel.Data,
-                    CALLER_ACTION = _viewModel.oParameter.CALLER_ACTION,
+                    CALLER_ACTION = _viewModel.oParameter.CALLER_ACTION
                 };
+            
+                //PMT01700ParameterLOO_Offer_SelectedOfferDTO loParam.Data = R_FrontUtility.ConvertObjectToObject<PMT01700ParameterLOO_Offer_SelectedOfferDTO>(_viewModel.Data);
+                //loParam.CALLER_ACTION = _viewModel.oParameter.CALLER_ACTION;
+
                 eventArgs.Parameter = loParam;
                 eventArgs.TargetPageType = typeof(PMT01700LOC_LOC);
             }
@@ -121,7 +126,7 @@ namespace PMT01700FRONT
                 if (!string.IsNullOrEmpty(_viewModel.oParameter.CPROPERTY_ID))
                 {
                     await _viewModel.GetVAR_GSM_TRANSACTION_CODE();
-                        await _viewModel.GetComboBoxDataTenantCategory();
+                    await _viewModel.GetComboBoxDataTenantCategory();
                     await _viewModel.GetComboBoxDataTaxType();
                     await _viewModel.GetComboBoxDataIDTypeAsync();
                     _isAllDataReady = true;
@@ -1081,16 +1086,16 @@ namespace PMT01700FRONT
 
 
                 }
-                    if (loData.DSTART_DATE > loData.DEND_DATE)
-                    {
-                        var loErr = R_FrontUtility.R_GetError(typeof(Resources_PMT01700_Class), "ValidationDate");
-                        loException.Add(loErr);
-                    }
-                    if (loData.DREF_DATE == null)
-                    {
-                        var loErr = R_FrontUtility.R_GetError(typeof(Resources_PMT01700_Class), "ValidationOfferDate");
-                        loException.Add(loErr);
-                    }
+                if (loData.DSTART_DATE > loData.DEND_DATE)
+                {
+                    var loErr = R_FrontUtility.R_GetError(typeof(Resources_PMT01700_Class), "ValidationDate");
+                    loException.Add(loErr);
+                }
+                if (loData.DREF_DATE == null)
+                {
+                    var loErr = R_FrontUtility.R_GetError(typeof(Resources_PMT01700_Class), "ValidationOfferDate");
+                    loException.Add(loErr);
+                }
                 if (string.IsNullOrWhiteSpace(loData.CEVENT_NAME))
                 {
                     var loErr = R_FrontUtility.R_GetError(typeof(Resources_PMT01700_Class), "ValidationEventName");
@@ -1561,41 +1566,37 @@ namespace PMT01700FRONT
         #endregion
         #region Lookup Button BillingRule Lookup
 
-        private R_Lookup? R_LookupBillingRuleLookup;
+        private R_Lookup? R_LookupCurrencyLookup;
 
-        private void BeforeOpenLookUpBillingRuleLookup(R_BeforeOpenLookupEventArgs eventArgs)
+        private void BeforeOpenLookUpCurrencyLookup(R_BeforeOpenLookupEventArgs eventArgs)
         {
-            LML01000ParameterDTO? param = null;
+            GSL00300ParameterDTO? param = null;
             if (!string.IsNullOrEmpty(_viewModel.oParameter.CPROPERTY_ID))
             {
-                param = new LML01000ParameterDTO
+                param = new GSL00300ParameterDTO
                 {
                     CCOMPANY_ID = _clientHelper.CompanyId,
-                    CUSER_ID = _clientHelper.UserId,
-                    CPROPERTY_ID = _viewModel.oParameter.CPROPERTY_ID,
-                    CBILLING_RULE_TYPE = "02",
-                    CUNIT_TYPE_CTG_ID = _viewModel.oParameter.COTHER_UNIT_ID,
-                    LACTIVE_ONLY = true,
-
+                    CUSER_ID = _clientHelper.UserId
                 };
             }
+
             eventArgs.Parameter = param;
-            eventArgs.TargetPageType = typeof(LML01000);
+            eventArgs.TargetPageType = typeof(GSL00300);
         }
 
-        private void AfterOpenLookUpBillingRuleLookup(R_AfterOpenLookupEventArgs eventArgs)
+        private void AfterOpenLookUpCurrencyLookup(R_AfterOpenLookupEventArgs eventArgs)
         {
             R_Exception loException = new R_Exception();
-            LML01000DTO? loTempResult = null;
+            GSL00300DTO? loTempResult = null;
 
             try
             {
-                loTempResult = (LML01000DTO)eventArgs.Result;
+                loTempResult = (GSL00300DTO)eventArgs.Result;
                 if (loTempResult == null)
                     return;
 
-                _viewModel.Data.CBILLING_RULE_CODE = loTempResult.CBILLING_RULE_CODE;
-                _viewModel.Data.CBILLING_RULE_NAME = loTempResult.CBILLING_RULE_NAME;
+
+                _viewModel.Data.CCURRENCY_CODE = loTempResult.CCURRENCY_CODE;
             }
             catch (Exception ex)
             {
@@ -1603,10 +1604,9 @@ namespace PMT01700FRONT
             }
 
             R_DisplayException(loException);
-
         }
 
-        private async Task OnLostFocusBillingRule()
+        private async Task OnLostCurrencyRule()
         {
             R_Exception loEx = new R_Exception();
 
@@ -1616,20 +1616,19 @@ namespace PMT01700FRONT
 
                 if (string.IsNullOrWhiteSpace(_viewModel.Data.CBILLING_RULE_CODE))
                 {
-                    loGetData.CBILLING_RULE_CODE = "";
+                    loGetData.CCURRENCY_CODE = "";
                     return;
                 }
 
-                LookupLML01000ViewModel loLookupViewModel = new LookupLML01000ViewModel();
-                LML01000ParameterDTO loParam = new LML01000ParameterDTO()
+                LookupGSL00300ViewModel loLookupViewModel = new LookupGSL00300ViewModel();
+                GSL00300ParameterDTO loParam = new GSL00300ParameterDTO()
                 {
                     CCOMPANY_ID = _clientHelper.CompanyId,
                     CUSER_ID = _clientHelper.UserId,
-                    CPROPERTY_ID = _viewModel.oParameter.CPROPERTY_ID,
-                    CSEARCH_TEXT = loGetData.CBILLING_RULE_CODE ?? "",
+                    CSEARCH_TEXT = loGetData.CCURRENCY_CODE ?? "",
                 };
 
-                var loResult = await loLookupViewModel.GetBillingRule(loParam);
+                var loResult = await loLookupViewModel.GetCurrency(loParam);
 
                 if (loResult == null)
                 {
@@ -1641,8 +1640,7 @@ namespace PMT01700FRONT
                 }
                 else
                 {
-                    loGetData.CBILLING_RULE_CODE = loResult.CBILLING_RULE_CODE;
-                    loGetData.CBILLING_RULE_NAME = loResult.CBILLING_RULE_NAME;
+                    loGetData.CCURRENCY_CODE = loResult.CCURRENCY_CODE;
                 }
             }
             catch (Exception ex)

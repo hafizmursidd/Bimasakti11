@@ -56,5 +56,10 @@ namespace PMT01700COMMON.DTO._3._LOC._2._LOC
         public string? CBILLING_RULE_NAME { get; set; }        
         public decimal NBOOKING_FEE { get; set; }
         public string? CTC_CODE { get; set; }
+
+        //CR12/07/2024
+        public string? CLINK_TRANS_CODE { get; set; }
+        public string? CLINK_REF_NO { get; set; }
+
     }
 }

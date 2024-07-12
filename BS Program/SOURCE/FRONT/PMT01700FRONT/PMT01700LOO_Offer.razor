@@ -776,7 +776,7 @@
 
                     <R_ItemLayout col="6" Class="d-flex">
 
-                        <R_ItemLayout col="7">
+                        <R_ItemLayout col="8">
                             <R_DateTimePicker Value="@_viewModel.Data.DSTART_DATE"
                                               R_ConductorSource="@_conductor"
                                               ValueChanged="@((DateTime? value) => OnChangedDSTART_DATE(value))"
@@ -791,13 +791,13 @@
 
                     <R_ItemLayout col="6" Class="d-flex">
 
-                        <R_ItemLayout col="3">
+                        <R_ItemLayout col="4">
                             <R_Label>
                                 @_localizer["_PlanEndDate"]
                             </R_Label>
                         </R_ItemLayout>
 
-                        <R_ItemLayout col="7" Class="ps-1">
+                        <R_ItemLayout col="8" Class="ps-1">
 
                             <R_DateTimePicker Value="@_viewModel.Data.DEND_DATE"
                                               R_ConductorSource="@_conductor"
@@ -894,7 +894,7 @@
                 <R_ItemLayout col="4">
 
                     <R_Label>
-                        @_localizer["_BillingRule"]
+                        @_localizer["_Currency"]
                     </R_Label>
 
                 </R_ItemLayout>
@@ -902,10 +902,10 @@
                 <R_ItemLayout col="7" Class="d-flex">
 
                     <R_ItemLayout col="9">
-                        <R_TextBox @bind-Value="@_viewModel.Data.CBILLING_RULE_CODE"
+                        <R_TextBox @bind-Value="@_viewModel.Data.CCURRENCY_CODE"
                                    R_ConductorSource="@_conductor"
                                    MaxLength="20"
-                                   OnLostFocus="OnLostFocusBillingRule"
+                                   OnLostFocus="OnLostCurrencyRule"
                                    R_EnableAdd
                                    R_EnableEdit />
                     </R_ItemLayout>
@@ -913,11 +913,11 @@
                     <R_ItemLayout col="3" Class="ps-2">
 
                         <R_Lookup R_ConductorSource="@_conductor"
-                                  @ref="@R_LookupBillingRuleLookup"
+                                  @ref="@R_LookupCurrencyLookup"
                                   R_EnableAdd
                                   R_EnableEdit
-                                  R_Before_Open_Lookup="@BeforeOpenLookUpBillingRuleLookup"
-                                  R_After_Open_Lookup="@AfterOpenLookUpBillingRuleLookup">
+                                  R_Before_Open_Lookup="@BeforeOpenLookUpCurrencyLookup"
+                                  R_After_Open_Lookup="@AfterOpenLookUpCurrencyLookup">
                             ...
                         </R_Lookup>
                         </R_ItemLayout>

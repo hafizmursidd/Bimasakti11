@@ -23,7 +23,7 @@ namespace PMT01700MODEL.ViewModel
         public PMT010700_LOC_LOC_SelectedLOCDTO oEntity = new PMT010700_LOC_LOC_SelectedLOCDTO();
         public PMT01700VarGsmTransactionCodeDTO oVarGSMTransactionCode = new PMT01700VarGsmTransactionCodeDTO();
         
-        public PMT010700_LOC_LOC_SelectedLOCDTO oTempDataForAdd = new PMT010700_LOC_LOC_SelectedLOCDTO();
+        public PMT01700LOO_Offer_SelectedOfferDTO oTempDataForAdd = new PMT01700LOO_Offer_SelectedOfferDTO();
 
         #endregion
 
@@ -34,8 +34,8 @@ namespace PMT01700MODEL.ViewModel
         public bool lControlCRUDMode = true;
         public bool lControlExistingTenant = true;
         public PMT01700ControlYMD oControlYMD = new PMT01700ControlYMD();
-        public List<PMT01700ComboBoxDTO> loComboBoxDataCLeaseMode { get; set; } = new List<PMT01700ComboBoxDTO>();
-        public List<PMT01700ComboBoxDTO> loComboBoxDataCChargesMode { get; set; } = new List<PMT01700ComboBoxDTO>();
+        //public List<PMT01700ComboBoxDTO> loComboBoxDataCLeaseMode { get; set; } = new List<PMT01700ComboBoxDTO>();
+        //public List<PMT01700ComboBoxDTO> loComboBoxDataCChargesMode { get; set; } = new List<PMT01700ComboBoxDTO>();
 
         #endregion
 

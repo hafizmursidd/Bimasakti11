@@ -242,28 +242,34 @@ namespace PMT01700BACK.LOC
                 loDb.R_AddCommandParameter(loCommand, "@CCOMPANY_ID", DbType.String, 8, poNewEntity.CCOMPANY_ID);
                 loDb.R_AddCommandParameter(loCommand, "@CPROPERTY_ID", DbType.String, 20, poNewEntity.CPROPERTY_ID);
                 loDb.R_AddCommandParameter(loCommand, "@CDEPT_CODE", DbType.String, 20, poNewEntity.CDEPT_CODE);
-                loDb.R_AddCommandParameter(loCommand, "@CTRANS_CODE", DbType.String, 10, poNewEntity.CTRANS_CODE); //
-                loDb.R_AddCommandParameter(loCommand, "@CREF_NO", DbType.String, 30, poNewEntity.CREF_NO); //
-                loDb.R_AddCommandParameter(loCommand, "@CREF_DATE", DbType.String, 30, poNewEntity.CREF_DATE); //
-                loDb.R_AddCommandParameter(loCommand, "@CDOC_NO", DbType.String, 30, poNewEntity.CDOC_NO); //
-                loDb.R_AddCommandParameter(loCommand, "@CDOC_DATE", DbType.String, 30, poNewEntity.CDOC_DATE); //
-                loDb.R_AddCommandParameter(loCommand, "@CBUILDING_ID", DbType.String, 20, poNewEntity.CBUILDING_ID);
-
-                loDb.R_AddCommandParameter(loCommand, "@CSTART_DATE ", DbType.String, 20, poNewEntity.CSTART_DATE);
-                loDb.R_AddCommandParameter(loCommand, "@CEND_DATE", DbType.String, 20, poNewEntity.CEND_DATE);
-                loDb.R_AddCommandParameter(loCommand, "@IDAYS", DbType.Int32, 8, poNewEntity.IDAYS);
-                loDb.R_AddCommandParameter(loCommand, "@IMONTHS", DbType.Int32, 8, poNewEntity.IMONTHS);
-                loDb.R_AddCommandParameter(loCommand, "@IYEARS", DbType.Int32, 8, poNewEntity.IYEARS);
+                loDb.R_AddCommandParameter(loCommand, "@CTRANS_CODE", DbType.String, 10, poNewEntity.CTRANS_CODE);
+                loDb.R_AddCommandParameter(loCommand, "@CREF_NO", DbType.String, 30, poNewEntity.CREF_NO);
+                loDb.R_AddCommandParameter(loCommand, "@CREF_DATE", DbType.String, 20, poNewEntity.CREF_DATE);
+                loDb.R_AddCommandParameter(loCommand, "@CBUILDING_ID", DbType.String, 8, poNewEntity.CBUILDING_ID);
+                loDb.R_AddCommandParameter(loCommand, "@CDOC_NO", DbType.String, 30, poNewEntity.CDOC_NO);
+                loDb.R_AddCommandParameter(loCommand, "@CDOC_DATE", DbType.String, 8, poNewEntity.CDOC_DATE);
+                loDb.R_AddCommandParameter(loCommand, "@CSTART_DATE", DbType.String, 8, poNewEntity.CSTART_DATE);
+                loDb.R_AddCommandParameter(loCommand, "@CEND_DATE", DbType.String, 8, poNewEntity.CEND_DATE);
+                loDb.R_AddCommandParameter(loCommand, "@IDAYS", DbType.Int32, int.MaxValue, poNewEntity.IDAYS);
+                loDb.R_AddCommandParameter(loCommand, "@IMONTHS", DbType.Int32, int.MaxValue, poNewEntity.IMONTHS);
+                loDb.R_AddCommandParameter(loCommand, "@IYEARS", DbType.Int32, int.MaxValue, poNewEntity.IYEARS);
                 loDb.R_AddCommandParameter(loCommand, "@CSALESMAN_ID", DbType.String, 8, poNewEntity.CSALESMAN_ID);
                 loDb.R_AddCommandParameter(loCommand, "@CTENANT_ID", DbType.String, 20, poNewEntity.CTENANT_ID);
-                loDb.R_AddCommandParameter(loCommand, "@CUNIT_DESCRIPTION", DbType.String, 510, poNewEntity.CUNIT_DESCRIPTION);
+                loDb.R_AddCommandParameter(loCommand, "@CUNIT_DESCRIPTION", DbType.String, 255, poNewEntity.CUNIT_DESCRIPTION);
                 loDb.R_AddCommandParameter(loCommand, "@CNOTES", DbType.String, int.MaxValue, poNewEntity.CNOTES);
                 loDb.R_AddCommandParameter(loCommand, "@CCURRENCY_CODE", DbType.String, 3, poNewEntity.CCURRENCY_CODE);
-
-                loDb.R_AddCommandParameter(loCommand, "@CBILLING_RULE_CODE", DbType.String, 20, poNewEntity.CBILLING_RULE_CODE);
-                loDb.R_AddCommandParameter(loCommand, "@CTC_CODE", DbType.String, 20, poNewEntity.CTC_CODE);
                 loDb.R_AddCommandParameter(loCommand, "@CLEASE_MODE", DbType.String, 2, poNewEntity.CLEASE_MODE);
-                loDb.R_AddCommandParameter(loCommand, "@CCHARGE_MODE", DbType.String, 2, poNewEntity.CCHARGE_MODE); 
+                loDb.R_AddCommandParameter(loCommand, "@CCHARGE_MODE", DbType.String, 2, poNewEntity.CCHARGE_MODE);
+                loDb.R_AddCommandParameter(loCommand, "@CORIGINAL_REF_NO", DbType.String, 8, "");//Tanya Pak IB
+                loDb.R_AddCommandParameter(loCommand, "@CFOLLOW_UP_DATE", DbType.String, 8, poNewEntity.CFOLLOW_UP_DATE);
+                loDb.R_AddCommandParameter(loCommand, "@CEXPIRED_DATE", DbType.String, 8, "");//Tanya Pak IB
+                loDb.R_AddCommandParameter(loCommand, "@LWITH_FO", DbType.Boolean, 1, false);
+                loDb.R_AddCommandParameter(loCommand, "@CHAND_OVER_DATE", DbType.String, 8, "");
+                loDb.R_AddCommandParameter(loCommand, "@CBILLING_RULE_CODE", DbType.String, 20, poNewEntity.CBILLING_RULE_CODE);
+                loDb.R_AddCommandParameter(loCommand, "@NBOOKING_FEE", DbType.String, 20, poNewEntity.NBOOKING_FEE);
+                loDb.R_AddCommandParameter(loCommand, "@CTC_CODE", DbType.String, 20, poNewEntity.CTC_CODE);
+                loDb.R_AddCommandParameter(loCommand, "@CLINK_TRANS_CODE", DbType.String, 10, poNewEntity.CLINK_TRANS_CODE);
+                loDb.R_AddCommandParameter(loCommand, "@CLINK_REF_NO", DbType.String, 30, poNewEntity.CLINK_REF_NO);
                 loDb.R_AddCommandParameter(loCommand, "@CACTION", DbType.String, 10, lcAction);
                 loDb.R_AddCommandParameter(loCommand, "@CUSER_ID", DbType.String, 8, poNewEntity.CUSER_ID);
 
@@ -275,8 +281,12 @@ namespace PMT01700BACK.LOC
 
                 try
                 {
-                    loDb.SqlExecNonQuery(loConn, loCommand, false);
-                    _logger.LogInfo(string.Format("END process method {0} on Cls", lcMethodName));
+                    var loDataTable =  loDb.SqlExecQuery(loConn, loCommand, false);
+                   var loEntity = R_Utility.R_ConvertTo<PMT010700_LOC_LOC_SelectedLOCDTO>(loDataTable).FirstOrDefault()!;
+                    if (loEntity != null && poCRUDMode == eCRUDMode.AddMode)
+                    {
+                        poNewEntity.CREF_NO = string.IsNullOrEmpty(loEntity.CREF_NO) ? "" : loEntity.CREF_NO;
+                    }
                 }
                 catch (Exception ex)
                 {
