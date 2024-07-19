@@ -117,15 +117,16 @@
                 <!--  -->
             </R_GridColumns>
         </R_Grid>
-        <!-- Button -->
+        <!-- Button NEW OFFER -->
         <R_StackLayout Row>
             <R_ItemLayout col="2" Class="ps-1">
-                <R_Button R_ConductorGridSource="@_conductorPMT01700otherUnit"
-                          Enabled="true"
-                          Class="col-10"
-                          OnClick="@NewOfferFunctionAsync">
+                <R_Popup R_ConductorGridSource="@_conductorPMT01700otherUnit"
+                         Enabled="true"
+                         Class="col-10"
+                         R_Before_Open_Popup="@BeforeOpenPopupOfferAsync"
+                         R_After_Open_Popup="@AfterOpenPopupOfferAsync">
                     @_localizer["_NewOffer"]
-                </R_Button>
+                </R_Popup>
             </R_ItemLayout>
 
             <R_ItemLayout col="2" Class="ps-1" hidden>
@@ -189,19 +190,17 @@
 
         <!-- Agreement -->
         <R_TabStripTab Title="@_localizer["_LOO"]" Id="LOO" Enabled="_viewModel.lControlTabLOO">
-            <R_TabPage 
-              R_Before_Open_TabPage="@General_Before_Open_LOO_TabPage"
+            <R_TabPage R_Before_Open_TabPage="@General_Before_Open_LOO_TabPage"
                        R_TabEventCallback="@R_TabEventCallbackAsync"
                        @ref="_tabLOO" />
         </R_TabStripTab>
 
         <!-- UnitInfo -->
         <R_TabStripTab Title="@_localizer["_LOC"]" Id="LOC" Enabled="_viewModel.lControlTabLOC">
-            <R_TabPage 
-               R_Before_Open_TabPage="@General_Before_Open_LOC_TabPage"
+            <R_TabPage R_Before_Open_TabPage="@General_Before_Open_LOC_TabPage"
                        R_TabEventCallback="@R_TabEventCallbackAsync"
                        @ref="_tabLOC" />
         </R_TabStripTab>
-    </R_TabStripTab>
-</R_TabStrip>
+        </R_TabStripTab>
+        </R_TabStrip>
 

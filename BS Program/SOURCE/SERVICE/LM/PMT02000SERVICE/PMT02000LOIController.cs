@@ -75,6 +75,7 @@ namespace PMT02000SERVICE
                 loRtn = new R_ServiceSaveResultDTO<PMT02000LOIHeader_DetailDTO>();
                 poParameter.Entity.CCOMPANY_ID = R_BackGlobalVar.COMPANY_ID;
                 poParameter.Entity.CUSER_ID = R_BackGlobalVar.USER_ID;
+                poParameter.Entity.CLANG_ID = R_BackGlobalVar.CULTURE;
                 _logger.LogInfo("Call method R_ServiceSave");
                 loRtn.data = loCls.R_Save(poParameter.Entity, poParameter.CRUDMode);
             }
@@ -133,6 +134,7 @@ namespace PMT02000SERVICE
                 loRtn = new R_ServiceDeleteResultDTO();
                 poParameter.Entity.CCOMPANY_ID = R_BackGlobalVar.COMPANY_ID;
                 poParameter.Entity.CUSER_ID = R_BackGlobalVar.USER_ID;
+                poParameter.Entity.CLANG_ID = R_BackGlobalVar.CULTURE;
                 _logger.LogInfo("Call method R_Delete");
                 loCls.R_Delete(poParameter.Entity);
             }
@@ -198,7 +200,7 @@ namespace PMT02000SERVICE
                 var loCls = new PMT02000LOICls();
 
                 loDbParameter.CCOMPANY_ID = R_BackGlobalVar.COMPANY_ID;
-                loDbParameter.CUSER_ID = R_BackGlobalVar.USER_ID;
+                loDbParameter.CLANG_ID = R_BackGlobalVar.CULTURE;
                 loDbParameter.CPROPERTY_ID = R_Utility.R_GetStreamingContext<string>(ContextConstant.CPROPERTY_ID);
                 loDbParameter.CTRANS_CODE = R_Utility.R_GetStreamingContext<string>(ContextConstant.CTRANS_CODE);
                 _logger.LogDebug("DbParameter {@Parameter} ", loDbParameter);
@@ -296,6 +298,39 @@ namespace PMT02000SERVICE
                 _logger.LogError(loEx);
             }
 
+            loEx.ThrowExceptionIfErrors();
+            _logger.LogInfo(string.Format("END process method {0} on Controller", lcMethodName));
+
+#pragma warning disable CS8603 // Possible null reference return.
+            return loRtn;
+#pragma warning restore CS8603 // Possible null reference return.
+        }
+
+        [HttpPost]
+        public PMT02000VarGsmTransactionCodeDTO GetVAR_GSM_TRANSACTION_CODE()
+        {
+            string lcMethodName = nameof(GetVAR_GSM_TRANSACTION_CODE);
+            using Activity activity = _activitySource.StartActivity(lcMethodName)!;
+            _logger.LogInfo(string.Format("START process method {0} on Controller", lcMethodName));
+
+            var loEx = new R_Exception();
+            PMT02000VarGsmTransactionCodeDTO loRtn = null;
+            try
+            {
+                var loDbParameter = new PMT02000DBParameter();
+                var loCls = new PMT02000LOICls();
+
+                loDbParameter.CCOMPANY_ID = R_BackGlobalVar.COMPANY_ID;
+                loDbParameter.CUSER_ID = R_BackGlobalVar.USER_ID;
+                _logger.LogDebug("DbParameter {@Parameter} ", loDbParameter);
+                _logger.LogInfo(string.Format("Call method {0}", lcMethodName));
+                loRtn = loCls.GetVAR_GSM_TRANSACTION_CODEDb(loDbParameter);
+            }
+            catch (Exception ex)
+            {
+                loEx.Add(ex);
+                _logger.LogError(loEx);
+            }
             loEx.ThrowExceptionIfErrors();
             _logger.LogInfo(string.Format("END process method {0} on Controller", lcMethodName));
 

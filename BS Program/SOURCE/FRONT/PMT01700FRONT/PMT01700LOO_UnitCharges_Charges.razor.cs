@@ -30,6 +30,8 @@ using R_CommonFrontBackAPI;
 using R_BlazorFrontEnd.Controls.MessageBox;
 using System.Collections.ObjectModel;
 using System.Globalization;
+using PMT01700FrontResources;
+using PMT01700COMMON.DTO.Utilities;
 
 namespace PMT01700FRONT
 {
@@ -44,8 +46,9 @@ namespace PMT01700FRONT
         //for detail item
         private R_Grid<PMT01700LOO_UnitCharges_Charges_ChargesItemDTO>? _gridItemCharges;
         public bool _lControlCRUD;
-        private bool _lControlUsingForTotalArea;
+        private bool _lControlChargesItem;
         private bool _lControlButton = true;
+        PMT01700EventCallBackDTO _oEventCallBack = new PMT01700EventCallBackDTO();
 
         [Inject] IClientHelper? _clientHelper { get; set; }
 
@@ -77,6 +80,7 @@ namespace PMT01700FRONT
         }
 
         #region CHARGES
+        bool _hasDataUnit = false;
         private async Task GetListCharges(R_ServiceGetListRecordEventArgs eventArgs)
         {
             var loEx = new R_Exception();
@@ -85,6 +89,15 @@ namespace PMT01700FRONT
                 await _viewModel.GetChargesList();
                 eventArgs.ListEntityResult = _viewModel.oListCharges;
                 _lControlButton = _viewModel.oListCharges.Any();
+
+                if (_viewModel.oListCharges.Any())
+                {
+                    _lControlButton = _hasDataUnit = true;
+                }
+                else
+                {
+                    _hasDataUnit = false;
+                }
 
             }
             catch (Exception ex)
@@ -134,6 +147,8 @@ namespace PMT01700FRONT
                 _viewModel.loTempListChargesItem = _viewModel.oListChargesItem;
                 _viewModel.oListChargesItem = new ObservableCollection<PMT01700LOO_UnitCharges_Charges_ChargesItemDTO>();
                 _lControlCRUD = true;
+
+                _gridItemCharges!.R_RefreshGrid(null);
 
             }
             catch (Exception ex)
@@ -217,23 +232,136 @@ namespace PMT01700FRONT
         public async Task Validation(R_ValidationEventArgs eventArgs)
         {
             var loEx = new R_Exception();
+            //PMT01700LOO_UnitCharges_ChargesDetailDTO? loData = null;
+            try
+            {
+                var loData = (PMT01700LOO_UnitCharges_ChargesDetailDTO)eventArgs.Data;
+
+                if (_lControlChargesItem)
+                {
+                    var loErr = R_FrontUtility.R_GetError(typeof(Resources_PMT01700_Class), "ValidationChargesItem");
+                    loEx.Add(loErr);
+                    goto EndBlock;
+                }
+
+                if (eventArgs.ConductorMode == R_eConductorMode.Edit)
+                {
+                    if (_viewModel.oListChargesItem.Any() && !loData.LCAL_UNIT)
+                    {
+                        var llFalse = await R_MessageBox.Show("", "All Fee Calculation Data will be deleted, Are you sure!",
+                R_eMessageBoxButtonType.OKCancel);
+                        switch (llFalse)
+                        {
+                            case R_eMessageBoxResult.Cancel:
+                                eventArgs.Cancel = true;
+                                break;
+                            case R_eMessageBoxResult.OK:
+                                _viewModel.Data.ChargeItemList = null;
+                                //dibuat null, soalnya kalo NFEE nya pertama mati, bakal keluar ini lagi
+                                break;
+                        }
+                    }
+                }
+
+                if (string.IsNullOrWhiteSpace(loData.CCHARGES_ID))
+                {
+                    var loErr = R_FrontUtility.R_GetError(typeof(Resources_PMT01700_Class), "ValidationCharge");
+                    loEx.Add(loErr);
+                }
+                if (loData.IYEAR <= 0 && loData.IMONTHS <= 0 && loData.IDAYS <= 0)
+                {
+                    var loErr = R_FrontUtility.R_GetError(typeof(Resources_PMT01700_Class), "ValidationTenure");
+                    loEx.Add(loErr);
+                }
+
+                if (!loData.LCAL_UNIT)
+                {
+                    if (loData.NFEE_AMT <= 0)
+                    {
+                        var loErr = R_FrontUtility.R_GetError(typeof(Resources_PMT01700_Class), "ValidationFeeAmount");
+                        loEx.Add(loErr);
+                    }
+                }
+                else
+                {
+                    if (!_viewModel.oListChargesItem.Any())
+                    {
+                        var loErr = R_FrontUtility.R_GetError(typeof(Resources_PMT01700_Class), "ValidationFeeCalculation");
+                        loEx.Add(loErr);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                loEx.Add(ex);
+            }
+        EndBlock:
+            eventArgs.Cancel = _lControlCRUD = loEx.HasError;
+            loEx.ThrowExceptionIfErrors();
+        }
+        public async Task AfterDelete()
+        {
+            _hasDataUnit = _lControlCRUD = _lControlButton = _viewModel.oListCharges.Any();
+            await R_MessageBox.Show("", "Delete Success", R_eMessageBoxButtonType.OK);
+        }
+        private async Task SetOther(R_SetEventArgs eventArgs)
+        {
+            R_Exception loException = new R_Exception();
 
             try
             {
-                //var loParam = (LMM06000BillingRuleDetailDTO)eventArgs.Data;
-                //await BillingRuleViewModel.DeleteUnitType_BillingRule(loParam);
+                //var x = _lControlCRUD;
+                //var y = _viewModel.Data.LCAL_UNIT;
+
+                _hasDataUnit = _viewModel.oListCharges.Any();
+                _lControlCRUD = !eventArgs.Enable;
+                _oEventCallBack.LCRUD_MODE = eventArgs.Enable;
+                await InvokeTabEventCallbackAsync(_oEventCallBack);
+            }
+            catch (Exception ex)
+            {
+                loException.Add(ex);
+            }
+
+            R_DisplayException(loException);
+        }
+        public async void BeforeCancel(R_BeforeCancelEventArgs eventArgs)
+        {
+            R_Exception loEx = new R_Exception();
+            try
+            {
+                var res = await R_MessageBox.Show("", @_localizer["ValidationBeforeCancel"], R_eMessageBoxButtonType.YesNo);
+                if (res == R_eMessageBoxResult.No)
+                {
+                    eventArgs.Cancel = true;
+                }
+                else
+                {
+                    await Close(false, false);
+                    switch (eventArgs.ConductorMode)
+                    {
+                        case R_eConductorMode.Edit:
+                            if (_viewModel.Data.LCAL_UNIT)
+                            {
+                                await _gridItemCharges.R_RefreshGrid(null);
+                            }
+                            break;
+                        case R_eConductorMode.Add:
+                            _viewModel.oListChargesItem = _viewModel.loTempListChargesItem.Any() ? _viewModel.loTempListChargesItem : new ObservableCollection<PMT01700LOO_UnitCharges_Charges_ChargesItemDTO>();
+                            _viewModel.loTempListChargesItem = new ObservableCollection<PMT01700LOO_UnitCharges_Charges_ChargesItemDTO>();
+                            break;
+                        default:
+                            break;
+                    }
+                }
+
             }
             catch (Exception ex)
             {
                 loEx.Add(ex);
             }
 
-            loEx.ThrowExceptionIfErrors();
-        }
-        public async Task AfterDelete()
-        {
-            _lControlCRUD = _lControlUsingForTotalArea = _lControlButton = _viewModel.oListCharges.Any();
-            await R_MessageBox.Show("", "Delete Success", R_eMessageBoxButtonType.OK);
+            R_DisplayException(loEx);
         }
 
         #endregion
@@ -262,7 +390,7 @@ namespace PMT01700FRONT
             try
             {
                 var data = (PMT01700LOO_UnitCharges_Charges_ChargesItemDTO)eventArgs.Data;
-               
+
                 //if (_viewModel.Data.LCAL_UNIT)
                 //{
                 //    if (string.IsNullOrWhiteSpace(data.CUNIT_ID))
@@ -315,17 +443,9 @@ namespace PMT01700FRONT
                     if (_gridItemCharges!.DataSource.Count > 0)
                     {
                         loHeaderData.NINVOICE_AMT = ((_gridItemCharges.DataSource.Sum(x => x.NTOTAL_PRICE)));
-                            //*  (_gridItemCharges.DataSource.Sum(x => x.)));
+                        //*  (_gridItemCharges.DataSource.Sum(x => x.)));
                     }
                 }
-                //else if (eventArgs.ConductorMode == R_eConductorMode.Add)
-                //{
-                //    if (_gridItemCharges!.DataSource.Count > 0)
-                //    {
-                //        loHeaderData.NINVOICE_AMT = ((_gridItemCharges.DataSource.Sum(x => x.NTOTAL_PRICE)));
-                //        //*  (_gridItemCharges.DataSource.Sum(x => x.)));
-                //    }
-                //}
 
             }
             catch (Exception ex)
@@ -343,25 +463,9 @@ namespace PMT01700FRONT
             try
             {
                 PMT01700LOO_UnitCharges_ChargesDetailDTO PMT01700LOO_UnitCharges_ChargesDetailDTO = (PMT01700LOO_UnitCharges_ChargesDetailDTO)_conductorCharges!.R_GetCurrentData();
-               // PMT01700LOO_UnitCharges_ChargesDetailDTO.NINVOICE_AMT = _viewModel.NTotalItemDetil;
+                // PMT01700LOO_UnitCharges_ChargesDetailDTO.NINVOICE_AMT = _viewModel.NTotalItemDetil;
 
-               // _viewModel.oListChargesItem.Add(_viewModel.oEntityChargesItem);
-
-            }
-            catch (Exception ex)
-            {
-                loEx.Add(ex);
-            }
-
-            loEx.ThrowExceptionIfErrors();
-        }
-        private void R_ServiceSaveCalUnit(R_ServiceSaveEventArgs eventArgs)
-        {
-            var loEx = new R_Exception();
-
-            try
-            { 
-                eventArgs.Result = eventArgs.Data;
+                // _viewModel.oListChargesItem.Add(_viewModel.oEntityChargesItem);
 
             }
             catch (Exception ex)
@@ -371,21 +475,18 @@ namespace PMT01700FRONT
 
             loEx.ThrowExceptionIfErrors();
         }
-
-        private void R_ServiceDeleteCalUnit(R_ServiceDeleteEventArgs eventArgs)
+        private void SetOtherChargesItems(R_SetEventArgs eventArgs)
         {
-            var loEx = new R_Exception();
-
+            R_Exception loException = new R_Exception();
             try
             {
-                var test = eventArgs.Data;
+                _lControlChargesItem = !eventArgs.Enable;
             }
             catch (Exception ex)
             {
-                loEx.Add(ex);
+                loException.Add(ex);
             }
-
-            loEx.ThrowExceptionIfErrors();
+            R_DisplayException(loException);
         }
 
         private void R_CellLostFocused(R_CellValueChangedEventArgs eventArgs)

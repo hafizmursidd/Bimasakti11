@@ -215,7 +215,7 @@
                             ValueField="@nameof(PMT01700ResponseCurrencyParameterDTO.CCURRENCY_CODE)"
                             TextField="@nameof(PMT01700ResponseCurrencyParameterDTO.CCURRENCY_CODE)"
                             ValueChanged="@((string value) => OnChangedCurrencyCode(value))"
-                            PopupMaxHeight="200px"
+                            PopupMaxHeight="75px"
                             R_ConductorSource="@_conductorDeposit"
                                 R_EnableAdd
                                 R_EnableEdit />
@@ -253,7 +253,7 @@
             <R_NumericTextBox @bind-Value="@_viewModel.Data.NDEPOSIT_AMT"
                               R_ConductorSource="@_conductorDeposit"
                               Max="10000000000000"
-                              Min="0"
+                              Min="1"
                               Arrows="false"
                                     R_EnableAdd
                                     R_EnableEdit />

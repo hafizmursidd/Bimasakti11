@@ -1,5 +1,4 @@
 ﻿using Lookup_PMCOMMON.DTOs;
-using Lookup_PMCOMMON.DTOs.GET_USER_PARAM_DETAIL;
 using Lookup_PMCOMMON.DTOs.LML01000;
 using Lookup_PMCOMMON.DTOs.LML01100;
 using Lookup_PMCOMMON.DTOs.LML01300;
@@ -22,7 +21,5 @@ namespace Lookup_PMCOMMON
         LMLGenericRecord<LML01200DTO> LML01200InvoiceGroup(LML01200ParameterDTO poParam);
         LMLGenericRecord<LML01300DTO> LML01300LOIAgreement(LML01300ParameterDTO poParam);
 
-        //UPDATED 05/07/2024
-        LMLGenericRecord<GET_USER_PARAM_DETAILDTO> UserParamDetail (GET_USER_PARAM_DETAILParameterDTO poParam); 
     }
 }

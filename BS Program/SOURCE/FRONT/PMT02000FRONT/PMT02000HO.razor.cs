@@ -24,7 +24,7 @@ namespace PMT02000FRONT
     public partial class PMT02000HO : R_Page, R_ITabPage
     {
         private PMT02000ViewModel _viewModel = new();
-        private R_Grid<PMT02000LOIDTO>? _gridLOIref;
+        private R_Grid<PMT02000LOIDTO>? _gridHOref;
         private R_ConductorGrid? _conGridLOI;
         protected override async Task R_Init_From_Master(object poParameter)
         {
@@ -32,7 +32,7 @@ namespace PMT02000FRONT
             try
             {
                 _viewModel.PropertyValueID = (string)poParameter;
-                await _gridLOIref!.R_RefreshGrid(null);
+                await _gridHOref!.R_RefreshGrid(null);
             }
             catch (Exception ex)
             {
@@ -87,7 +87,7 @@ namespace PMT02000FRONT
             {
                 var loParam = R_FrontUtility.ConvertObjectToObject<string>(poParam);
                 _viewModel.PropertyValueID = loParam;
-                await _gridLOIref!.R_RefreshGrid(null);
+                await _gridHOref!.R_RefreshGrid(null);
             }
             catch (Exception ex)
             {
@@ -128,6 +128,7 @@ namespace PMT02000FRONT
                     var loParamDelete = R_FrontUtility.ConvertObjectToObject<PMT02000LOIHeader_DetailDTO>(_viewModel._CurrentLOI);
                     await _viewModel.ServiceDelete(loParamDelete);
                     await R_MessageBox.Show("", _localizer["Success_Delete"], R_eMessageBoxButtonType.OK);
+                    await _gridHOref!.R_RefreshGrid(null);
                 }
                 else
                 {
@@ -152,6 +153,7 @@ namespace PMT02000FRONT
                 {
                     await _viewModel.SubmitRedraft("Submit");
                     await R_MessageBox.Show("", _localizer["Success_Submit"], R_eMessageBoxButtonType.OK);
+                    await _gridHOref!.R_RefreshGrid(null);
                 }
                 else
                 {
@@ -176,6 +178,7 @@ namespace PMT02000FRONT
                 {
                     await _viewModel.SubmitRedraft("Redraft");
                     await R_MessageBox.Show("", _localizer["Success_Redraft"], R_eMessageBoxButtonType.OK);
+                    await _gridHOref!.R_RefreshGrid(null);
                 }
                 else
                 {

@@ -16,5 +16,8 @@ namespace PMT01700COMMON.DTO.Utilities.ParamDb.LOO
         public string? CCHARGE_MODE { get; set; }
 
         public string? CUTILITY_TYPE { get; set; }
+
+        //CR add FIlter CFROM_REF_DATE 18/07/2023
+        public string? CFROM_REF_DATE { get; set; }
     }
 }

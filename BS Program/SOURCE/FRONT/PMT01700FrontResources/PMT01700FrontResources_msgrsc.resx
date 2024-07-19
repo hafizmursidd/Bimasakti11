@@ -125,6 +125,14 @@
     <value>Agreement No is required.</value>
     <comment>Agreement No is required.</comment>
   </data>
+  <data name="ValidationBeforeCancel" xml:space="preserve">
+    <value>Are you sure want to cancel this Offer?</value>
+    <comment>Are you sure want to cancel this Offer?</comment>
+  </data>
+  <data name="ValidationBookingFee" xml:space="preserve">
+    <value>Booking Fee cannot be less than 1</value>
+    <comment>Booking Fee cannot be less than 1</comment>
+  </data>
   <data name="ValidationBuilding" xml:space="preserve">
     <value>Building is required.</value>
     <comment>Building is required.</comment>
@@ -133,9 +141,25 @@
     <value>Charge Id is required.</value>
     <comment>Charge Id is required.</comment>
   </data>
+  <data name="ValidationChargesItem" xml:space="preserve">
+    <value>Please save data on detail items</value>
+    <comment>Please save data on detail items</comment>
+  </data>
+  <data name="ValidationCurrency" xml:space="preserve">
+    <value>Currency is required.</value>
+    <comment>Currency is required.</comment>
+  </data>
+  <data name="ValidationDataMeterNo" xml:space="preserve">
+    <value>Data Not Found For "Meter No" From Selected Utility Type</value>
+    <comment>Data Not Found For "Meter No" From Selected Utility Type</comment>
+  </data>
   <data name="ValidationDate" xml:space="preserve">
     <value>The start date cannot be later than the end date.</value>
     <comment>The start date cannot be later than the end date.</comment>
+  </data>
+  <data name="ValidationDepartment" xml:space="preserve">
+    <value>Department is required.</value>
+    <comment>Department is required.</comment>
   </data>
   <data name="ValidationDepositID" xml:space="preserve">
     <value>Deposit ID is required.</value>
@@ -165,9 +189,17 @@
     <value>Salesman is required.</value>
     <comment>Salesman is required.</comment>
   </data>
+  <data name="ValidationSelectedRecord" xml:space="preserve">
+    <value>User is only allowed to select one type of building.</value>
+    <comment>User is only allowed to select one type of building.</comment>
+  </data>
   <data name="ValidationTenant" xml:space="preserve">
     <value>Tenant ID is required.</value>
     <comment>Tenant ID is required.</comment>
+  </data>
+  <data name="ValidationTenure" xml:space="preserve">
+    <value>Tenure must be at least 1 day.</value>
+    <comment>Tenure must be at least 1 day.</comment>
   </data>
   <data name="ValidationUnit" xml:space="preserve">
     <value>Unit ID is required.</value>
@@ -551,6 +583,14 @@
   <data name="_Redraft" xml:space="preserve">
     <value>Redraft</value>
     <comment>Redraft</comment>
+  </data>
+  <data name="_RefDate" xml:space="preserve">
+    <value>Ref Date</value>
+    <comment>Ref Date</comment>
+  </data>
+  <data name="_RefNo" xml:space="preserve">
+    <value>Ref No</value>
+    <comment>Ref No</comment>
   </data>
   <data name="_Revise" xml:space="preserve">
     <value>Revise</value>

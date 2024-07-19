@@ -71,6 +71,11 @@ namespace PMT01700MODEL.ViewModel
                     oListUtilities = new ObservableCollection<PMT01700LOO_UnitUtilities_UnitUtilities_UtilitiesDTO>(loResult.Data);
 
                 }
+                else 
+                {
+                    oListUtilities = new ObservableCollection<PMT01700LOO_UnitUtilities_UnitUtilities_UtilitiesDTO>();
+                }
+
             }
             catch (Exception ex)
             {

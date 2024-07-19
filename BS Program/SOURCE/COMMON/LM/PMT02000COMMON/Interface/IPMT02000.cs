@@ -14,6 +14,7 @@ namespace PMT02000COMMON.Interface
         PMT02000LOIHeader GetLOIHeader(PMT02000DBParameter poParam);
         IAsyncEnumerable<PMT02000LOIDetailListDTO> GetLOIDetailListStream();
         PMT02000LOIHeader ProcessSubmitRedraft(PMT02000DBParameter poParam);
+        PMT02000VarGsmTransactionCodeDTO GetVAR_GSM_TRANSACTION_CODE();
 
     }
 }

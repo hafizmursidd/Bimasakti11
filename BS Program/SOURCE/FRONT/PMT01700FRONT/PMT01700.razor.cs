@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using PMT01700COMMON.DTO._1._Other_Unit_List;
 using PMT01700COMMON.DTO.Utilities;
+using PMT01700COMMON.DTO.Utilities.Front;
 using PMT01700FrontResources;
 using PMT01700MODEL.ViewModel;
 using R_BlazorFrontEnd.Controls;
@@ -61,37 +62,77 @@ namespace PMT01700FRONT
             }
             loEx.ThrowExceptionIfErrors();
         }
+
         #region Button Control
-        private async Task NewOfferFunctionAsync()
+
+        private async Task BeforeOpenPopupOfferAsync(R_BeforeOpenPopupEventArgs eventArgs)
         {
-            var loException = new R_Exception();
-            //APM00500ProductDetailDTO? poEntityAPM00500Detail = (APM00500ProductDetailDTO)_conductorAPM00500ProductDetail.R_GetCurrentData();
-            List<PMT01700OtherUnitList_OtherUnitListDTO> loData;
+            var loEx = new R_Exception();
 
             try
             {
                 var loOtherDataUnitList = _viewModel.loOtherUnitList;
 
-                //loData = loDataUnitList
-                //    .Where(x => x.LSELECTED_UNIT == true)
-                //    .ToList();
+                List<PMT01700OtherUnitList_OtherUnitListDTO> loData = loOtherDataUnitList
+                    .Where(x => x.LSELECTED_UNIT == true)
+                    .ToList();
 
-                //if (!loData.Any())
-                //{
-                //    var loValidate = await R_MessageBox.Show("", _localizer["ValidationNoRecord"], R_eMessageBoxButtonType.OK);
-                //    goto EndBlock;
-                //}
+                if (!loData.Any())
+                {
+                    var loValidate = await R_MessageBox.Show("", _localizer["ValidationNoRecord"], R_eMessageBoxButtonType.OK);
+                    goto EndBlock;
+                }
 
-                //loData.ForEach(x => x.LSELECTED_UNIT = false);
-                //_viewModel.oParameterForGetUnitList.ODataUnitList = JsonSerializer.Serialize(loData);
-                //await _tabStripRef?.SetActiveTabAsync("LOO")!;
+                int distinctBuildingCount = loData
+                                    .Select(item => item.CBUILDING_ID)
+                                    .Distinct()
+                                    .Count();
+
+                if (distinctBuildingCount != 1)
+                {
+                    var loValidate = await R_MessageBox.Show("", _localizer["ValidationSelectedRecord"], R_eMessageBoxButtonType.OK);
+                    goto EndBlock;
+                }
+                loData.ForEach(x => x.LSELECTED_UNIT = false);
+                _viewModel.oParameterNewOffer.CPROPERTY_ID = _viewModel.oProperty_oDataOtherUnit.CPROPERTY_ID;
+                _viewModel.oParameterNewOffer.CBUILDING_ID = _viewModel.oProperty_oDataOtherUnit.CBUILDING_ID;
+                _viewModel.oParameterNewOffer.CBUILDING_NAME = _viewModel.oProperty_oDataOtherUnit.CBUILDING_NAME;
+                _viewModel.oParameterNewOffer.ODataUnitList = JsonSerializer.Serialize(loData);
+                _viewModel.oParameterNewOffer.CTRANS_CODE = "802043";
+                // _viewModel.oParameterNewOffer.CALLER_ACTION = "NewOFfer";
+
+                eventArgs.Parameter = _viewModel.oParameterNewOffer;
+                eventArgs.TargetPageType = typeof(PMT01700LOO_Offer);
             }
             catch (Exception ex)
             {
-                loException.Add(ex);
+                loEx.Add(ex);
             }
-            loException.ThrowExceptionIfErrors();
+        EndBlock:
+            R_DisplayException(loEx);
+
         }
+
+        private async Task AfterOpenPopupOfferAsync(R_AfterOpenPopupEventArgs eventArgs)
+        {
+            var loEx = new R_Exception();
+
+            try
+            {
+                if (eventArgs.Success)
+                {
+                    await _tabStripRef?.SetActiveTabAsync("LOO")!;
+                }
+            }
+            catch (Exception ex)
+            {
+                loEx.Add(ex);
+            }
+        EndBlock:
+            R_DisplayException(loEx);
+
+        }
+
         #endregion
 
         #region Front Control Property
@@ -109,7 +150,7 @@ namespace PMT01700FRONT
                 {
                     await _tabLOO.InvokeRefreshTabPageAsync(_viewModel.oProperty_oDataOtherUnit);
                 }
-               else if (_tabStripRef.ActiveTab.Id == "LOC")
+                else if (_tabStripRef.ActiveTab.Id == "LOC")
                 {
                     await _tabLOC.InvokeRefreshTabPageAsync(_viewModel.oProperty_oDataOtherUnit);
                 }

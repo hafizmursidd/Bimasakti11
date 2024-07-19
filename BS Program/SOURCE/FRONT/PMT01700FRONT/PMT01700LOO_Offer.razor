@@ -691,7 +691,7 @@
 
                 <R_ItemLayout col="2">
                     <R_Label>
-                        @_localizer["_Tenure"]
+                        @_localizer["_Tenure"]*
                     </R_Label>
                 </R_ItemLayout>
 
@@ -768,7 +768,7 @@
 
                 <R_ItemLayout col="2">
                     <R_Label>
-                        @_localizer["_PlanStartDate"]
+                        @_localizer["_PlanStartDate"]*
                     </R_Label>
                 </R_ItemLayout>
 
@@ -817,7 +817,7 @@
 
                 <R_ItemLayout col="2">
                     <R_Label>
-                        @_localizer["_UnitDescription"]
+                        @_localizer["_UnitDescription"]*
                     </R_Label>
                 </R_ItemLayout>
 
@@ -894,7 +894,7 @@
                 <R_ItemLayout col="4">
 
                     <R_Label>
-                        @_localizer["_Currency"]
+                        @_localizer["_Currency"]*
                     </R_Label>
 
                 </R_ItemLayout>
@@ -942,24 +942,25 @@
                                       R_ConductorSource="@_conductor"
                                       Arrows="false"
                                             R_EnableAdd
-                                            R_EnableEdit />
+                                            R_EnableEdit
+                                      Min="1" />
 
-                </R_ItemLayout>
+                    </R_ItemLayout>
 
-            </R_ItemLayout>
+                    </R_ItemLayout>
 
-            @* T * C *@
-            <R_ItemLayout col="12" Class="d-flex">
+                    @* T * C *@
+                    <R_ItemLayout col="12" Class="d-flex">
 
-                <R_ItemLayout col="4">
+                    <R_ItemLayout col="4">
 
                     <R_Label>
                         @_localizer["_TandC"]
                     </R_Label>
 
-                </R_ItemLayout>
+                    </R_ItemLayout>
 
-                <R_ItemLayout col="7" Class="d-flex">
+                    <R_ItemLayout col="7" Class="d-flex">
 
                     <R_ItemLayout col="9">
                         <R_TextBox @bind-Value="@_viewModel.Data.CTC_CODE"
@@ -993,95 +994,95 @@
                         @* Button CRUD *@
                         <R_StackLayout Row Class="d-flex justify-content-between">
 
-        <R_StackLayout Row>
+    <R_StackLayout Row>
 
-            <R_StackLayout Row hidden=@_LOpenAsNormalPage>
-
-
-                <R_ItemLayout>
-                    <R_AddButton R_Conductor="@_conductor" />
-                </R_ItemLayout>
-
-                <R_ItemLayout>
-                    <R_EditButton R_Conductor="@_conductor" />
-                </R_ItemLayout>
-
-                <R_ItemLayout>
-                    <R_DeleteButton R_Conductor="@_conductor" />
-                </R_ItemLayout>
-
-            </R_StackLayout>
-
-            <R_StackLayout Row hidden=@_LOpenAsNormalPage>
+        <R_StackLayout Row hidden=@_LOpenAsNormalPage>
 
 
-                <R_ItemLayout>
-                    <R_Button R_Conductor="@_conductor"
-                              Enabled="@_viewModel.lControlCRUDMode"
-                              OnClick="@BlankFunctionButton">
-                        @_localizer["_Print"]
-                    </R_Button>
-                </R_ItemLayout>
+            <R_ItemLayout>
+                <R_AddButton R_Conductor="@_conductor" />
+            </R_ItemLayout>
 
-                <R_ItemLayout>
-                    <R_Button R_Conductor="@_conductor"
-                              Enabled="@_viewModel.lControlCRUDMode"
-                              OnClick="@BlankFunctionButton">
-                        @_localizer["_Submit"]
-                    </R_Button>
-                </R_ItemLayout>
+            <R_ItemLayout>
+                <R_EditButton R_Conductor="@_conductor" />
+            </R_ItemLayout>
 
-                <R_ItemLayout>
-                    <R_Button R_Conductor="@_conductor"
-                              Enabled="@_viewModel.lControlCRUDMode"
-                              OnClick="@BlankFunctionButton">
-                        @_localizer["_Redraft"]
-                    </R_Button>
-                </R_ItemLayout>
+            <R_ItemLayout>
+                <R_DeleteButton R_Conductor="@_conductor" />
+            </R_ItemLayout>
 
-            </R_StackLayout>
+        </R_StackLayout>
 
-            <div hidden=@(!_LOpenAsNormalPage) class="text-center">
-                <R_Popup R_Before_Open_Popup="@BeforeOpenPMT01700"
-                         R_After_Open_Popup="@R_After_ServiceOpenOthersProgram"
-                          Enabled>
-                    @_localizer["_CreateLOC"]
-                </R_Popup>
-            </div>
+        <R_StackLayout Row hidden=@_LOpenAsNormalPage>
 
-            <R_StackLayout Row Class="d-flex justify-content-end" hidden=@_LOpenAsNormalPage>
 
-                <R_StackLayout Row Class="d-flex justify-content-end">
+            <R_ItemLayout>
+                <R_Button R_Conductor="@_conductor"
+                          Enabled="@_viewModel.lControlCRUDMode"
+                          OnClick="@BlankFunctionButton">
+                    @_localizer["_Print"]
+                </R_Button>
+            </R_ItemLayout>
 
-                    <R_StackLayout Row>
+            <R_ItemLayout>
+                <R_Button R_Conductor="@_conductor"
+                          Enabled="@_viewModel.lControlCRUDMode"
+                          OnClick="@BlankFunctionButton">
+                    @_localizer["_Submit"]
+                </R_Button>
+            </R_ItemLayout>
 
-                        <R_ItemLayout>
-                            <R_CancelButton R_Conductor="@_conductor" />
-                        </R_ItemLayout>
+            <R_ItemLayout>
+                <R_Button R_Conductor="@_conductor"
+                          Enabled="@_viewModel.lControlCRUDMode"
+                          OnClick="@BlankFunctionButton">
+                    @_localizer["_Redraft"]
+                </R_Button>
+            </R_ItemLayout>
 
-                        <R_ItemLayout>
-                            <R_SaveButton R_Conductor="@_conductor" />
-                        </R_ItemLayout>
+        </R_StackLayout>
 
-                    </R_StackLayout>
+        <div hidden=@(!_LOpenAsNormalPage) class="text-center">
+            <R_Popup R_Before_Open_Popup="@BeforeOpenPMT01700"
+                     R_After_Open_Popup="@R_After_ServiceOpenOthersProgram"
+                      Enabled>
+                @_localizer["_CreateLOC"]
+            </R_Popup>
+        </div>
+
+        <R_StackLayout Row Class="d-flex justify-content-end" hidden=@_LOpenAsNormalPage>
+
+            <R_StackLayout Row Class="d-flex justify-content-end">
+
+                <R_StackLayout Row>
+
+                    <R_ItemLayout>
+                        <R_CancelButton R_Conductor="@_conductor" />
+                    </R_ItemLayout>
+
+                    <R_ItemLayout>
+                        <R_SaveButton R_Conductor="@_conductor" />
+                    </R_ItemLayout>
 
                 </R_StackLayout>
+
             </R_StackLayout>
+        </R_StackLayout>
     </R_StackLayout>
-    </R_StackLayout>
+</R_StackLayout>
 
 
-    <R_Conductor @ref="@_conductor"
-                 R_ViewModel="@_viewModel"
-                  R_IsHeader
-                 R_ServiceGetRecord="@ServiceGetRecord"
-                 R_ServiceDelete="@ServiceDelete"
-                 R_ServiceSave="@ServiceSave"
-                 R_BeforeCancel="@R_BeforeCancel"
-                 R_AfterDelete="@AfterDelete"
-                 R_AfterSave="@AfterSave"
-                 R_Validation="@R_Validation"
-                 R_SetOther="@R_SetOther"
-                 R_AfterAdd="@AfterAdd"
-                 R_SetEdit="@R_SetEdit"
-                 R_Display="@ServiceR_Display" />
+<R_Conductor @ref="@_conductor"
+             R_ViewModel="@_viewModel"
+              R_IsHeader
+             R_ServiceGetRecord="@ServiceGetRecord"
+             R_ServiceDelete="@ServiceDelete"
+             R_ServiceSave="@ServiceSave"
+             R_BeforeCancel="@R_BeforeCancel"
+             R_AfterDelete="@AfterDelete"
+             R_AfterSave="@AfterSave"
+             R_Validation="@R_Validation"
+             R_SetOther="@R_SetOther"
+             R_AfterAdd="@AfterAdd"
+             R_SetEdit="@R_SetEdit"
+             R_Display="@ServiceR_Display" />

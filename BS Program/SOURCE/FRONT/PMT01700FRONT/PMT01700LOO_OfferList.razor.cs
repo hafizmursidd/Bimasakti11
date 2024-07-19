@@ -108,13 +108,14 @@ namespace PMT01700FRONT
         }
 
 
-        private void OnChangedFromOfferDate(DateTime? poValue)
+        private async Task OnChangedFromOfferDateAsync(DateTime? poValue)
         {
             R_Exception loException = new R_Exception();
 
             try
             {
                 _viewModel.dFilterFromOfferDate = poValue;
+                await _gridOfferList!.R_RefreshGrid(null);
             }
             catch (Exception ex)
             {

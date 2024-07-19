@@ -84,9 +84,6 @@ namespace PMT01700COMMON.DTO._2._LOO._2._LOO___Offer
         public string? CDOC_DATE { get; set; } = "";
         public string? CSTART_DATE { get; set; }
         public string? CEND_DATE { get; set; }
-        public string? CDAYS { get; set; }
-        public string? CMONTH { get; set; }
-        public string? CYEAR { get; set; }
         public string? CSALESMAN_ID { get; set; }
         public string? CUNIT_DESCRIPTION { get; set; } = "";
         public string? CNOTES { get; set; } = "";

@@ -252,6 +252,8 @@
 
         </R_ItemLayout>
 
+
+
         @* Start Date *@
         <R_ItemLayout col="12" Class="d-flex">
 
@@ -309,7 +311,7 @@
 
                 <R_ItemLayout col="6" Class="d-flex">
 
-
+                @* Currency  *@
                 <R_ItemLayout col="4">
                     <R_Label>
                         @_localizer["_Currency"]*
@@ -357,8 +359,10 @@
                                 TextField="@nameof(PMT01700ComboBoxDTO.CDESCRIPTION)"
                                 PopupMaxHeight="100px"
                                 R_ConductorSource="@_conductorCharges"
+                                
                                     R_EnableAdd
-                                    R_EnableEdit />
+                                    R_EnableEdit 
+                                    />
             </R_ItemLayout>
 
             <R_ItemLayout col="8" Class="d-flex">
@@ -380,6 +384,7 @@
                 <R_ItemLayout col="4" Class="ps-1">
                     <R_NumericTextBox @bind-Value="@_viewModel.Data.NFEE_AMT"
                                       R_ConductorSource="@_conductorCharges"
+                                      Min="0"
                                       Enabled="(_lControlCRUD && !_viewModel.Data.LCAL_UNIT)" />
                 </R_ItemLayout>
 
@@ -479,7 +484,6 @@
                             ValueChanged="(bool plParam)=>OnChangedLCAL_UNIT(plParam)"
                             R_EnableAdd
                             R_EnableEdit />
-                @* Enabled="@_lControlUsingForTotalArea" *@
             </R_ItemLayout>
 
             <R_ItemLayout Class="ps-1">
@@ -505,6 +509,7 @@
                             R_CellValueChanged="@R_CellLostFocused"
                             R_AfterSave="@R_ServiceAfterSave"
                              R_Validation="R_ValidationItems"
+                            
                             Pageable
                             Height="250px"
                             PageSize="10"
@@ -563,15 +568,15 @@
     <R_StackLayout Row>
 
         <R_ItemLayout>
-            <R_AddButton R_Conductor="@_conductorCharges" />
+            <R_AddButton Enabled="@(!_lControlCRUD)" R_Conductor="@_conductorCharges" /> 
         </R_ItemLayout>
 
         <R_ItemLayout>
-            <R_EditButton R_Conductor="@_conductorCharges" />
+            <R_EditButton Enabled="@(!_lControlCRUD && _hasDataUnit)" R_Conductor="@_conductorCharges" />
         </R_ItemLayout>
 
         <R_ItemLayout>
-            <R_DeleteButton R_Conductor="@_conductorCharges" />
+            <R_DeleteButton Enabled="@(!_lControlCRUD && _hasDataUnit)" R_Conductor="@_conductorCharges" />
         </R_ItemLayout>
 
     </R_StackLayout>
@@ -599,11 +604,16 @@
              R_ViewModel="_viewModel"
              R_IsHeader="true"
              R_ServiceGetRecord="@ServiceGetRecordCharges"
-             R_AfterAdd="@ServiceAfterAdd"
-             R_ServiceSave="@ServiceSaveCharges"
+             R_BeforeCancel="@BeforeCancel"
              R_Display="@ServiceR_Display"
+             R_ServiceSave="@ServiceSaveCharges"
              R_ServiceDelete="@ServiceDelete"
-             R_Validation="@Validation" />
+             R_AfterDelete="@AfterDelete"
+             R_Validation="@Validation"
+             R_AfterAdd="@ServiceAfterAdd"
+
+             R_SetOther="@SetOther" />
 
 <R_ConductorGrid @ref="@_conductorDetailItem"
-                 R_ConductorParent="@_conductorCharges" />
+                 R_ConductorParent="@_conductorCharges"
+                 R_SetOther="@SetOtherChargesItems" />

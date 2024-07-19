@@ -916,6 +916,24 @@ namespace PMT01700FrontResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Ref Date.
+        /// </summary>
+        internal static string _RefDate {
+            get {
+                return ResourceManager.GetString("_RefDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ref No.
+        /// </summary>
+        internal static string _RefNo {
+            get {
+                return ResourceManager.GetString("_RefNo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Revise.
         /// </summary>
         internal static string _Revise {
@@ -1249,6 +1267,24 @@ namespace PMT01700FrontResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Are you sure want to cancel this Offer?.
+        /// </summary>
+        internal static string ValidationBeforeCancel {
+            get {
+                return ResourceManager.GetString("ValidationBeforeCancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Booking Fee cannot be less than 1.
+        /// </summary>
+        internal static string ValidationBookingFee {
+            get {
+                return ResourceManager.GetString("ValidationBookingFee", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Building is required..
         /// </summary>
         internal static string ValidationBuilding {
@@ -1267,11 +1303,47 @@ namespace PMT01700FrontResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please save data on detail items.
+        /// </summary>
+        internal static string ValidationChargesItem {
+            get {
+                return ResourceManager.GetString("ValidationChargesItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Currency is required..
+        /// </summary>
+        internal static string ValidationCurrency {
+            get {
+                return ResourceManager.GetString("ValidationCurrency", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Data Not Found For &quot;Meter No&quot; From Selected Utility Type.
+        /// </summary>
+        internal static string ValidationDataMeterNo {
+            get {
+                return ResourceManager.GetString("ValidationDataMeterNo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The start date cannot be later than the end date..
         /// </summary>
         internal static string ValidationDate {
             get {
                 return ResourceManager.GetString("ValidationDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Department is required..
+        /// </summary>
+        internal static string ValidationDepartment {
+            get {
+                return ResourceManager.GetString("ValidationDepartment", resourceCulture);
             }
         }
         
@@ -1339,11 +1411,29 @@ namespace PMT01700FrontResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to User is only allowed to select one type of building..
+        /// </summary>
+        internal static string ValidationSelectedRecord {
+            get {
+                return ResourceManager.GetString("ValidationSelectedRecord", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Tenant ID is required..
         /// </summary>
         internal static string ValidationTenant {
             get {
                 return ResourceManager.GetString("ValidationTenant", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tenure must be at least 1 day..
+        /// </summary>
+        internal static string ValidationTenure {
+            get {
+                return ResourceManager.GetString("ValidationTenure", resourceCulture);
             }
         }
         

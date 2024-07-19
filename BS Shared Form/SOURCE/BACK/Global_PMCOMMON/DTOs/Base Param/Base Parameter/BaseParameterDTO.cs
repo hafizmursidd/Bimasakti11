@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Lookup_PMCOMMON.DTOs.GET_USER_PARAM_DETAIL
+namespace Global_PMCOMMON.DTOs.Base_Param
 {
-    public class GET_USER_PARAM_DETAILParameterDTO
+    public abstract class BaseParameterDTO
     {
         public string CCOMPANY_ID { get; set; } = "";
         public string CUSER_ID { get; set; } = "";
-        public string CCODE { get; set; } = "";
+        public string CLANG_ID { get; set; } = "";
     }
 }

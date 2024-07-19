@@ -312,7 +312,7 @@ namespace PMT01700BACK
                 loDb = new();
                 DbConnection? loConn = loDb.GetConnection();
                 loCommand = loDb.GetCommand();
-                lcQuery = "RSP_PM_GET_AGREEMENT_UNIT_INFO_LIST ";
+                lcQuery = "RSP_PM_GET_AGREEMENT_UNIT_INFO_LIST "; //RSP_PM_GET_AGREEMENT_UTILITIES_LIST 
                 loCommand.CommandText = lcQuery;
                 loCommand.CommandType = CommandType.StoredProcedure;
 

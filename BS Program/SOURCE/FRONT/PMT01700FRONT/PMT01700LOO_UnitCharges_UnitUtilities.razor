@@ -178,10 +178,10 @@
                 R_ServiceSave="@ServiceSave"
                 R_Validation="@R_Validation"
                 R_AfterSave="@R_AfterSave"
-                Pageable
-                Height="250px"
-                PageSize="10"
                 R_AfterDelete="AfterDelete"
+                Pageable
+                Height="175px"
+                PageSize="10"
                 R_Before_Open_Grid_Lookup="Before_Open_LookupOtherUnitId"
                 R_After_Open_Grid_Lookup="After_Open_LookupOtherUnitId"
                 R_CellLostFocused="@R_CellLostFocusOtherUnitId"
@@ -264,7 +264,7 @@
                 R_GridType="@R_eGridType.Navigator"
                 R_ServiceGetListRecord="@R_ServiceGetListUtilitiesListRecord"
                 Pageable
-                Height="170px"
+                Height="160px"
                 PageSize="10"
                 AllowDeleteRow
                 AllowAddNewRow
@@ -356,7 +356,9 @@
                                         R_ConductorSource="@_conductorUtilities"
                                         ValueChanged="@((string value) => OnChangedCCHARGES_TYPE(value))"
                                             R_EnableAdd
-                                        R_EnableEdit="false">
+                                        R_EnableEdit="false"
+                                        PopupMaxHeight="75px"
+                                        >
                         </R_DropDownList>
                         </R_ItemLayout>
 
@@ -424,11 +426,11 @@
 
                         <R_DropDownList Data="@_viewModelUtilities.oComboBoxDataCMETER_NO"
                                         Value="@_viewModelUtilities.Data.CMETER_NO"
-                                        PopupMaxHeight="100px"
                                         ValueField="@nameof(PMT01700ResponseUtilitiesCMeterNoParameterDTO.CMETER_NO)"
                                         TextField="@nameof(PMT01700ResponseUtilitiesCMeterNoParameterDTO.CMETER_NO)"
                                         ValueChanged="@((string value) => OnChangedCMETER_NO(value))"
                                         R_ConductorSource="@_conductorUtilities"
+                                        PopupMaxHeight="75px"
                                         Enabled="@(_lControlCMeterNo && !_oEventCallBack.LCRUD_MODE)" />
 
                     </R_ItemLayout>
@@ -509,15 +511,15 @@
                 <R_StackLayout Row>
 
                     <R_ItemLayout>
-                        <R_AddButton Enabled="@_hasDataUnit" R_Conductor="@_conductorUtilities"></R_AddButton>
+                        <R_AddButton R_Conductor="@_conductorUtilities"></R_AddButton>
                     </R_ItemLayout>
 
                     <R_ItemLayout>
-                        <R_EditButton R_Conductor="@_conductorUtilities"></R_EditButton>
+                        <R_EditButton  R_Conductor="@_conductorUtilities"></R_EditButton>
                     </R_ItemLayout>
 
                     <R_ItemLayout>
-                        <R_DeleteButton R_Conductor="@_conductorUtilities"></R_DeleteButton>
+                        <R_DeleteButton  R_Conductor="@_conductorUtilities"></R_DeleteButton>
                     </R_ItemLayout>
 
                 </R_StackLayout>
@@ -539,7 +541,7 @@
 
     </R_TabStripTab>
     <!-- Utilities -->
-    <R_TabStripTab Title="@_localizer["_Charges"]" Id="Charges" Enabled="_viewModel.lControlTabUtilities">
+    <R_TabStripTab Title="@_localizer["_Charges"]" Id="Charges" Enabled="_viewModel.lControlTabCharges">
         <R_TabPage R_Before_Open_TabPage="General_Before_Open_Charges_TabPage"
                    R_TabEventCallback="@R_TabEventCallbackAsync"
                    @ref="_tabUtilities" />

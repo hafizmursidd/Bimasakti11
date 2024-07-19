@@ -15,6 +15,7 @@ using PMT01700COMMON.DTO.Utilities.ParamDb.LOO;
 using PMT01700COMMON.DTO.Utilities.ParamDb;
 using PMT01700COMMON.DTO.Utilities;
 using PMT01700COMMON.DTO.Utilities.Response;
+using PMT01700COMMON.DTO._2._LOO._2._LOO___Offer;
 
 namespace PMT01700BACK
 {
@@ -226,7 +227,12 @@ namespace PMT01700BACK
 
                 try
                 {
-                    loDb.SqlExecNonQuery(loConn, loCommand, false);
+                   var loDataTable =  loDb.SqlExecQuery(loConn, loCommand, false);
+                    var loData = R_Utility.R_ConvertTo<PMT01700LOO_UnitUtilities_UnitUtilities_UtilitiesDTO>(loDataTable).FirstOrDefault()!;
+                    if (poNewEntity != null && poCRUDMode == eCRUDMode.AddMode)
+                    {
+                        poNewEntity.CSEQ_NO = loData.CSEQ_NO;
+                    }
                     _logger.LogInfo(string.Format("END process method {0} on Cls", lcMethodName));
                 }
                 catch (Exception ex)
@@ -373,15 +379,13 @@ namespace PMT01700BACK
                 loDb = new();
                 DbConnection? loConn = loDb.GetConnection();
                 loCommand = loDb.GetCommand();
-                lcQuery = "RSP_GS_GET_BUILDING_UTILITIES_LIST";
+                lcQuery = "RSP_GS_GET_BUILDING_OTHER_UTILITIES_LIST";
                 loCommand.CommandText = lcQuery;
                 loCommand.CommandType = CommandType.StoredProcedure;
 
                 loDb.R_AddCommandParameter(loCommand, "@CCOMPANY_ID", DbType.String, 20, poParameter.CCOMPANY_ID);
                 loDb.R_AddCommandParameter(loCommand, "@CPROPERTY_ID", DbType.String, 20, poParameter.CPROPERTY_ID);
-                loDb.R_AddCommandParameter(loCommand, "@CBUILDING_ID", DbType.String, 20, poParameter.CBUILDING_ID);
-                loDb.R_AddCommandParameter(loCommand, "@CFLOOR_ID", DbType.String, 20, poParameter.CFLOOR_ID);
-                loDb.R_AddCommandParameter(loCommand, "@CUNIT_ID", DbType.String, 20, poParameter.COTHER_UNIT_ID);
+                loDb.R_AddCommandParameter(loCommand, "@COTHER_UNIT_ID", DbType.String, 20, poParameter.COTHER_UNIT_ID);
                 loDb.R_AddCommandParameter(loCommand, "@CUTILITY_TYPE", DbType.String, 20, poParameter.CUTILITY_TYPE);
                 loDb.R_AddCommandParameter(loCommand, "@CUSER_ID", DbType.String, 20, poParameter.CUSER_ID);
 

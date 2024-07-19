@@ -52,6 +52,7 @@ namespace PMT01700BACK
                 loDb.R_AddCommandParameter(loCommand, "@CUSER_ID", DbType.String, 20, poParameter.CUSER_ID);
                 loDb.R_AddCommandParameter(loCommand, "@CPROPERTY_ID", DbType.String, 20, poParameter.CPROPERTY_ID);
                 loDb.R_AddCommandParameter(loCommand, "@CTRANS_CODE", DbType.String, 20, poParameter.CTRANS_CODE);
+                loDb.R_AddCommandParameter(loCommand, "@CFROM_REF_DATE", DbType.String, 8, poParameter.CFROM_REF_DATE);
 
                 var loDbParam = loCommand.Parameters.Cast<DbParameter>()
                     .Where(x => x != null && x.ParameterName.StartsWith("@"))

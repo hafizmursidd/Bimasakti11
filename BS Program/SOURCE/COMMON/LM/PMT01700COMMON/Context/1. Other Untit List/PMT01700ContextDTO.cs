@@ -12,5 +12,7 @@
         public const string CBUILDING_ID = "CBUILDING_ID";
         public const string CUNIT_ID = "CUNIT_ID";
         public const string CCHARGE_MODE = "CCHARGE_MODE";
+        //CR Offer LIst 18/07/2024
+        public const string CFROM_REF_DATE = "CFROM_REF_DATE";
     }
 }

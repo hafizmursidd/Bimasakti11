@@ -17,6 +17,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Collections.Specialized.BitVector32;
 
 namespace PMT01700MODEL.ViewModel
 {
@@ -68,10 +69,6 @@ namespace PMT01700MODEL.ViewModel
 
                 if (!string.IsNullOrEmpty(loResult.CREF_NO))
                 {
-                    loResult.IMONTHS = string.IsNullOrEmpty(loResult.CMONTH) ? 0 : int.Parse(loResult.CMONTH);
-                    loResult.IDAYS = string.IsNullOrEmpty(loResult.CDAYS) ? 0 : int.Parse(loResult.CDAYS);
-                    loResult.IYEARS = string.IsNullOrEmpty(loResult.CYEAR) ? 0 : int.Parse(loResult.CYEAR);
-                    loResult.DFOLLOW_UP_DATE = ConvertStringToDateTimeFormat(loResult.CFOLLOW_UP_DATE);
                     loResult.DEXPIRED_DATE = ConvertStringToDateTimeFormat(loResult.CEXPIRED_DATE);
                     loResult.DHAND_OVER_DATE = ConvertStringToDateTimeFormat(loResult.CHAND_OVER_DATE);
                     loResult.DID_EXPIRED_DATE = ConvertStringToDateTimeFormat(loResult.CID_EXPIRED_DATE);
@@ -136,14 +133,12 @@ namespace PMT01700MODEL.ViewModel
                     TempDataUnitList.ForEach(unit =>
                     {
                         unit.CREF_NO = poNewEntity.CREF_NO;
+                        unit.CDEPT_CODE = poNewEntity.CDEPT_CODE;
                         unit.CBUILDING_ID = poNewEntity.CBUILDING_ID;
                     });
                     poNewEntity.ODATA_UNIT_LIST = TempDataUnitList;
                 }
 
-                poNewEntity.CDAYS = poNewEntity.IDAYS.ToString();
-                poNewEntity.CMONTH = poNewEntity.IMONTHS.ToString();
-                poNewEntity.CYEAR = poNewEntity.IYEARS.ToString();
                 poNewEntity.CFOLLOW_UP_DATE = ConvertDateTimeToStringFormat(poNewEntity.DFOLLOW_UP_DATE);
                 poNewEntity.CEXPIRED_DATE = ConvertDateTimeToStringFormat(poNewEntity.DEXPIRED_DATE);
                 poNewEntity.CHAND_OVER_DATE = ConvertDateTimeToStringFormat(poNewEntity.DHAND_OVER_DATE);
@@ -157,11 +152,6 @@ namespace PMT01700MODEL.ViewModel
                 poNewEntity.CEND_TIME = ConvertTimeToStringFormat(poNewEntity.DEND_TIME);
 
                 var loResult = await _model.R_ServiceSaveAsync(poNewEntity, peCRUDMode);
-
-
-                loResult.IMONTHS = string.IsNullOrEmpty(loResult.CMONTH) ? 0 : int.Parse(loResult.CMONTH);
-                loResult.IDAYS = string.IsNullOrEmpty(loResult.CDAYS) ? 0 : int.Parse(loResult.CDAYS);
-                loResult.IYEARS = string.IsNullOrEmpty(loResult.CYEAR) ? 0 : int.Parse(loResult.CYEAR);
                 loResult.DFOLLOW_UP_DATE = ConvertStringToDateTimeFormat(loResult.CFOLLOW_UP_DATE);
                 loResult.DEXPIRED_DATE = ConvertStringToDateTimeFormat(loResult.CEXPIRED_DATE);
                 loResult.DHAND_OVER_DATE = ConvertStringToDateTimeFormat(loResult.CHAND_OVER_DATE);
@@ -175,6 +165,7 @@ namespace PMT01700MODEL.ViewModel
                 loResult.DEND_TIME = ConvertStringToTimeFormat(loResult.CEND_TIME, loResult.DEND_DATE);
 
                 oEntity = loResult;
+
             }
             catch (Exception ex)
             {

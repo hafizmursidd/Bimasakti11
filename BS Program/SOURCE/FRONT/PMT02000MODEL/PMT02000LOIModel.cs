@@ -48,6 +48,7 @@ namespace PMT02000MODEL
         {
             throw new NotImplementedException();
         }
+
         #endregion
 
         #region Implements
@@ -96,7 +97,7 @@ namespace PMT02000MODEL
             loEx.ThrowExceptionIfErrors();
             return loResult;
         }
-         public async Task<PMT02000LOIHeader> GetLOIHeaderModel(PMT02000DBParameter poParam)
+        public async Task<PMT02000LOIHeader> GetLOIHeaderModel(PMT02000DBParameter poParam)
         {
             var loEx = new R_Exception();
             PMT02000LOIHeader loResult = new PMT02000LOIHeader();
@@ -163,6 +164,33 @@ namespace PMT02000MODEL
             }
             loEx.ThrowExceptionIfErrors();
             return loResult;
+        }
+
+        public async Task<PMT02000VarGsmTransactionCodeDTO> GetVAR_GSM_TRANSACTION_CODEAsync()
+        {
+            var loEx = new R_Exception();
+            var loResult = new PMT02000VarGsmTransactionCodeDTO();
+            try
+            {
+                loResult = await R_HTTPClientWrapper.R_APIRequestObject<PMT02000VarGsmTransactionCodeDTO>(
+                    _RequestServiceEndPoint,
+                    nameof(IPMT02000.GetVAR_GSM_TRANSACTION_CODE),
+                    DEFAULT_MODULE,
+                    _SendWithContext,
+                    _SendWithToken);
+            }
+            catch (Exception ex)
+            {
+                loEx.Add(ex);
+            }
+
+            loEx.ThrowExceptionIfErrors();
+
+            return loResult;
+        }
+        public PMT02000VarGsmTransactionCodeDTO GetVAR_GSM_TRANSACTION_CODE()
+        {
+            throw new NotImplementedException();
         }
 
 

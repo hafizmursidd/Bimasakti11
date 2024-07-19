@@ -1,6 +1,7 @@
 ﻿using PMT01700COMMON.Context._1._Other_Untit_List;
 using PMT01700COMMON.DTO._1._Other_Unit_List;
 using PMT01700COMMON.DTO.Utilities;
+using PMT01700COMMON.DTO.Utilities.Front;
 using PMT01700COMMON.DTO.Utilities.ParamDb.UnitList;
 using R_BlazorFrontEnd;
 using R_BlazorFrontEnd.Exceptions;
@@ -30,7 +31,7 @@ namespace PMT01700MODEL.ViewModel
         #region For Front
 
         public PMT01700UtilitiesParameterPropertyDTO oProperty_oDataOtherUnit = new PMT01700UtilitiesParameterPropertyDTO();
-
+        public PMT01700ParameterFrontChangePageDTO oParameterNewOffer = new PMT01700ParameterFrontChangePageDTO();
         //For Enable Disable Property
         public bool lControlData = true;
 

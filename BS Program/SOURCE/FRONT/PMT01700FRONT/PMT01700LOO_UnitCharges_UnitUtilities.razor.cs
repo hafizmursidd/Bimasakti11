@@ -100,7 +100,7 @@ namespace PMT01700FRONT
 
             try
             {
-                _hasDataUnit = _viewModel.oListUnitInfo.Any();
+                _hasDataUtilities = _viewModel.oListUnitInfo.Any();
             }
             catch (Exception ex)
             {
@@ -144,7 +144,7 @@ namespace PMT01700FRONT
         }
         public async Task AfterDelete()
         {
-            _viewModel.lControlTabUtilities = _hasDataUnit = _viewModel.oListUnitInfo.Any();
+            _viewModel.lControlTabCharges = _hasDataUtilities = _viewModel.oListUnitInfo.Any();
             await _gridUnitInfo.R_RefreshGrid(null);
             await R_MessageBox.Show("", "Delete Success", R_eMessageBoxButtonType.OK);
         }
@@ -157,7 +157,7 @@ namespace PMT01700FRONT
                 //_viewModel.lControlCRUDMode = eventArgs.Enable;
                 _oEventCallBack.LCRUD_MODE = eventArgs.Enable;
 
-                _viewModel.lControlTabUtilities = _viewModel.oListUnitInfo.Any() ? eventArgs.Enable : false;
+                _viewModel.lControlTabCharges = _viewModel.oListUnitInfo.Any() ? eventArgs.Enable : false;
                 //_oEventCallBack.CREF_NO = _viewModel.loEntityPMT01500AgreementDetail.CREF_NO!;
                 await InvokeTabEventCallbackAsync(_oEventCallBack);
             }
@@ -182,17 +182,8 @@ namespace PMT01700FRONT
             try
             {
                 await _viewModel.GetUnitInfoList();
-
-                _hasDataUnit = _viewModel.oListUnitInfo.Any();
-                /*
-                if (!_viewModel.oListUnitInfo.Any())
-                {
-                    _viewModel.oListUtilities.Clear();
-                    //_viewModel.cBuildingSelectedUnit = "";
-                }
-                */
-                _viewModel.lControlTabUtilities = _viewModel.oListUnitInfo.Any();
-
+                _hasDataUtilities = _viewModel.oListUnitInfo.Any();
+                _viewModel.lControlTabCharges = _viewModel.oListUnitInfo.Any();
                 eventArgs.ListEntityResult = _viewModel.oListUnitInfo;
             }
             catch (Exception ex)
@@ -207,8 +198,9 @@ namespace PMT01700FRONT
         {
             var loEx = new R_Exception();
             PMT01700LOO_UnitUtilities_UnitUtilities_AgreementUnitInfoListDTO loData = (PMT01700LOO_UnitUtilities_UnitUtilities_AgreementUnitInfoListDTO)eventArgs.Data;
-            loData.CTRANS_CODE = _viewModel.oParameter.CTRANS_CODE!;
-            loData.CDEPT_CODE = _viewModel.oParameter.CDEPT_CODE!;
+            //Assign Transcode and dept code cause on display didnt get that value
+            var lcTempCTRANS_CODE = _viewModel.oParameter!.CTRANS_CODE!;
+            var lcTempCDEPT_CODE = _viewModel.oParameter.CDEPT_CODE!;
             try
             {
                 if (eventArgs.ConductorMode == R_eConductorMode.Normal)
@@ -219,8 +211,9 @@ namespace PMT01700FRONT
                         {
                             _viewModel.oParameter = R_FrontUtility.ConvertObjectToObject<PMT01700ParameterFrontChangePageDTO>(loData);
                             _viewModelUtilities.oParameterUtilities = R_FrontUtility.ConvertObjectToObject<PMT01700ParameterFrontChangePageDTO>(loData);
-                            _viewModel.oParameter.CTRANS_CODE = _viewModelUtilities.oParameterUtilities.CTRANS_CODE = _viewModel.oParameter.CTRANS_CODE;
-                            _viewModel.oParameter.CDEPT_CODE = _viewModelUtilities.oParameterUtilities.CDEPT_CODE = _viewModel.oParameter.CDEPT_CODE;
+
+                            _viewModel.oParameter.CTRANS_CODE = _viewModelUtilities.oParameterUtilities.CTRANS_CODE = lcTempCTRANS_CODE;
+                            _viewModel.oParameter.CDEPT_CODE = _viewModelUtilities.oParameterUtilities.CDEPT_CODE = lcTempCDEPT_CODE;
                             await _gridUtilities.R_RefreshGrid(null);
                         }
                     }
@@ -235,7 +228,7 @@ namespace PMT01700FRONT
         }
 
 
-        #region Master CRUD
+        #region Master CRUD Unit List
         private async Task ServiceGetRecord(R_ServiceGetRecordEventArgs eventArgs)
         {
             var loEx = new R_Exception();
@@ -510,17 +503,15 @@ namespace PMT01700FRONT
                 }
                 else
                 {
-                    loData.CMETER_NO = _viewModelUtilities.oComboBoxDataCMETER_NO.FirstOrDefault().CMETER_NO??"";
-                    loData.NCALCULATION_FACTOR = _viewModelUtilities.oComboBoxDataCMETER_NO.FirstOrDefault().NCALCULATION_FACTOR;
-                    loData.NCAPACITY = _viewModelUtilities.oComboBoxDataCMETER_NO.FirstOrDefault().NCAPACITY;
+                    loData.CMETER_NO = "";
+                    loData.NCALCULATION_FACTOR = 0;
+                    loData.NCAPACITY = 0;
                     _lControlCMeterNo = false;
                     if (string.IsNullOrEmpty(pcMode))
                     {
                         var loValidate = await R_MessageBox.Show("", _localizer["ValidationDataMeterNo"], R_eMessageBoxButtonType.OK);
                     }
                 }
-
-
             }
             catch (Exception ex)
             {
@@ -560,7 +551,7 @@ namespace PMT01700FRONT
 
         #region Utilities List
 
-        bool _hasDataUnit = false;
+        bool _hasDataUtilities = false;
 
         private async Task R_ServiceGetListUtilitiesListRecord(R_ServiceGetListRecordEventArgs eventArgs)
         {
@@ -568,8 +559,16 @@ namespace PMT01700FRONT
 
             try
             {
-                var loParam = (PMT01700LOO_UnitUtilities_ParameterDTO)eventArgs.Parameter;
+              //  var loParam = (PMT01700LOO_UnitUtilities_ParameterDTO)eventArgs.Parameter;
                 await _viewModelUtilities.GetUtilitiesList();
+                if (_viewModelUtilities.oListUtilities.Any())
+                {
+                    _hasDataUtilities = true;
+                }
+                else
+                {
+                    _hasDataUtilities = false;
+                }
                 eventArgs.ListEntityResult = _viewModelUtilities.oListUtilities;
             }
             catch (Exception ex)
@@ -580,7 +579,7 @@ namespace PMT01700FRONT
             loEx.ThrowExceptionIfErrors();
         }
 
-        #region Master CRUD
+        #region Master CRUD Utilities
 
         private async Task ServiceGetUtilitiesRecord(R_ServiceGetRecordEventArgs eventArgs)
         {
@@ -604,13 +603,6 @@ namespace PMT01700FRONT
                     loParam.CUSER_ID = _clientHelper.UserId;
                 };
                 await _viewModelUtilities.GetEntity(loParam);
-                /*
-                if (_viewModelUtilitiesPMT01500Agreement.loEntityPMT01500AgreementDetail.DEND_DATE != null)
-                {
-                    OnChangedDEND_DATE(_viewModelUtilitiesPMT01500Agreement.loEntityPMT01500AgreementDetail.DEND_DATE);
-                }
-                */
-
 
 
                 if (_viewModelUtilities.oComboBoxDataCCHARGES_TYPE.Any())
@@ -647,19 +639,18 @@ namespace PMT01700FRONT
 
                 if ((eCRUDMode)eventArgs.ConductorMode == eCRUDMode.AddMode)
                 {
-                    var loDataUnit = (PMT01700LOO_UnitUtilities_UnitUtilities_UtilitiesDTO)_conductorUnitInfo.R_GetCurrentData();
+                    var loDataUnit = (PMT01700LOO_UnitUtilities_UnitUtilities_AgreementUnitInfoListDTO)_conductorUnitInfo.R_GetCurrentData();
                     loParam.CPROPERTY_ID = _viewModel.oParameter.CPROPERTY_ID;
                     loParam.CDEPT_CODE = _viewModel.oParameter.CDEPT_CODE;
                     loParam.CTRANS_CODE = _viewModel.oParameter.CTRANS_CODE;
                     loParam.CREF_NO = _viewModel.oParameter.CREF_NO;
-                    loParam.CUNIT_ID = loDataUnit.CUNIT_ID;
-                    loParam.CFLOOR_ID = loDataUnit.CFLOOR_ID;
+                    loParam.CUNIT_ID = _viewModel.oParameter.COTHER_UNIT_ID;
+                    loParam.CFLOOR_ID = _viewModel.oParameter.CFLOOR_ID;
                     loParam.CBUILDING_ID = _viewModel.oParameter.CBUILDING_ID;
                 }
 
                 await _viewModelUtilities.ServiceSave(loParam, (eCRUDMode)eventArgs.ConductorMode);
                 eventArgs.Result = _viewModelUtilities.oEntityUtilities;
-                // = "";
             }
             catch (Exception ex)
             {
@@ -844,7 +835,7 @@ namespace PMT01700FRONT
                 //var loValue = R_FrontUtility.ConvertObjectToObject<PMT01500EventCallBackDTO>(poValue);
                 if (string.IsNullOrEmpty(loValue.CCRUD_MODE))
                 {
-                    _viewModel.lControlTabUnitAndCharges = _viewModel.lControlTabUtilities = loValue.LCRUD_MODE;
+                    _viewModel.lControlTabUnitAndCharges = _viewModel.lControlTabCharges = loValue.LCRUD_MODE;
                     await InvokeTabEventCallbackAsync(loValue);
                 }
                 //var loValue = R_FrontUtility.ConvertObjectToObject<PMT01500EventCallBackDTO>(poValue);
@@ -878,8 +869,6 @@ namespace PMT01700FRONT
         }
 
         #endregion
-
-
 
 
         #endregion
@@ -966,6 +955,7 @@ namespace PMT01700FRONT
                             //loGetData.CFLOOR_NAME = "";
                             //loGetData.NACTUAL_AREA_SIZE = 0;
                             loGetData.COTHER_UNIT_TYPE_ID = "";
+                            loGetData.COTHER_UNIT_TYPE_NAME = "";
                             loGetData.NNET_AREA_SIZE = 0;
                             loGetData.NGROSS_AREA_SIZE = 0;
                         }

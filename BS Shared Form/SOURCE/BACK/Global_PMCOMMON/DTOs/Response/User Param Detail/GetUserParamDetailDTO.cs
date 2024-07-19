@@ -1,10 +1,11 @@
-﻿using System;
+﻿using Global_PMCOMMON.DTOs.Base_Param;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Lookup_PMCOMMON.DTOs.GET_USER_PARAM_DETAIL
+namespace Global_PMCOMMON.DTOs.User_Param_Detail
 {
-    public class GET_USER_PARAM_DETAILDTO
+    public class GetUserParamDetailDTO 
     {
         public string? CCOMPANY_ID { get; set; }
         public string? CCODE { get; set; }

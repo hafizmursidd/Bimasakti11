@@ -53,6 +53,9 @@ namespace PMT01700SERVICE
                 loDbParameter.CUSER_ID = R_BackGlobalVar.USER_ID;
                 loDbParameter.CPROPERTY_ID = R_Utility.R_GetStreamingContext<string>(PMT01700ContextDTO.CPROPERTY_ID);
                 loDbParameter.CTRANS_CODE = R_Utility.R_GetStreamingContext<string>(PMT01700ContextDTO.CTRANS_CODE);
+                //CR Offer List. 18/07/2024
+                loDbParameter.CFROM_REF_DATE = R_Utility.R_GetStreamingContext<string>(PMT01700ContextDTO.CFROM_REF_DATE);
+
                 _logger.LogDebug("DbParameter {@Parameter} ", loDbParameter);
 
                 _logger.LogInfo(string.Format("Call method {0}", lcMethodName));

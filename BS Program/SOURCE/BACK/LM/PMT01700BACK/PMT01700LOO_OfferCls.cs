@@ -44,8 +44,8 @@ namespace PMT01700BACK
             R_Db loDb;
             try
             {
-                loDb = new(); loCommand = loDb.GetCommand(); 
-                lcQuery = "RSP_GS_GET_TRANS_CODE_INFO"; 
+                loDb = new(); loCommand = loDb.GetCommand();
+                lcQuery = "RSP_GS_GET_TRANS_CODE_INFO";
                 DbConnection? loConn = loDb.GetConnection();
                 loCommand.CommandText = lcQuery;
                 loCommand.CommandType = CommandType.StoredProcedure;
@@ -55,7 +55,7 @@ namespace PMT01700BACK
                     .Where(x => x != null && x.ParameterName.StartsWith("@"))
                     .ToDictionary(x => x.ParameterName, x => x.Value);
                 _logger.LogDebug("{@ObjectQuery} {@Parameter}", loCommand.CommandText, loDbParam);
-                var loDataTable = loDb.SqlExecQuery(loConn, loCommand, true);  
+                var loDataTable = loDb.SqlExecQuery(loConn, loCommand, true);
                 loReturn = R_Utility.R_ConvertTo<PMT01700VarGsmTransactionCodeDTO>(loDataTable).FirstOrDefault() != null ? R_Utility.R_ConvertTo<PMT01700VarGsmTransactionCodeDTO>(loDataTable).FirstOrDefault() : new PMT01700VarGsmTransactionCodeDTO();
             }
             catch (Exception ex)
@@ -73,7 +73,7 @@ namespace PMT01700BACK
         }
 
         public List<PMT01700ResponseTenantCategoryDTO> GetComboBoxDataTenantCategoryDb(PMT01700BaseParameterDTO poParameter)
-            {
+        {
             string? lcMethod = nameof(GetComboBoxDataTenantCategoryDb);
             _logger.LogInfo(string.Format("Start Method {0}", lcMethod));
             R_Exception loException = new R_Exception();
@@ -306,7 +306,7 @@ namespace PMT01700BACK
             try
             {
                 loDb = new();
-                loCommand = loDb.GetCommand(); 
+                loCommand = loDb.GetCommand();
                 lcQuery = "RSP_PM_GET_AGREEMENT_DETAIL";
                 loCommand.CommandType = CommandType.StoredProcedure;
                 loCommand.CommandText = lcQuery;
@@ -367,8 +367,8 @@ namespace PMT01700BACK
                 _logger.LogDebug("{@ObjectQuery} {@Parameter}", loCommand.CommandText, loDbParam);
                 var loDataTable = loDb.SqlExecQuery(loConn, loCommand, true);
 
-                loReturn = R_Utility.R_ConvertTo<PMT01700LOO_Offer_TenantDetailDTO>(loDataTable).FirstOrDefault() != null ? 
-                    R_Utility.R_ConvertTo<PMT01700LOO_Offer_TenantDetailDTO>(loDataTable).FirstOrDefault() : 
+                loReturn = R_Utility.R_ConvertTo<PMT01700LOO_Offer_TenantDetailDTO>(loDataTable).FirstOrDefault() != null ?
+                    R_Utility.R_ConvertTo<PMT01700LOO_Offer_TenantDetailDTO>(loDataTable).FirstOrDefault() :
                     new PMT01700LOO_Offer_TenantDetailDTO();
             }
             catch (Exception ex)
@@ -396,7 +396,7 @@ namespace PMT01700BACK
             try
             {
                 loDb = new();
-                loCommand = loDb.GetCommand(); 
+                loCommand = loDb.GetCommand();
                 lcQuery = "RSP_PM_GET_AGREEMENT_DETAIL";
                 DbConnection? loConn = loDb.GetConnection();
                 loCommand.CommandType = CommandType.StoredProcedure;
@@ -456,14 +456,16 @@ namespace PMT01700BACK
                         SaveSPMaintainTenant(ref poNewEntity, poCRUDMode, loConn);
                         SaveSPMaintainAgreement(ref poNewEntity, poCRUDMode, loConn);
                         break;
+
                     case "3":
                         SaveSPMaintainAgreement(ref poNewEntity, poCRUDMode, loConn);
                         if (loDataUnitList.Any())
                         {
-                            //foreach (PMT01700LOO_Offer_SelectedOtherDataUnitListDTO loDataUnit in loDataUnitList)
-                            //{
-                            //    SaveSPMaintainAgreementUnit(poDataUnit: loDataUnit, poCRUDMode: poCRUDMode, poConnection: loConn);
-                            //}
+                            foreach (PMT01700LOO_Offer_SelectedOtherDataUnitListDTO loDataUnit in loDataUnitList)
+                            {
+                                loDataUnit.CREF_NO = poNewEntity.CREF_NO;
+                                SaveSPMaintainAgreementUnit(poDataUnit: loDataUnit, poCRUDMode: poCRUDMode, poConnection: loConn);
+                            }
                         }
                         break;
                     case "4":
@@ -471,10 +473,11 @@ namespace PMT01700BACK
                         SaveSPMaintainAgreement(ref poNewEntity, poCRUDMode, loConn);
                         if (loDataUnitList.Any())
                         {
-                            //foreach (PMT01700LOO_Offer_SelectedOtherDataUnitListDTO loDataUnit in loDataUnitList)
-                            //{
-                            //    SaveSPMaintainAgreementUnit(poDataUnit: loDataUnit, poCRUDMode: poCRUDMode, poConnection: loConn);
-                            //}
+                            foreach (PMT01700LOO_Offer_SelectedOtherDataUnitListDTO loDataUnit in loDataUnitList)
+                            {
+                                loDataUnit.CREF_NO = poNewEntity.CREF_NO;
+                                SaveSPMaintainAgreementUnit(poDataUnit: loDataUnit, poCRUDMode: poCRUDMode, poConnection: loConn);
+                            }
                         }
                         break;
                     default:
@@ -572,6 +575,7 @@ namespace PMT01700BACK
                 loDb.R_AddCommandParameter(loCommand, "@CTAX_PHONE1", DbType.String, 30, "");
                 loDb.R_AddCommandParameter(loCommand, "@CTAX_PHONE2", DbType.String, 30, "");
                 loDb.R_AddCommandParameter(loCommand, "@CTAX_EMAIL", DbType.String, 100, "");
+                loDb.R_AddCommandParameter(loCommand, "@CTAX_EMAIL2", DbType.String, 100, "");
                 loDb.R_AddCommandParameter(loCommand, "@CCUSTOMER_TYPE", DbType.String, 2, "01");
 
                 loDb.R_AddCommandParameter(loCommand, "@CACTION", DbType.String, 10, lcAction);
@@ -703,88 +707,72 @@ namespace PMT01700BACK
             loEx.ThrowExceptionIfErrors();
         }
 
-        //private void SaveSPMaintainAgreementUnit(PMT01100LOO_Offer_SelectedDataUnitListDTO poDataUnit, eCRUDMode poCRUDMode, DbConnection poConnection)
-        //{
-        //    string? lcMethod = nameof(SaveSPMaintainAgreement);
-        //    using Activity activity = _activitySource.StartActivity(lcMethod)!;
-        //    var loEx = new R_Exception();
-        //    string lcQuery = "";
-        //    var loDb = new R_Db();
-        //    DbCommand? loCommand = null;
-        //    string lcAction = "";
-        //    DbConnection? loConn = null;
+        private void SaveSPMaintainAgreementUnit(PMT01700LOO_Offer_SelectedOtherDataUnitListDTO poDataUnit, eCRUDMode poCRUDMode, DbConnection poConnection)
+        {
+            string? lcMethod = nameof(SaveSPMaintainAgreementUnit);
+            using Activity activity = _activitySource.StartActivity(lcMethod)!;
+            var loEx = new R_Exception();
+            string lcQuery = "";
+            var loDb = new R_Db();
+            DbCommand? loCommand = null;
+            string lcAction = "";
+            DbConnection? loConn = null;
 
-        //    try
-        //    {
-        //        //Set Action 
-        //        _loggerPMT01100.LogInfo(string.Format("Set lcAction based on the CRUD mode (EDIT for Update, NEW for Add) in Method {0}", lcMethod));
-        //        lcAction = (poCRUDMode == eCRUDMode.AddMode) ? "ADD" : "EDIT";
-        //        _loggerPMT01100.LogDebug("{@ObjectAction}", lcAction);
+            try
+            {
+                lcAction = (poCRUDMode == eCRUDMode.AddMode) ? "ADD" : "EDIT";
+                loConn = poConnection;
+                loCommand = loDb.GetCommand();
 
-
-        //        _loggerPMT01100.LogInfo(string.Format("Get a database connection and assign it to loConn in Method {0}", lcMethod));
-        //        loConn = poConnection;
-        //        _loggerPMT01100.LogDebug("{@ObjectDbConnection}", loConn);
-
-
-        //        _loggerPMT01100.LogInfo(string.Format("Create a new command and assign it to loCommand in Method {0}", lcMethod));
-        //        loCommand = loDb.GetCommand();
-        //        _loggerPMT01100.LogDebug("{@ObjectDb}", loCommand);
+                _logger!.LogInfo(string.Format("Set the query string for lcQuery in Method {0}", lcMethod));
+                lcQuery = "RSP_PM_MAINTAIN_AGREEMENT_UNIT";
+                _logger.LogDebug("{@ObjectTextQuery}", lcQuery);
+                loCommand.CommandType = CommandType.StoredProcedure;
+                loCommand.CommandText = lcQuery;
+                _logger.LogDebug("{@ObjectDbCommand}", loCommand);
 
 
+                _logger.LogInfo(string.Format("Add command parameters in Method {0}", lcMethod));
+                loDb.R_AddCommandParameter(loCommand, "@CCOMPANY_ID", DbType.String, 8, poDataUnit.CCOMPANY_ID);
+                loDb.R_AddCommandParameter(loCommand, "@CPROPERTY_ID", DbType.String, 20, poDataUnit.CPROPERTY_ID);
+                loDb.R_AddCommandParameter(loCommand, "@CDEPT_CODE", DbType.String, 20, poDataUnit.CDEPT_CODE);
+                loDb.R_AddCommandParameter(loCommand, "@CTRANS_CODE", DbType.String, 10, poDataUnit.CTRANS_CODE);
+                loDb.R_AddCommandParameter(loCommand, "@CREF_NO", DbType.String, 30, poDataUnit.CREF_NO);
+                loDb.R_AddCommandParameter(loCommand, "@CUNIT_ID", DbType.String, 20, poDataUnit.COTHER_UNIT_ID);
+                loDb.R_AddCommandParameter(loCommand, "@CFLOOR_ID", DbType.String, 20, poDataUnit.CFLOOR_ID);
+                loDb.R_AddCommandParameter(loCommand, "@CBUILDING_ID", DbType.String, 20, poDataUnit.CBUILDING_ID);
+                loDb.R_AddCommandParameter(loCommand, "@NACTUAL_AREA_SIZE", DbType.Decimal, int.MaxValue, poDataUnit.NACTUAL_AREA_SIZE);
+                loDb.R_AddCommandParameter(loCommand, "@NCOMMON_AREA_SIZE", DbType.Decimal, int.MaxValue, poDataUnit.NCOMMON_AREA_SIZE);
+                loDb.R_AddCommandParameter(loCommand, "@CACTION", DbType.String, 10, lcAction);
+                loDb.R_AddCommandParameter(loCommand, "@CUSER_ID", DbType.String, 8, poDataUnit.CUSER_ID);
+                var loDbParam = loCommand.Parameters.Cast<DbParameter>()
+                    .Where(x => x != null && x.ParameterName.StartsWith("@"))
+                    .ToDictionary(x => x.ParameterName, x => x.Value);
+                _logger.LogDebug("{@ObjectQuery} {@Parameter}", loCommand.CommandText, loDbParam);
 
-        //        _loggerPMT01100.LogInfo(string.Format("Set the query string for lcQuery in Method {0}", lcMethod));
-        //        lcQuery = "RSP_PM_MAINTAIN_AGREEMENT_UNIT";
-        //        _loggerPMT01100.LogDebug("{@ObjectTextQuery}", lcQuery);
+                R_ExternalException.R_SP_Init_Exception(loConn);
 
-        //        _loggerPMT01100.LogInfo(string.Format("Set the command's text to lcQuery and type to StoredProcedure in Method {0}", lcMethod));
-        //        loCommand.CommandType = CommandType.StoredProcedure;
-        //        loCommand.CommandText = lcQuery;
-        //        _loggerPMT01100.LogDebug("{@ObjectDbCommand}", loCommand);
+                try
+                {
+                    //loDb.SqlExecNonQuery(loConn, loCommand, false);
+                    var loDataTable = loDb.SqlExecQuery(loConn, loCommand, false);
+                }
+                catch (Exception ex)
+                {
+                    loEx.Add(ex);
+                    _logger.LogError(loEx);
+                }
 
+                loEx.Add(R_ExternalException.R_SP_Get_Exception(loConn));
+            }
+            catch (Exception ex)
+            {
+                loEx.Add(ex);
+                _logger!.LogError(loEx);
+            }
 
-        //        _loggerPMT01100.LogInfo(string.Format("Add command parameters in Method {0}", lcMethod));
-        //        loDb.R_AddCommandParameter(loCommand, "@CCOMPANY_ID", DbType.String, 8, poDataUnit.CCOMPANY_ID);
-        //        loDb.R_AddCommandParameter(loCommand, "@CPROPERTY_ID", DbType.String, 20, poDataUnit.CPROPERTY_ID);
-        //        loDb.R_AddCommandParameter(loCommand, "@CDEPT_CODE", DbType.String, 20, poDataUnit.CDEPT_CODE);
-        //        loDb.R_AddCommandParameter(loCommand, "@CTRANS_CODE", DbType.String, 10, poDataUnit.CTRANS_CODE);
-        //        loDb.R_AddCommandParameter(loCommand, "@CREF_NO", DbType.String, 30, poDataUnit.CREF_NO);
-        //        loDb.R_AddCommandParameter(loCommand, "@CUNIT_ID", DbType.String, 20, poDataUnit.CUNIT_ID);
-        //        loDb.R_AddCommandParameter(loCommand, "@CFLOOR_ID", DbType.String, 20, poDataUnit.CFLOOR_ID);
-        //        loDb.R_AddCommandParameter(loCommand, "@CBUILDING_ID", DbType.String, 20, poDataUnit.CBUILDING_ID);
-        //        loDb.R_AddCommandParameter(loCommand, "@NACTUAL_AREA_SIZE", DbType.Decimal, int.MaxValue, poDataUnit.NACTUAL_AREA_SIZE);
-        //        loDb.R_AddCommandParameter(loCommand, "@NCOMMON_AREA_SIZE", DbType.Decimal, int.MaxValue, poDataUnit.NCOMMON_AREA_SIZE);
-        //        loDb.R_AddCommandParameter(loCommand, "@CACTION", DbType.String, 10, lcAction);
-        //        loDb.R_AddCommandParameter(loCommand, "@CUSER_ID", DbType.String, 8, poDataUnit.CUSER_ID);
-        //        var loDbParam = loCommand.Parameters.Cast<DbParameter>()
-        //            .Where(x => x != null && x.ParameterName.StartsWith("@"))
-        //            .ToDictionary(x => x.ParameterName, x => x.Value);
-        //        _loggerPMT01100.LogDebug("{@ObjectQuery} {@Parameter}", loCommand.CommandText, loDbParam);
-
-        //        R_ExternalException.R_SP_Init_Exception(loConn);
-
-        //        try
-        //        {
-
-        //            _loggerPMT01100.LogInfo(string.Format("Execute the SQL query for store data to Db in Method {0}", lcMethod));
-        //            //loDb.SqlExecNonQuery(loConn, loCommand, false);
-        //            var loDataTable = loDb.SqlExecQuery(loConn, loCommand, false);
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            loEx.Add(ex);
-        //        }
-
-        //        loEx.Add(R_ExternalException.R_SP_Get_Exception(loConn));
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        loEx.Add(ex);
-        //        _loggerPMT01100.LogError(loEx);
-        //    }
-
-        //    loEx.ThrowExceptionIfErrors();
-        //}
+            loEx.ThrowExceptionIfErrors();
+        }
 
 
     }

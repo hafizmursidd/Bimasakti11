@@ -1,4 +1,5 @@
 ﻿using BlazorClientHelper;
+using Microsoft.AspNetCore.Components;
 using PMT02000COMMON.LOI_List;
 using PMT02000COMMON.Utility;
 using PMT02000MODEL.ViewModel;
@@ -26,6 +27,8 @@ namespace PMT02000FRONT
         //   private R_Grid<PMT02000LOIHeader_DetailDTO>? _gridHeaderRef;
         private R_Conductor? _conConductor;
         private R_TextBox? FocusLabelRefNo;
+        private bool _lDataCREF_NO = false;
+        private bool _lAdd_Mode = false;
         protected override async Task R_Init_From_Master(object poParameter)
         {
             var loEx = new R_Exception();
@@ -42,7 +45,7 @@ namespace PMT02000FRONT
                 //_viewModel._LOIHeader
                 _viewModel.GetMonth();
                 //  var loDataconvert2 = R_FrontUtility.ConvertObjectToObject<PMT02000LOIHeader_DetailDTO>(loParamHeader);
-
+                await _viewModel.GetVAR_GSM_TRANSACTION_CODE();
                 if (loParamHeader.CSAVEMODE == "NEW")
                 {
                     await _viewModel.GetLOIDetailList(loDataconvert);
@@ -243,7 +246,45 @@ namespace PMT02000FRONT
 
             eventArgs.Data = R_FrontUtility.ConvertObjectToObject<PMT02000LOIHeader_DetailDTO>(_viewModel._EntityHeaderDetail);
             var loTemp = (PMT02000LOIHeader_DetailDTO)eventArgs.Data;
-            await FocusLabelRefNo!.FocusAsync();
+
+            //negasi [_lDataCREF_NO = 1] == true else negasi
+            _lDataCREF_NO = !_viewModel.oVarGSMTransactionCode.LINCREMENT_FLAG;
+            var x = (_lAdd_Mode && _lDataCREF_NO);
+            if (_lDataCREF_NO)
+            {
+                await FocusLabelRefNo!.FocusAsync();
+            }
+
+        }
+        private void R_SetEdit(R_SetEventArgs eventArgs)
+        {
+            R_Exception loException = new R_Exception();
+
+            try
+            {
+                _lDataCREF_NO = false;
+            }
+            catch (Exception ex)
+            {
+                loException.Add(ex);
+            }
+
+            R_DisplayException(loException);
+        }
+        private void R_SetAdd(R_SetEventArgs eventArgs)
+        {
+            R_Exception loException = new R_Exception();
+
+            try
+            {
+                _lAdd_Mode = eventArgs.Enable;
+            }
+            catch (Exception ex)
+            {
+                loException.Add(ex);
+            }
+
+            R_DisplayException(loException);
 
         }
         private async Task OnCancel()

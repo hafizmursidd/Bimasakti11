@@ -30,6 +30,9 @@ namespace PMT02000MODEL.ViewModel
         public PMT02000LOIDetailListDTO _EntityDetail = new PMT02000LOIDetailListDTO();
 
         public List<PMT02000GetMonthDTO>? GetMonthList;
+        public PMT02000VarGsmTransactionCodeDTO oVarGSMTransactionCode = new PMT02000VarGsmTransactionCodeDTO();
+
+
         public string PropertyValueID = "";
         public bool _isBtnEnabled;
         public string VAR_LOI_TRANS_CODE = "802061";
@@ -282,7 +285,7 @@ namespace PMT02000MODEL.ViewModel
             try
             {
 
-                if (string.IsNullOrEmpty(poEntity.CHO_REF_NO))
+                if (string.IsNullOrEmpty(poEntity.CHO_REF_NO)  && !(oVarGSMTransactionCode.LINCREMENT_FLAG))
                 {
                     var loErr = R_FrontUtility.R_GetError(typeof(Resources_PMT02000_Class), "2001");
                     loEx.Add(loErr);
@@ -372,7 +375,20 @@ namespace PMT02000MODEL.ViewModel
             }
             loException.ThrowExceptionIfErrors();
         }
-
+        public async Task GetVAR_GSM_TRANSACTION_CODE()
+        {
+            R_Exception loEx = new R_Exception();
+            try
+            {
+                var loResult = await _model.GetVAR_GSM_TRANSACTION_CODEAsync();
+                oVarGSMTransactionCode = loResult;
+            }
+            catch (Exception ex)
+            {
+                loEx.Add(ex);
+            }
+            loEx.ThrowExceptionIfErrors();
+        }
 
         #region Utility
         public void GetMonth()

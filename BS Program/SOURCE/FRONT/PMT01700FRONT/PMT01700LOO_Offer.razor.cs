@@ -60,7 +60,7 @@ namespace PMT01700FRONT
 
         //For New Open Page
         bool _LOpenAsNormalPage = true;
-        private string PageWidth = "width: 1100px;";
+        private string PageWidth = "width: auto;";
 
         #region Handle Called Program
 
@@ -74,7 +74,7 @@ namespace PMT01700FRONT
                     Data = _viewModel.Data,
                     CALLER_ACTION = _viewModel.oParameter.CALLER_ACTION
                 };
-            
+
                 //PMT01700ParameterLOO_Offer_SelectedOfferDTO loParam.Data = R_FrontUtility.ConvertObjectToObject<PMT01700ParameterLOO_Offer_SelectedOfferDTO>(_viewModel.Data);
                 //loParam.CALLER_ACTION = _viewModel.oParameter.CALLER_ACTION;
 
@@ -118,10 +118,12 @@ namespace PMT01700FRONT
 
                 // _LOpenAsNormalPage = !string.IsNullOrEmpty(_viewModel.oParameter.CALLER_ACTION);
                 _LOpenAsNormalPage = _viewModel.oParameter.CALLER_ACTION == "ADD";
-                if (!_LOpenAsNormalPage)
-                {
-                    PageWidth = "width: auto;";
-                }
+                //if (!_LOpenAsNormalPage)
+                //{
+                //    PageWidth = "width: auto;";
+                //}
+
+                //   PageWidth = (_LOpenAsNormalPage) ? "width: auto;" : "width: 1100px;";
 
                 if (!string.IsNullOrEmpty(_viewModel.oParameter.CPROPERTY_ID))
                 {
@@ -151,6 +153,7 @@ namespace PMT01700FRONT
                         }).ToList();
 
                         await _conductor.Add();
+                        PageWidth = (_LOpenAsNormalPage) ? "width: auto;" : "width: 1100px;";
                         goto EndBlock;
                     }
 
@@ -808,7 +811,9 @@ namespace PMT01700FRONT
                         loData.CATTENTION1_NAME = _viewModel.TenantDetail.CATTENTION1_NAME;
                         loData.CATTENTION1_EMAIL = _viewModel.TenantDetail.CATTENTION1_EMAIL;
                         loData.CATTENTION1_MOBILE_PHONE1 = _viewModel.TenantDetail.CATTENTION1_MOBILE_PHONE1;
-                        loData.CSALESMAN_ID = _viewModel.TenantDetail.CSALESMAN_ID;
+
+                        loData.CBUILDING_ID = _viewModel.TenantDetail.CBUILDING_ID;
+                        loData.CBUILDING_NAME = _viewModel.TenantDetail.CBUILDING_NAME;
                         loData.CTAX_TYPE = _viewModel.TenantDetail.CTAX_TYPE;
                         loData.CTAX_ID = _viewModel.TenantDetail.CTAX_ID;
                         loData.CTAX_NAME = _viewModel.TenantDetail.CTAX_NAME;
@@ -820,23 +825,16 @@ namespace PMT01700FRONT
 
                     loData.CBUILDING_ID = loAgreementDetail.CBUILDING_ID;
                     loData.CBUILDING_NAME = loAgreementDetail.CBUILDING_NAME;
-
                     loData.CDEPT_CODE = loAgreementDetail.CDEPT_CODE;
                     loData.CDEPT_NAME = loAgreementDetail.CDEPT_NAME;
-
                     loData.CSALESMAN_ID = loAgreementDetail.CSALESMAN_ID;
                     loData.CSALESMAN_NAME = loAgreementDetail.CSALESMAN_NAME;
-
                     loData.CORIGINAL_REF_NO = loAgreementDetail.CREF_NO;
                     loData.CTRANS_CODE = loAgreementDetail.CTRANS_CODE;
-
                     /* in the top is a mandatory field */
-
                     loData.CTRANS_CODE = _viewModel.oParameter.CTRANS_CODE;
                     loData.CPROPERTY_ID = _viewModel.oParameter.CPROPERTY_ID;
-
                     /* in the top is a mandatory field */
-
                     loData.CLEASE_MODE = _viewModel.oComboBoxTaxType.First().CCODE;
                     loData.CCHARGE_MODE = _viewModel.oComboBoxIdType.First().CCODE;
                     loData.IYEARS = loAgreementDetail.IYEARS;
@@ -857,16 +855,9 @@ namespace PMT01700FRONT
 
                     loData.CTAX_TYPE = _viewModel.oComboBoxTaxType.FirstOrDefault(x => x.CCODE == "02")?.CCODE;
                     loData.CID_TYPE = _viewModel.oComboBoxIdType.FirstOrDefault().CCODE;
-
-                    loData.DSTART_DATE = loData.DEXPIRED_DATE
-                        = loData.DFOLLOW_UP_DATE = loData.DHAND_OVER_DATE
-                            = loData.DID_EXPIRED_DATE = DateTime.Now;
                     tStartDate = DateTime.Now.AddDays(-1);
-                    loData.DEND_DATE = DateTime.Now.AddYears(1).AddDays(-1);
-                    loData.IYEARS = 1;
                     loData.CLEASE_MODE = _viewModel.oComboBoxTaxType.First().CCODE;
                     loData.CCHARGE_MODE = _viewModel.oComboBoxIdType.First().CCODE;
-                    loData.DREF_DATE = DateTime.Now;
                     _viewModel.lControlExistingTenant = true;
                     _viewModel.lControlExistingTenantOriginal = false;
 
@@ -894,6 +885,11 @@ namespace PMT01700FRONT
 
             try
             {
+                if (!_LOpenAsNormalPage)
+                {
+                    await Close(true, "SUCCESS");
+                }
+
                 _isCheckerDataFound = true;
                 _oEventCallBack.LCRUD_MODE = true;
                 //_oEventCallBack.LACTIVEUnitInfoHasData = true;
@@ -1081,9 +1077,7 @@ namespace PMT01700FRONT
                     {
                         var loErr = R_FrontUtility.R_GetError(typeof(Resources_PMT01700_Class), "ValidationSalesman");
                         loException.Add(loErr);
-                    }
-
-
+                    }            
 
                 }
                 if (loData.DSTART_DATE > loData.DEND_DATE)
@@ -1101,6 +1095,27 @@ namespace PMT01700FRONT
                     var loErr = R_FrontUtility.R_GetError(typeof(Resources_PMT01700_Class), "ValidationEventName");
                     loException.Add(loErr);
                 }
+                if (string.IsNullOrWhiteSpace(loData.CCURRENCY_CODE))
+                {
+                    var loErr = R_FrontUtility.R_GetError(typeof(Resources_PMT01700_Class), "ValidationCurrency");
+                    loException.Add(loErr);
+                }
+                if (string.IsNullOrWhiteSpace(loData.CDEPT_CODE))
+                {
+                    var loErr = R_FrontUtility.R_GetError(typeof(Resources_PMT01700_Class), "ValidationDepartment");
+                    loException.Add(loErr);
+                }
+                if (loData.IYEARS <= 0 && loData.IMONTHS <= 0 && loData.IDAYS <= 0)
+                {
+                    var loErr = R_FrontUtility.R_GetError(typeof(Resources_PMT01700_Class), "ValidationTenure");
+                    loException.Add(loErr);
+                }
+                if (loData.NBOOKING_FEE < 1)
+                {
+                    var loErr = R_FrontUtility.R_GetError(typeof(Resources_PMT01700_Class), "ValidationBookingFee");
+                    loException.Add(loErr);
+                }
+
             }
             catch (Exception ex)
             {

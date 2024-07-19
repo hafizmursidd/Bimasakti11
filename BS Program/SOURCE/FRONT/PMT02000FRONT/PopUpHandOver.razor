@@ -43,7 +43,8 @@
                                @ref="@FocusLabelRefNo"
                                R_ConductorSource="_conConductor"
                                MaxLength="30"
-                               R_EnableAdd>
+                               R_EnableAdd
+                               Enabled="@(_lAdd_Mode && _lDataCREF_NO)">
                     </R_TextBox>
                 </R_ItemLayout>
             </R_StackLayout>
@@ -257,6 +258,8 @@
              R_AfterAdd="@AfterAdd"
              R_ServiceGetRecord="@ServiceGetRecord"
              R_Display="@ServiceDisplayHederDetail"
-             R_Validation="@ValidationHeader" />
+             R_Validation="@ValidationHeader"
+             R_SetEdit="R_SetEdit"
+             R_SetAdd="R_SetAdd" />
 <R_ConductorGrid @ref="@_conGrid"
                       R_IsHeader />

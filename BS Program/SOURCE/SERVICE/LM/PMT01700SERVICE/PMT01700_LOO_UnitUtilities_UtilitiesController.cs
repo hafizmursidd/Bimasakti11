@@ -93,7 +93,6 @@ namespace PMT01700SERVICE
 
                 poParameter.CCOMPANY_ID = R_BackGlobalVar.COMPANY_ID;
                 poParameter.CUSER_ID = R_BackGlobalVar.USER_ID;
-                poParameter.CLANGUAGE = R_BackGlobalVar.CULTURE;
                 _logger.LogDebug("DbParameter {@Parameter} ", poParameter);
 
                 _logger.LogInfo(string.Format("Call method {0}", lcMethodName));

@@ -28,12 +28,12 @@ namespace PMT01700MODEL.ViewModel
         #endregion
 
         #region For Front
-        public PMT01700ParameterFrontChangePageDTO oParameter = new PMT01700ParameterFrontChangePageDTO();
-        public PMT01700LOO_UnitUtilities_ParameterDTO oParameterUnitUtilities = new PMT01700LOO_UnitUtilities_ParameterDTO();
-        public PMT01700ParameterChargesTab oParameterChargesTab = new PMT01700ParameterChargesTab();
+        public PMT01700ParameterFrontChangePageDTO? oParameter = new PMT01700ParameterFrontChangePageDTO();
+        public PMT01700LOO_UnitUtilities_ParameterDTO? oParameterUnitUtilities = new PMT01700LOO_UnitUtilities_ParameterDTO();
+        public PMT01700ParameterChargesTab? oParameterChargesTab = new PMT01700ParameterChargesTab();
 
         public bool lControlTabUnitAndCharges = true;
-        public bool lControlTabUtilities = true;
+        public bool lControlTabCharges = true;
 
         #endregion
         #region Program

@@ -26,6 +26,46 @@ namespace PMT02000Back
             _logger = LoggerPMT02000.R_GetInstanceLogger();
             _activitySource = PMT02000Activity.R_GetInstanceActivitySource();
         }
+        public PMT02000VarGsmTransactionCodeDTO GetVAR_GSM_TRANSACTION_CODEDb(PMT02000DBParameter poParameter)
+        {
+            string? lcMethod = nameof(GetVAR_GSM_TRANSACTION_CODEDb);
+            _logger.LogInfo(string.Format("Start Method {0}", lcMethod));
+            R_Exception loException = new R_Exception();
+            PMT02000VarGsmTransactionCodeDTO? loReturn = null;
+            string lcQuery;
+            DbCommand loCommand;
+            R_Db loDb;
+            try
+            {
+                loDb = new(); loCommand = loDb.GetCommand();
+                lcQuery = "RSP_GS_GET_TRANS_CODE_INFO";
+                DbConnection? loConn = loDb.GetConnection();
+                loCommand.CommandText = lcQuery;
+                loCommand.CommandType = CommandType.StoredProcedure;
+                loDb.R_AddCommandParameter(loCommand, "@CCOMPANY_ID", DbType.String, 8, poParameter.CCOMPANY_ID);
+                loDb.R_AddCommandParameter(loCommand, "@CTRANS_CODE", DbType.String, 10, "802130");
+                var loDbParam = loCommand.Parameters.Cast<DbParameter>()
+                    .Where(x => x != null && x.ParameterName.StartsWith("@"))
+                    .ToDictionary(x => x.ParameterName, x => x.Value);
+                _logger.LogDebug("{@ObjectQuery} {@Parameter}", loCommand.CommandText, loDbParam);
+                var loDataTable = loDb.SqlExecQuery(loConn, loCommand, true);
+                loReturn = R_Utility.R_ConvertTo<PMT02000VarGsmTransactionCodeDTO>(loDataTable).FirstOrDefault() != null 
+                    ? R_Utility.R_ConvertTo<PMT02000VarGsmTransactionCodeDTO>(loDataTable).FirstOrDefault() 
+                    : new PMT02000VarGsmTransactionCodeDTO();
+            }
+            catch (Exception ex)
+            {
+                loException.Add(ex);
+            }
+            if (loException.Haserror)
+                _logger.LogError("{@ErrorObject}", loException.Message);
+
+            loException.ThrowExceptionIfErrors();
+
+            _logger.LogInfo(string.Format("End Method {0}", lcMethod));
+
+            return loReturn!;
+        }
 
         public List<PMT02000PropertyDTO> GetAllPropertyList(PMT02000DBParameter poParameter)
         {
@@ -316,7 +356,7 @@ namespace PMT02000Back
 
                 List<PMT02000LOIDetailListTempTableDTO> loListTempTable = null;
                 #region Convert to Tem Table
-                if (loListDetail != null)
+                if (loListDetail != null || loListDetail.Count() > 0)
                 {
                     loListTempTable = loListDetail
                          .Select(x => new PMT02000LOIDetailListTempTableDTO
@@ -368,7 +408,7 @@ namespace PMT02000Back
                 loDb.R_AddCommandParameter(loCommand, "@CLINK_DEPT", DbType.String, 20, poNewEntity.CDEPT_CODE);
                 loDb.R_AddCommandParameter(loCommand, "@CLINK_TRANSCODE ", DbType.String, 10, poNewEntity.VAR_LOI_TRANS_CODE);
                 loDb.R_AddCommandParameter(loCommand, "@CLINK_REFNO", DbType.String, 30, poNewEntity.CREF_NO);
-                loDb.R_AddCommandParameter(loCommand, "@NACTUAL_SIZE", DbType.Int32, 20, poNewEntity.NHO_ACTUAL_SIZE);
+                loDb.R_AddCommandParameter(loCommand, "@NACTUAL_SIZE", DbType.Decimal, 20, poNewEntity.NHO_ACTUAL_SIZE);
 
                 var loDbParam = loCommand.Parameters.Cast<DbParameter>()
                     .Where(x => x != null && x.ParameterName.StartsWith("@"))

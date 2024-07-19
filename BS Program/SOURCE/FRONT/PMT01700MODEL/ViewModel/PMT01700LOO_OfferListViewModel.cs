@@ -31,7 +31,7 @@ namespace PMT01700MODEL.ViewModel
         public bool lControlButton;
 
         //Belom Tau Buat Apa
-        public DateTime? dFilterFromOfferDate;
+        public DateTime? dFilterFromOfferDate = DateTime.Now;
         public bool lFilterCancelled = false;
 
 
@@ -64,11 +64,14 @@ namespace PMT01700MODEL.ViewModel
             R_Exception loEx = new R_Exception();
             try
             {
+                string lcdFilterFromOfferDate = ConvertDateToStringFormat(dFilterFromOfferDate) ?? "";
+
                 if (!string.IsNullOrEmpty(oParameter.CPROPERTY_ID))
                 {
 
                     R_FrontContext.R_SetStreamingContext(PMT01700ContextDTO.CPROPERTY_ID, oParameter.CPROPERTY_ID);
                     R_FrontContext.R_SetStreamingContext(PMT01700ContextDTO.CTRANS_CODE, oParameter.CTRANS_CODE);
+                    R_FrontContext.R_SetStreamingContext(PMT01700ContextDTO.CFROM_REF_DATE, lcdFilterFromOfferDate);
 
                     var loResult = await _model.GetOfferListAsync();
                     if (loResult.Data.Any())
@@ -82,6 +85,7 @@ namespace PMT01700MODEL.ViewModel
                     loListOfferList = new ObservableCollection<PMT01700LOO_OfferList_OfferListDTO>(loResult.Data);
                 }
             }
+
             catch (Exception ex)
             {
                 loEx.Add(ex);
@@ -162,6 +166,19 @@ namespace PMT01700MODEL.ViewModel
                     //return DateTime.MinValue; // atau DateTime.MinValue atau DateTime.Now atau nilai default yang sesuai dengan kebutuhan Anda
                     return null;
                 }
+            }
+        }
+        private string? ConvertDateToStringFormat(DateTime? ptEntity)
+        {
+            if (!ptEntity.HasValue || ptEntity.Value == null)
+            {
+                // Jika ptEntity adalah null atau DateTime.MinValue, kembalikan null
+                return null;
+            }
+            else
+            {
+                // Format DateTime ke string "yyyyMMdd"
+                return ptEntity.Value.ToString("yyyyMMdd");
             }
         }
 
