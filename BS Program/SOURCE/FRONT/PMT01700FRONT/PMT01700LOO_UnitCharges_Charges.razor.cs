@@ -966,7 +966,7 @@ namespace PMT01700FRONT
 
             R_DisplayException(loException);
         }
-
+       
         #endregion
         #region utilities
         private DateTime? ConvertStringToDateTimeFormat(string? pcEntity)

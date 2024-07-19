@@ -83,6 +83,7 @@ namespace PMT01700FRONT
                     goto EndBlock;
                 }
 
+                //to validate user just choose 1 type building
                 int distinctBuildingCount = loData
                                     .Select(item => item.CBUILDING_ID)
                                     .Distinct()
@@ -93,13 +94,14 @@ namespace PMT01700FRONT
                     var loValidate = await R_MessageBox.Show("", _localizer["ValidationSelectedRecord"], R_eMessageBoxButtonType.OK);
                     goto EndBlock;
                 }
+                //to unselect data
                 loData.ForEach(x => x.LSELECTED_UNIT = false);
+                //assign value param to offer page
                 _viewModel.oParameterNewOffer.CPROPERTY_ID = _viewModel.oProperty_oDataOtherUnit.CPROPERTY_ID;
                 _viewModel.oParameterNewOffer.CBUILDING_ID = _viewModel.oProperty_oDataOtherUnit.CBUILDING_ID;
                 _viewModel.oParameterNewOffer.CBUILDING_NAME = _viewModel.oProperty_oDataOtherUnit.CBUILDING_NAME;
                 _viewModel.oParameterNewOffer.ODataUnitList = JsonSerializer.Serialize(loData);
                 _viewModel.oParameterNewOffer.CTRANS_CODE = "802043";
-                // _viewModel.oParameterNewOffer.CALLER_ACTION = "NewOFfer";
 
                 eventArgs.Parameter = _viewModel.oParameterNewOffer;
                 eventArgs.TargetPageType = typeof(PMT01700LOO_Offer);
@@ -128,7 +130,6 @@ namespace PMT01700FRONT
             {
                 loEx.Add(ex);
             }
-        EndBlock:
             R_DisplayException(loEx);
 
         }

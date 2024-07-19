@@ -273,6 +273,9 @@ namespace PMT01700BACK.LOC
                 loDb.R_AddCommandParameter(loCommand, "@CACTION", DbType.String, 10, lcAction);
                 loDb.R_AddCommandParameter(loCommand, "@CUSER_ID", DbType.String, 8, poNewEntity.CUSER_ID);
 
+                //CR 19-07-2024
+                loDb.R_AddCommandParameter(loCommand, "@IHOURS", DbType.Int32, int.MaxValue, poNewEntity.IHOURS);
+
 
                 var loDbParam = loCommand.Parameters.Cast<DbParameter>()
                     .Where(x => x != null && x.ParameterName.StartsWith("@"))

@@ -580,7 +580,53 @@ namespace PMT01700FRONT
 
             R_DisplayException(loException);
         }
+        private void OnChangedIHOUR(Int32 poParam)
+        {
+            var loEx = new R_Exception();
 
+            try
+            {
+                var loData = (PMT01700LOO_Offer_SelectedOfferDTO)_viewModel.Data;
+                var llControl = _viewModel.oControlYMD;
+
+                // Mengatur nilai IHOUR
+                loData.IHOURS = poParam;
+
+                if (llControl.LYEAR || llControl.LMONTH || llControl.LDAY)
+                {
+                    if (loData.IYEARS == 0 && loData.IMONTHS == 0 && loData.IDAYS == 0 && loData.IHOURS == 0)
+                    {
+                        loData.DEND_DATE = loData.DSTART_DATE;
+                    }
+                    else
+                    {
+                        loData.DEND_DATE = loData.DSTART_DATE!.Value
+                            .AddYears(loData.IYEARS)
+                            .AddMonths(loData.IMONTHS)
+                            .AddDays(loData.IDAYS)
+                            .AddHours(loData.IHOURS)
+                            .AddDays(-1);
+                    }
+                }
+                else
+                {
+                    llControl.LYEAR = true;
+                    llControl.LMONTH = true;
+                    llControl.LDAY = true;
+                    loData.DEND_DATE = loData.DSTART_DATE!.Value
+                        .AddDays(loData.IDAYS)
+                        .AddHours(loData.IHOURS)
+                        .AddDays(-1);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                loEx.Add(ex);
+            }
+
+            R_DisplayException(loEx);
+        }
         #endregion
 
         #region Locking

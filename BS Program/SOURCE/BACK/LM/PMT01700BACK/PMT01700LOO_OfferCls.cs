@@ -663,6 +663,8 @@ namespace PMT01700BACK
                 loDb.R_AddCommandParameter(loCommand, "@CLINK_REF_NO", DbType.String, 30, poNewEntity.CLINK_REF_NO);
                 loDb.R_AddCommandParameter(loCommand, "@CACTION", DbType.String, 10, lcAction);
                 loDb.R_AddCommandParameter(loCommand, "@CUSER_ID", DbType.String, 8, poNewEntity.CUSER_ID);
+                //CR 19-07-2024
+                loDb.R_AddCommandParameter(loCommand, "@IHOURS", DbType.Int32, int.MaxValue, poNewEntity.IHOURS);
                 /*
                 loDb.R_AddCommandParameter(loCommand, "@CORIGINAL_REF_NO", DbType.String, 30, poNewEntity.CORIGINAL_REF_NO);
                 loDb.R_AddCommandParameter(loCommand, "@CFOLLOW_UP_DATE", DbType.String, 30, poNewEntity.CFOLLOW_UP_DATE);

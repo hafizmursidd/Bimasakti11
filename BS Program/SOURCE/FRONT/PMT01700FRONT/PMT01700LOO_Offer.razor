@@ -747,6 +747,7 @@
                     <R_ItemLayout col="1" Class="ps-1">
                         <R_NumericTextBox Value="@_viewModel.Data.IHOURS"
                                           R_ConductorSource="@_conductor"
+                                          ValueChanged="@((Int32 value) => OnChangedIHOUR(value))"
                                           Min="0"
                                           Arrows="false"
                                                 R_EnableAdd
