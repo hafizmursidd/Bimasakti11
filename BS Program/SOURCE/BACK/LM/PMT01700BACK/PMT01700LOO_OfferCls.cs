@@ -575,12 +575,12 @@ namespace PMT01700BACK
                 loDb.R_AddCommandParameter(loCommand, "@CTAX_PHONE1", DbType.String, 30, "");
                 loDb.R_AddCommandParameter(loCommand, "@CTAX_PHONE2", DbType.String, 30, "");
                 loDb.R_AddCommandParameter(loCommand, "@CTAX_EMAIL", DbType.String, 100, "");
-                loDb.R_AddCommandParameter(loCommand, "@CTAX_EMAIL2", DbType.String, 100, "");
                 loDb.R_AddCommandParameter(loCommand, "@CCUSTOMER_TYPE", DbType.String, 2, "01");
 
                 loDb.R_AddCommandParameter(loCommand, "@CACTION", DbType.String, 10, lcAction);
                 loDb.R_AddCommandParameter(loCommand, "@CUSER_ID", DbType.String, 8, poNewEntity.CUSER_ID);
-
+                //CR-19-07-2024
+                loDb.R_AddCommandParameter(loCommand, "@CTAX_EMAIL2", DbType.String, 100, "");
                 var loDbParam = loCommand.Parameters.Cast<DbParameter>()
                     .Where(x => x != null && x.ParameterName.StartsWith("@"))
                     .ToDictionary(x => x.ParameterName, x => x.Value);

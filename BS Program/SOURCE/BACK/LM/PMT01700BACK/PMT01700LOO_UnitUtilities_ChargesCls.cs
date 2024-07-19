@@ -273,7 +273,7 @@ namespace PMT01700BACK
                 // loDb.R_AddCommandParameter(loCommand, "@IDAYS", DbType.Int32, 8, poNewEntity.IDAYS);
                 loDb.R_AddCommandParameter(loCommand, "@IMONTH", DbType.Int32, 8, poNewEntity.IMONTHS);                //CR10/07/2024
                 loDb.R_AddCommandParameter(loCommand, "@LPRORATE", DbType.Boolean, 3, poNewEntity.LPRORATE);
-                 loDb.R_AddCommandParameter(loCommand, "@CCURRENCY_CODE", DbType.Int32, 3, poNewEntity.CCURRENCY_CODE);
+                 loDb.R_AddCommandParameter(loCommand, "@CCURRENCY_CODE", DbType.String, 3, poNewEntity.CCURRENCY_CODE);
 
 
                 var loDbParam = loCommand.Parameters.Cast<DbParameter>()
