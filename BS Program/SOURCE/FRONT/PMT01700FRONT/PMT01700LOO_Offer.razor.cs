@@ -125,6 +125,7 @@ namespace PMT01700FRONT
                     await _viewModel.GetComboBoxDataIDTypeAsync();
                     _isAllDataReady = true;
 
+                    //comment
                     if (!string.IsNullOrEmpty(_viewModel.oParameter.ODataUnitList) || _LOpenAsNormalPage)
                     {
                         PageWidth = "width: 1100px;";
