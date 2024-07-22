@@ -1,6 +1,8 @@
 ﻿using GFF00900COMMON.DTOs;
+using GFF00900FrontResources;
 using R_BlazorFrontEnd;
 using R_BlazorFrontEnd.Exceptions;
+using R_BlazorFrontEnd.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -55,11 +57,15 @@ namespace GFF00900Model.ViewModel
             {
                 if (string.IsNullOrWhiteSpace(loParameter.USER))
                 {
-                    loException.Add("", "Username is required");
+                    loException.Add(R_FrontUtility.R_GetError(
+                        typeof(Resources_Dummy_Class),
+                        "V001"));
                 }
                 if (string.IsNullOrWhiteSpace(loParameter.PASSWORD))
                 {
-                    loException.Add("", "Password is required");
+                    loException.Add(R_FrontUtility.R_GetError(
+                        typeof(Resources_Dummy_Class),
+                        "V002"));
                 }
             }
             catch (Exception ex)

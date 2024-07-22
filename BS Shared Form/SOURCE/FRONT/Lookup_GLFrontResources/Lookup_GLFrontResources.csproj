@@ -6,4 +6,19 @@
         <Configurations>Debug;Release;X</Configurations>
     </PropertyGroup>
 
+    <ItemGroup>
+      <Compile Update="Lookup_GLFrontResources_msgrsc.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>Lookup_GLFrontResources_msgrsc.resx</DependentUpon>
+      </Compile>
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Update="Lookup_GLFrontResources_msgrsc.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>Lookup_GLFrontResources_msgrsc.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+    </ItemGroup>
+
 </Project>

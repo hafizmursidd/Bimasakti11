@@ -48,7 +48,11 @@ namespace Lookup_APSERVICES
             {
                 var loCls = new PublicAPLookUpCls();
 
-                _loggerAp.LogInfo("Call Back Method SupplierInfoLookup");
+             
+                
+                _loggerAp.LogInfo("Set Param APL00100SupplierLookUp");
+                poEntity.CCOMPANY_ID = R_BackGlobalVar.COMPANY_ID;
+                poEntity.CLANGUAGE_ID = R_BackGlobalVar.CULTURE;
                 var loResult = loCls.SupplierLookup(poEntity);
 
                 _loggerAp.LogInfo("Filter Search by text APL00100GetRecord");
@@ -77,7 +81,11 @@ namespace Lookup_APSERVICES
             {
                 var loCls = new PublicAPLookUpCls();
 
-                _loggerAp.LogInfo("Call Back Method SupplierInfoLookup");
+             
+
+                _loggerAp.LogInfo("Set Param APL00110SupplierInfoLookUp");
+                poEntity.CCOMPANY_ID = R_BackGlobalVar.COMPANY_ID;
+                poEntity.CLANGUAGE_ID = R_BackGlobalVar.CULTURE;
                 var loResult = loCls.SupplierInfoLookup(poEntity);
 
                 _loggerAp.LogInfo("Filter Search by text APL00110GetRecord");
@@ -106,8 +114,11 @@ namespace Lookup_APSERVICES
             try
             {
                 var loCls = new PublicAPLookUpCls();
+                
 
-                _loggerAp.LogInfo("Call Back Method SupplierInfoLookup");
+                _loggerAp.LogInfo("Set Param APL00200ExpenditureLookUp");
+                poEntity.CCOMPANY_ID = R_BackGlobalVar.COMPANY_ID;
+                poEntity.CLANGUAGE_ID = R_BackGlobalVar.CULTURE;
                 var loResult = loCls.ExpenditureLookup(poEntity);
 
                 _loggerAp.LogInfo("Filter Search by text APL00200GetRecord");
@@ -136,7 +147,11 @@ namespace Lookup_APSERVICES
             {
                 var loCls = new PublicAPLookUpCls();
 
-                _loggerAp.LogInfo("Call Back Method SupplierInfoLookup");
+               
+
+                _loggerAp.LogInfo("Set Param APL00300ProductLookUp");
+                poEntity.CCOMPANY_ID = R_BackGlobalVar.COMPANY_ID;
+                poEntity.CLANGUAGE_ID = R_BackGlobalVar.CULTURE;
                 var loResult = loCls.ProductLookup(poEntity);
 
                 _loggerAp.LogInfo("Filter Search by text APL00300GetRecord");
@@ -165,7 +180,11 @@ namespace Lookup_APSERVICES
             {
                 var loCls = new PublicAPLookUpCls();
 
-                _loggerAp.LogInfo("Call Back Method SupplierInfoLookup");
+            
+
+                _loggerAp.LogInfo("Set Param APL00400ProductAllocationLookUp");
+                poEntity.CCOMPANY_ID = R_BackGlobalVar.COMPANY_ID;
+                poEntity.CLANGUAGE_ID = R_BackGlobalVar.CULTURE;
                 var loResult = loCls.ProductAllocationLookup(poEntity);
 
                 _loggerAp.LogInfo("Filter Search by text APL00400DTOGetRecord");
@@ -194,7 +213,12 @@ namespace Lookup_APSERVICES
             {
                 var loCls = new PublicAPLookUpCls();
 
-                _loggerAp.LogInfo("Call Back Method SupplierInfoLookup");
+         
+
+                _loggerAp.LogInfo("Set Param APL00400ProductAllocationLookUp");
+                poEntity.CCOMPANY_ID = R_BackGlobalVar.COMPANY_ID;
+                poEntity.CUSER_ID = R_BackGlobalVar.USER_ID;
+                poEntity.CLANGUAGE_ID = R_BackGlobalVar.CULTURE;
                 var loResult = loCls.TransactionLookup(poEntity);
 
                 _loggerAp.LogInfo("Filter Search by text APL00500DTOGetRecord");

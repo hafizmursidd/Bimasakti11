@@ -36,7 +36,7 @@ namespace APF00100BACK
             string lcQuery;
             try
             {
-                loConn = loDb.GetConnection("R_DefaultConnectionString");
+                loConn = loDb.GetConnection();
                 loCmd = loDb.GetCommand();
 
                 lcQuery = "EXEC RSP_AP_GET_ALLOCATION_LIST " +
@@ -89,7 +89,7 @@ namespace APF00100BACK
 
             try
             {
-                loConn = loDb.GetConnection("R_DefaultConnectionString");
+                loConn = loDb.GetConnection();
                 loCmd = loDb.GetCommand();
 
                 lcQuery = "EXEC RSP_AP_GET_TRANS_HD " +
@@ -144,7 +144,7 @@ namespace APF00100BACK
 
             try
             {
-                loConn = loDb.GetConnection("R_DefaultConnectionString");
+                loConn = loDb.GetConnection();
                 loCmd = loDb.GetCommand();
 
                 lcQuery = "EXEC RSP_AP_GET_TRANS_HD " +
@@ -199,7 +199,7 @@ namespace APF00100BACK
 
             try
             {
-                loConn = loDb.GetConnection("R_DefaultConnectionString");
+                loConn = loDb.GetConnection();
                 loCmd = loDb.GetCommand();
 
                 lcQuery = "EXEC RSP_GS_GET_COMPANY_INFO @CCOMPANY_ID";
@@ -241,7 +241,7 @@ namespace APF00100BACK
 
             try
             {
-                loConn = loDb.GetConnection("R_DefaultConnectionString");
+                loConn = loDb.GetConnection();
                 loCmd = loDb.GetCommand();
 
                 lcQuery = "EXEC RSP_GL_GET_SYSTEM_PARAM @CCOMPANY_ID, @CLANGUAGE_ID";
@@ -284,7 +284,7 @@ namespace APF00100BACK
 
             try
             {
-                loConn = loDb.GetConnection("R_DefaultConnectionString");
+                loConn = loDb.GetConnection();
 
                 lcQuery = $"EXEC RSP_GS_GET_PERIOD_DT_INFO " +
                     $"@CCOMPANY_ID, " +
@@ -331,7 +331,7 @@ namespace APF00100BACK
 
             try
             {
-                loConn = loDb.GetConnection("R_DefaultConnectionString");
+                loConn = loDb.GetConnection();
 
                 lcQuery = "SELECT dbo.RFN_AP_IS_ALLOCATION_TO_TRX(@CTRANS_CODE) AS LVALUE";
 

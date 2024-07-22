@@ -180,8 +180,11 @@ namespace PMR00150SERVICE
                     CPRINT_NAME = "LOC List",
                     CUSER_ID = poParam.CUSER_ID!,
                 };
-
                 string lcTitle = "LOC List";
+                //GETLOGO
+                var loGetLogo = loCls.GetBaseHeaderLogoCompany(poParam);
+                loBaseHeader.BLOGO_COMPANY = loGetLogo.CLOGO!;
+
                 _logger.LogInfo("Set Header Report");
                 var loHeader = new PMR00150DataHeaderDTO()
                 {
@@ -197,38 +200,26 @@ namespace PMR00150SERVICE
                 var loColumn = AssignValuesWithMessages(typeof(PMR00150BackResources.Resources_PMR00150), loCultureInfo, new PMR00150ColumnDetailDTO());
                 var loLabel = AssignValuesWithMessages(typeof(PMR00150BackResources.Resources_PMR00150), loCultureInfo, new PMR00150LabelDTO());
 
-
-                var loVisibleParam = new PMR00150ParameterVisibleDTO
-                {
-                    LVISIBLE_DETAIL_CHARGE = true,
-                    LVISIBLE_DETAIL_DEPOSIT = true,
-                    LVISIBLE_DETAIL_UNIT = true
-                };
-
                 _logger.LogInfo("Convert data  to Format Print");
-
 
                 //ASSIGN VALUE
                 loData = new PMR00150DetailResultDTO();
                 loData.Title = lcTitle;
-                loData.ColumnDetail = (PMR00150ColumnDetailDTO)loColumn;
                 loData.Header = loHeader;
+                loData.ColumnDetail = (PMR00150ColumnDetailDTO)loColumn;
                 loData.Label = (PMR00150LabelDTO)loLabel;
-                loData.ParameterVisible = loVisibleParam;
 
                 //CONVERT DATA TO DISPLAY IF DATA EXIST
                 //
                 if (loCollectionFromDb.Any())
                 {
                     var loTempData = ConvertResultToFormatPrint(loCollectionFromDb);
-
                     loData.Data = loTempData;
                 }
                 else
                 {
                     loData.Data = new List<PMR00150DataDetailTransactionDTO>();
                 }
-
 
                 _logger.LogInfo("Set Data Report");
                 loRtn.BaseHeaderData = loBaseHeader;

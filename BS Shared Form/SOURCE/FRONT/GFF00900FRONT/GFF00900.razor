@@ -6,12 +6,13 @@
     <div hidden="@IsReasonHidden">
         <R_StackLayout>
             <R_StackLayout Row="true">
-                <R_ItemLayout Class="col-4">
-                    <R_Label>Reason</R_Label>
+                <R_ItemLayout Class="col-2">
+                    <R_Label>@_localizer["_Reason"]</R_Label>
                 </R_ItemLayout>
 
-                <R_ItemLayout Class="col-8">
+                <R_ItemLayout Class="col-9">
                     <R_TextArea @bind-Value="@loViewModel.DETAIL_ACTION"
+                                @ref="@_reasonRef"
                                 R_ConductorSource="@_conductorRef"
                                 Enabled="true"></R_TextArea>
                 </R_ItemLayout>
@@ -19,12 +20,10 @@
 
             <R_StackLayout Row></R_StackLayout>
 
-            <R_StackLayout Row="true">
-                <R_ItemLayout Class="col-3">
-                    <R_Button R_ConductorSource="@_conductorRef" OnClick="OnOKReason">OK</R_Button>
-                </R_ItemLayout>
-                <R_ItemLayout Class="col-3">
-                    <R_Button R_ConductorSource="@_conductorRef" OnClick="OnCancelReason">Cancel</R_Button>
+            <R_StackLayout Row Class="justify-content-start">
+                <R_ItemLayout>
+                    <R_Button R_ConductorSource="@_conductorRef" OnClick="OnOKReason">@_localizer["_OK"]</R_Button>
+                    <R_Button R_ConductorSource="@_conductorRef" OnClick="OnCancelReason">@_localizer["_Cancel"]</R_Button>
                 </R_ItemLayout>
             </R_StackLayout>
         </R_StackLayout>
@@ -33,12 +32,13 @@
     <div hidden="@IsAccessValidationHidden">
         <R_StackLayout>
             <R_StackLayout Row="true">
-                <R_ItemLayout Class="col-4">
-                    <R_Label>User Id</R_Label>
+                <R_ItemLayout Class="col-2">
+                    <R_Label>@_localizer["_UserId"]</R_Label>
                 </R_ItemLayout>
 
-                <R_ItemLayout Class="col-8">
+                <R_ItemLayout Class="col-9">
                     <R_TextBox @bind-Value="@loViewModel.loParameter.USER"
+                               @ref="@_userIdRef"
                                R_ConductorSource="@_conductorRef"
                                Enabled="true"></R_TextBox>
                 </R_ItemLayout>
@@ -47,11 +47,11 @@
             <R_StackLayout Row></R_StackLayout>
 
             <R_StackLayout Row="true">
-                <R_ItemLayout Class="col-4">
-                    <R_Label>Password</R_Label>
+                <R_ItemLayout Class="col-2">
+                    <R_Label>@_localizer["_Password"]</R_Label>
                 </R_ItemLayout>
 
-                <R_ItemLayout Class="col-8">
+                <R_ItemLayout Class="col-9">
                     <R_TextBox Password @bind-Value="@loViewModel.loParameter.PASSWORD"
                                R_ConductorSource="@_conductorRef"
                                Enabled="true"></R_TextBox>
@@ -60,13 +60,10 @@
 
             <R_StackLayout Row></R_StackLayout>
 
-            <R_StackLayout Row="true">
-                <R_ItemLayout Class="col-3">
-                    <R_Button R_ConductorSource="@_conductorRef" OnClick="OnOK">OK</R_Button>
-                </R_ItemLayout>
-
-                <R_ItemLayout Class="col-3">
-                    <R_Button R_ConductorSource="@_conductorRef" OnClick="OnCancel">Cancel</R_Button>
+            <R_StackLayout Row Class="justify-content-start">
+                <R_ItemLayout>
+                    <R_Button R_ConductorSource="@_conductorRef" OnClick="OnOK">@_localizer["_OK"]</R_Button>
+                    <R_Button R_ConductorSource="@_conductorRef" OnClick="OnCancel">@_localizer["_Cancel"]</R_Button>
                 </R_ItemLayout>
             </R_StackLayout>
         </R_StackLayout>

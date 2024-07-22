@@ -23,7 +23,10 @@
 			<HintPath>..\..\..\..\SYSTEM\SOURCE\LIBRARY\Back\R_CommonFrontBackAPI.dll</HintPath>
 		</Reference>
 		<Reference Include="R_CrossPlatformSecurity">
-		  <HintPath>..\..\..\..\SYSTEM\SOURCE\LIBRARY\Back\R_CrossPlatformSecurity.dll</HintPath>
+			<HintPath>..\..\..\..\SYSTEM\SOURCE\LIBRARY\Back\R_CrossPlatformSecurity.dll</HintPath>
+		</Reference>
+		<Reference Include="R_OpenTelemetry">
+			<HintPath>..\..\..\..\SYSTEM\SOURCE\LIBRARY\Back\R_OpenTelemetry.dll</HintPath>
 		</Reference>
 	</ItemGroup>
 

@@ -13,6 +13,7 @@ using R_BlazorFrontEnd.Helpers;
 using BlazorClientHelper;
 using System.Linq;
 using R_BlazorFrontEnd.Controls.MessageBox;
+using R_BlazorFrontEnd.Interfaces;
 
 namespace GFF00900FRONT
 {   
@@ -22,10 +23,15 @@ namespace GFF00900FRONT
 
         private R_Conductor _conductorRef;
         [Inject] R_ISymmetricJSProvider _encryptProvider { get; set; }
+        [Inject] private R_ILocalizer<GFF00900FrontResources.Resources_Dummy_Class> _localizer { get; set; }
 
         private bool IsReasonHidden = true;
 
         private bool IsAccessValidationHidden = true;
+
+        private R_TextArea _reasonRef;
+
+        private R_TextBox _userIdRef;
 
         protected override async Task R_Init_From_Master(object poParameter)
         {
@@ -34,6 +40,7 @@ namespace GFF00900FRONT
 
             try
             {
+                await _reasonRef.FocusAsync();
                 loParam = (GFF00900ParameterDTO)poParameter;
 
                 loViewModel.loParameter.ACTION_CODE = loParam.IAPPROVAL_CODE;
@@ -54,12 +61,13 @@ namespace GFF00900FRONT
         {
             if (string.IsNullOrWhiteSpace(loViewModel.DETAIL_ACTION))
             {
-                var loValidate = await R_MessageBox.Show("", "Please Input Reason First", R_eMessageBoxButtonType.OK);
+                var loValidate = await R_MessageBox.Show("", _localizer["M001"], R_eMessageBoxButtonType.OK);
             }
             else
             {
                 IsReasonHidden = true;
                 IsAccessValidationHidden = false;
+                await _userIdRef.FocusAsync();
             }
         }
 
@@ -90,7 +98,7 @@ namespace GFF00900FRONT
                 }
                 else
                 {
-                    var loValidate = await R_MessageBox.Show("", "User Not Allowed", R_eMessageBoxButtonType.OK);
+                    var loValidate = await R_MessageBox.Show("", _localizer["M002"], R_eMessageBoxButtonType.OK);
                     if (loValidate == R_eMessageBoxResult.OK)
                     {
                         await this.Close(true, false);

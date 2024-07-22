@@ -42,10 +42,10 @@ namespace Lookup_APBACK
                 var lcQuery = @"RSP_AP_SEARCH_SUPPLIER_LOOKUP_LIST";
                 loCmd.CommandType = CommandType.StoredProcedure;
                 loCmd.CommandText = lcQuery;
-                loDb.R_AddCommandParameter(loCmd, "@CCOMPANY_ID", DbType.String, 10, poParameter.CCOMPANY_ID);
-                loDb.R_AddCommandParameter(loCmd, "@CPROPERTY_ID", DbType.String, 10, poParameter.CPROPERTY_ID);
-                loDb.R_AddCommandParameter(loCmd, "@CSEARCH_TEXT", DbType.String, 10, poParameter.CSEARCH_TEXT);
-                loDb.R_AddCommandParameter(loCmd, "@CLANGUAGE_ID", DbType.String, 10, poParameter.CLANGUAGE_ID);
+                loDb.R_AddCommandParameter(loCmd, "@CCOMPANY_ID", DbType.String, 40, poParameter.CCOMPANY_ID);
+                loDb.R_AddCommandParameter(loCmd, "@CPROPERTY_ID", DbType.String, 40, poParameter.CPROPERTY_ID);
+                loDb.R_AddCommandParameter(loCmd, "@CSEARCH_TEXT", DbType.String, 40, poParameter.CSEARCH_TEXT);
+                loDb.R_AddCommandParameter(loCmd, "@CLANGUAGE_ID", DbType.String, 40, poParameter.CLANGUAGE_ID);
 
                 //Debug Logs
                 var loDbParam = loCmd.Parameters.Cast<DbParameter>()
@@ -84,10 +84,10 @@ namespace Lookup_APBACK
                 var lcQuery = @"RSP_AP_GET_SUPPLIER_INFO_LIST";
                 loCmd.CommandType = CommandType.StoredProcedure;
                 loCmd.CommandText = lcQuery;
-                loDb.R_AddCommandParameter(loCmd, "@CCOMPANY_ID", DbType.String, 10, poParameter.CCOMPANY_ID);
-                loDb.R_AddCommandParameter(loCmd, "@CPROPERTY_ID", DbType.String, 10, poParameter.CPROPERTY_ID);
-                loDb.R_AddCommandParameter(loCmd, "@CSUPPLIER_ID", DbType.String, 10, poParameter.CSUPPLIER_ID);
-                loDb.R_AddCommandParameter(loCmd, "@CLANGUAGE_ID", DbType.String, 10, poParameter.CLANGUAGE_ID);
+                loDb.R_AddCommandParameter(loCmd, "@CCOMPANY_ID", DbType.String, 40, poParameter.CCOMPANY_ID);
+                loDb.R_AddCommandParameter(loCmd, "@CPROPERTY_ID", DbType.String, 40, poParameter.CPROPERTY_ID);
+                loDb.R_AddCommandParameter(loCmd, "@CSUPPLIER_ID", DbType.String, 40, poParameter.CSUPPLIER_ID);
+                loDb.R_AddCommandParameter(loCmd, "@CLANGUAGE_ID", DbType.String, 40, poParameter.CLANGUAGE_ID);
 
                 //Debug Logs
                 var loDbParam = loCmd.Parameters.Cast<DbParameter>()
@@ -125,13 +125,13 @@ namespace Lookup_APBACK
                 var lcQuery = @"RSP_AP_LOOKUP_EXPENDITURE";
                 loCmd.CommandType = CommandType.StoredProcedure;
                 loCmd.CommandText = lcQuery;
-                loDb.R_AddCommandParameter(loCmd, "@CCOMPANY_ID", DbType.String, 10, poParameter.CCOMPANY_ID);
-                loDb.R_AddCommandParameter(loCmd, "@CPROPERTY_ID", DbType.String, 10, poParameter.CPROPERTY_ID);
-                loDb.R_AddCommandParameter(loCmd, "@CCATEGORY_ID", DbType.String, 10, poParameter.CCATEGORY_ID);
-                loDb.R_AddCommandParameter(loCmd, "@CTAXABLE_TYPE", DbType.String, 10, poParameter.CTAXABLE_TYPE);
-                loDb.R_AddCommandParameter(loCmd, "@CACTIVE_TYPE", DbType.String, 10, poParameter.CACTIVE_TYPE);
-                loDb.R_AddCommandParameter(loCmd, "@CLANGUAGE_ID", DbType.String, 10, poParameter.CLANGUAGE_ID);
-                loDb.R_AddCommandParameter(loCmd, "@CTAX_DATE", DbType.String, 10, poParameter.CTAX_DATE);
+                loDb.R_AddCommandParameter(loCmd, "@CCOMPANY_ID", DbType.String, 40, poParameter.CCOMPANY_ID);
+                loDb.R_AddCommandParameter(loCmd, "@CPROPERTY_ID", DbType.String, 40, poParameter.CPROPERTY_ID);
+                loDb.R_AddCommandParameter(loCmd, "@CCATEGORY_ID", DbType.String, 40, poParameter.CCATEGORY_ID);
+                loDb.R_AddCommandParameter(loCmd, "@CTAXABLE_TYPE", DbType.String, 40, poParameter.CTAXABLE_TYPE);
+                loDb.R_AddCommandParameter(loCmd, "@CACTIVE_TYPE", DbType.String, 40, poParameter.CACTIVE_TYPE);
+                loDb.R_AddCommandParameter(loCmd, "@CLANGUAGE_ID", DbType.String, 40, poParameter.CLANGUAGE_ID);
+                loDb.R_AddCommandParameter(loCmd, "@CTAX_DATE", DbType.String, 40, poParameter.CTAX_DATE);
 
                 //Debug Logs
                 var loDbParam = loCmd.Parameters.Cast<DbParameter>()
@@ -169,13 +169,14 @@ namespace Lookup_APBACK
                 var lcQuery = @"RSP_AP_LOOKUP_PRODUCT";
                 loCmd.CommandType = CommandType.StoredProcedure;
                 loCmd.CommandText = lcQuery;
-                loDb.R_AddCommandParameter(loCmd, "@CCOMPANY_ID", DbType.String, 10, poParameter.CCOMPANY_ID);
-                loDb.R_AddCommandParameter(loCmd, "@CPROPERTY_ID", DbType.String, 10, poParameter.CPROPERTY_ID);
-                loDb.R_AddCommandParameter(loCmd, "@CCATEGORY_ID", DbType.String, 10, poParameter.CCATEGORY_ID);
-                loDb.R_AddCommandParameter(loCmd, "@CTAXABLE_TYPE", DbType.String, 10, poParameter.CTAXABLE_TYPE);
-                loDb.R_AddCommandParameter(loCmd, "@CACTIVE_TYPE", DbType.String, 10, poParameter.CACTIVE_TYPE);
-                loDb.R_AddCommandParameter(loCmd, "@CLANGUAGE_ID", DbType.String, 10, poParameter.CLANGUAGE_ID);
-                loDb.R_AddCommandParameter(loCmd, "@CTAX_DATE", DbType.String, 10, poParameter.CTAX_DATE);
+                loDb.R_AddCommandParameter(loCmd, "@CCOMPANY_ID", DbType.String, 40, poParameter.CCOMPANY_ID);
+                loDb.R_AddCommandParameter(loCmd, "@CPROPERTY_ID", DbType.String, 40, poParameter.CPROPERTY_ID);
+                loDb.R_AddCommandParameter(loCmd, "@CCATEGORY_ID", DbType.String, 40, poParameter.CCATEGORY_ID);
+                loDb.R_AddCommandParameter(loCmd, "@CTAXABLE_TYPE", DbType.String, 40, poParameter.CTAXABLE_TYPE);
+                loDb.R_AddCommandParameter(loCmd, "@CACTIVE_TYPE", DbType.String, 40, poParameter.CACTIVE_TYPE);
+                loDb.R_AddCommandParameter(loCmd, "@CLANGUAGE_ID", DbType.String, 40, poParameter.CLANGUAGE_ID);
+                loDb.R_AddCommandParameter(loCmd, "@CTAX_DATE", DbType.String, 40, poParameter.CTAX_DATE);
+                loDb.R_AddCommandParameter(loCmd, "@CBUYSELL", DbType.String, 40, poParameter.CBUYSELL);
 
                 //Debug Logs
                 var loDbParam = loCmd.Parameters.Cast<DbParameter>()
@@ -213,10 +214,10 @@ namespace Lookup_APBACK
                 var lcQuery = @"RSP_AP_LOOKUP_PRODUCT_ALLOCATION";
                 loCmd.CommandType = CommandType.StoredProcedure;
                 loCmd.CommandText = lcQuery;
-                loDb.R_AddCommandParameter(loCmd, "@CCOMPANY_ID", DbType.String, 10, poParameter.CCOMPANY_ID);
-                loDb.R_AddCommandParameter(loCmd, "@CPROPERTY_ID", DbType.String, 10, poParameter.CPROPERTY_ID);
-                loDb.R_AddCommandParameter(loCmd, "@CACTIVE_TYPE", DbType.String, 10, poParameter.CACTIVE_TYPE);
-                loDb.R_AddCommandParameter(loCmd, "@CLANGUAGE_ID", DbType.String, 10, poParameter.CLANGUAGE_ID);
+                loDb.R_AddCommandParameter(loCmd, "@CCOMPANY_ID", DbType.String, 40, poParameter.CCOMPANY_ID);
+                loDb.R_AddCommandParameter(loCmd, "@CPROPERTY_ID", DbType.String, 40, poParameter.CPROPERTY_ID);
+                loDb.R_AddCommandParameter(loCmd, "@CACTIVE_TYPE", DbType.String, 40, poParameter.CACTIVE_TYPE);
+                loDb.R_AddCommandParameter(loCmd, "@CLANGUAGE_ID", DbType.String, 40, poParameter.CLANGUAGE_ID);
 
                 //Debug Logs
                 var loDbParam = loCmd.Parameters.Cast<DbParameter>()

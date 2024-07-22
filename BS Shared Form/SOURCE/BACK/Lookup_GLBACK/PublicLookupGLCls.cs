@@ -35,7 +35,7 @@ namespace Lookup_GLBACK
                 var loConn = loDb.GetConnection();
                 var loCmd = loDb.GetCommand();
 
-                var lcQuery = @"RSP_PM_GET_CHARGES_TYPE_LIST";
+                var lcQuery = @"RSP_GL_LOOKUP_REFERENCE_NO_BY_PERIOD";
                 loCmd.CommandText = lcQuery;
                 loCmd.CommandType = CommandType.StoredProcedure;
 
@@ -82,7 +82,7 @@ namespace Lookup_GLBACK
                 var loConn = loDb.GetConnection();
                 var loCmd = loDb.GetCommand();
 
-                var lcQuery = @"RSP_PM_GET_CHARGES_TYPE_LIST";
+                var lcQuery = @"RSP_GL_LOOKUP_REFERENCE_NO_BY_PERIOD";
                 loCmd.CommandText = lcQuery;
                 loCmd.CommandType = CommandType.StoredProcedure;
 

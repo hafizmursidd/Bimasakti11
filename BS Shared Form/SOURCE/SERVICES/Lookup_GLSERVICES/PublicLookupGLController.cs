@@ -42,15 +42,14 @@ namespace Lookup_GLSERVICES
             {
                 var loCls = new PublicLookupGLCls();
                 var poParameter = new GLL00100ParameterDTO();
+                poParameter.CUSER_ID = R_BackGlobalVar.USER_ID;
                 poParameter.CCOMPANY_ID = R_BackGlobalVar.COMPANY_ID;
-                poParameter.CUSER_ID = R_Utility.R_GetStreamingContext<string>(GLL00100ContextDTO.CUSER_ID);
-                poParameter.CCOMPANY_ID = R_Utility.R_GetStreamingContext<string>(GLL00100ContextDTO.CCOMPANY_ID);
                 poParameter.CTRANS_CODE = R_Utility.R_GetStreamingContext<string>(GLL00100ContextDTO.CTRANS_CODE);
                 poParameter.CFROM_DEPT_CODE = R_Utility.R_GetStreamingContext<string>(GLL00100ContextDTO.CFROM_DEPT_CODE);
                 poParameter.CTO_DEPT_CODE = R_Utility.R_GetStreamingContext<string>(GLL00100ContextDTO.CTO_DEPT_CODE);
                 poParameter.CFROM_DATE = R_Utility.R_GetStreamingContext<string>(GLL00100ContextDTO.CFROM_DATE);
                 poParameter.CTO_DATE = R_Utility.R_GetStreamingContext<string>(GLL00100ContextDTO.CTO_DATE);
-                poParameter.CLANGUAGE_ID = R_Utility.R_GetStreamingContext<string>(GLL00100ContextDTO.CLANGUAGE_ID);
+                poParameter.CLANGUAGE_ID = R_BackGlobalVar.CULTURE;
                 _loggerLookup.LogInfo(string.Format("Get Parameter {0} on Controller", lcMethodName));
                 _loggerLookup.LogDebug("DbParameter {@Parameter} ", poParameter);
                 _loggerLookup.LogInfo("Call method GetAllAgreement");
@@ -83,18 +82,17 @@ namespace Lookup_GLSERVICES
             {
                 var loCls = new PublicLookupGLCls();
                 var poParameter = new GLL00110ParameterDTO();
+                poParameter.CUSER_ID = R_BackGlobalVar.USER_ID;
                 poParameter.CCOMPANY_ID = R_BackGlobalVar.COMPANY_ID;
-                poParameter.CUSER_ID = R_Utility.R_GetStreamingContext<string>(GLL00110ContextDTO.CUSER_ID);
-                poParameter.CCOMPANY_ID = R_Utility.R_GetStreamingContext<string>(GLL00110ContextDTO.CCOMPANY_ID);
                 poParameter.CTRANS_CODE = R_Utility.R_GetStreamingContext<string>(GLL00110ContextDTO.CTRANS_CODE);
                 poParameter.CFROM_DEPT_CODE = R_Utility.R_GetStreamingContext<string>(GLL00110ContextDTO.CFROM_DEPT_CODE);
                 poParameter.CTO_DEPT_CODE = R_Utility.R_GetStreamingContext<string>(GLL00110ContextDTO.CTO_DEPT_CODE);
                 poParameter.CFROM_DATE = R_Utility.R_GetStreamingContext<string>(GLL00110ContextDTO.CFROM_DATE);
                 poParameter.CTO_DATE = R_Utility.R_GetStreamingContext<string>(GLL00110ContextDTO.CTO_DATE);
-                poParameter.CLANGUAGE_ID = R_Utility.R_GetStreamingContext<string>(GLL00110ContextDTO.CLANGUAGE_ID);
+                poParameter.CLANGUAGE_ID = R_BackGlobalVar.CULTURE;
                 _loggerLookup.LogInfo(string.Format("Get Parameter {0} on Controller", lcMethodName));
                 _loggerLookup.LogDebug("DbParameter {@Parameter} ", poParameter);
-                _loggerLookup.LogInfo("Call method GetAllAgreement");
+                _loggerLookup.LogInfo("Call method GLL00110ReferenceNoLookUpByPeriod");
 
                 loReturnTemp = loCls.GLL00110ReferenceNoLookUpByPeriodDb(poParameter);
                 loRtn = GetStream(loReturnTemp);
@@ -180,6 +178,7 @@ namespace Lookup_GLSERVICES
                 }
             }
         }
+        
         #endregion
 
     }

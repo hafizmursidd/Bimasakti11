@@ -19,5 +19,11 @@ namespace Lookup_APCOMMON.DTOs
         public const string CPERIOD = "CPERIOD";
         public const string LHAS_REMAINING = "LHAS_REMAINING";
         public const string LNO_REMAINING = "LNO_REMAINING";
+        public const string CBUYSELL = "CBUYSELL";
+
+
     }
 }
+
+
+

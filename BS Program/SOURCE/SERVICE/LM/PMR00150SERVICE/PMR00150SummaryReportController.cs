@@ -166,11 +166,6 @@ namespace PMR00150SERVICE
                 loRtn.BaseHeaderColumn.Print_By = R_Utility.R_GetMessage(typeof(BaseHeaderResources.Resources_Dummy_Class), "Print_By", loCultureInfo);
 
                 loCls = new PMR00150Cls();
-                /*
-                poParam.CCOMPANY_ID = R_BackGlobalVar.COMPANY_ID;
-                poParam.CUSER_ID = R_BackGlobalVar.USER_ID;
-                poParam.CLANG_ID = R_BackGlobalVar.CULTURE;
-                */
                 var loCollectionFromDb = loCls.GetLOCStatusSummaryReportData(poParam);
 
                 _logger.LogInfo("Set BaseHeader Report");
@@ -181,8 +176,11 @@ namespace PMR00150SERVICE
                     CPRINT_NAME = "LOC List",
                     CUSER_ID = poParam.CUSER_ID!,
                 };
-
                 string lcTitle = "LOC List";
+                //GETLOGO
+                var loGetLogo = loCls.GetBaseHeaderLogoCompany(poParam);
+                loBaseHeader.BLOGO_COMPANY = loGetLogo.CLOGO!;
+
                 _logger.LogInfo("Set Header Report");
                 var loHeader = new PMR00150DataHeaderDTO()
                 {
@@ -199,7 +197,6 @@ namespace PMR00150SERVICE
                 var loLabel = AssignValuesWithMessages(typeof(PMR00150BackResources.Resources_PMR00150), loCultureInfo, new PMR00150LabelDTO());
 
                 _logger.LogInfo("Convert data to Format Print");
-
                 //ASSIGN VALUE
                 loData = new PMR00150SummaryResultDTO();
                 loData.Title = lcTitle;

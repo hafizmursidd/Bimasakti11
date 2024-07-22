@@ -113,17 +113,9 @@ namespace PMT01700FRONT
             try
             {
                 lControlChoosenData = _LOpenAsNormalPage = true;
+
                 _viewModel.oParameter = R_FrontUtility.ConvertObjectToObject<PMT01700ParameterFrontChangePageDTO>(poParameter);
-
-
-                // _LOpenAsNormalPage = !string.IsNullOrEmpty(_viewModel.oParameter.CALLER_ACTION);
                 _LOpenAsNormalPage = _viewModel.oParameter.CALLER_ACTION == "ADD";
-                //if (!_LOpenAsNormalPage)
-                //{
-                //    PageWidth = "width: auto;";
-                //}
-
-                //   PageWidth = (_LOpenAsNormalPage) ? "width: auto;" : "width: 1100px;";
 
                 if (!string.IsNullOrEmpty(_viewModel.oParameter.CPROPERTY_ID))
                 {
@@ -133,6 +125,10 @@ namespace PMT01700FRONT
                     await _viewModel.GetComboBoxDataIDTypeAsync();
                     _isAllDataReady = true;
 
+                    if (!string.IsNullOrEmpty(_viewModel.oParameter.ODataUnitList) || _LOpenAsNormalPage)
+                    {
+                        PageWidth = "width: 1100px;";
+                    }
                     if (!string.IsNullOrEmpty(_viewModel.oParameter.ODataUnitList))
                     {
                         var loTempDataUnitList = JsonSerializer.Deserialize<List<PMT01700OtherUnitList_OtherUnitListDTO>>(_viewModel.oParameter.ODataUnitList);
@@ -153,7 +149,7 @@ namespace PMT01700FRONT
                         }).ToList();
 
                         await _conductor.Add();
-                        PageWidth = (_LOpenAsNormalPage) ? "width: auto;" : "width: 1100px;";
+
                         goto EndBlock;
                     }
 
@@ -166,7 +162,6 @@ namespace PMT01700FRONT
                         _isCheckerDataFound = true;
                         await _conductor.R_GetEntity(null);
                     }
-
                 }
             }
             catch (Exception ex)
@@ -948,13 +943,6 @@ namespace PMT01700FRONT
                     CREF_NO = _viewModel.Data.CREF_NO,
                     CBUILDING_ID = _viewModel.Data.CBUILDING_ID,
                 };
-                /*
-                _oEventCallBack.CDEPT_CODE = _viewModel.Data.CDEPT_CODE!;
-                _oEventCallBack.CTRANS_CODE = _viewModel.Data.CTRANS_CODE!;
-                _oEventCallBack.CBUILDING_ID = _viewModel.Data.CBUILDING_ID!;
-                _oEventCallBack.CCHARGE_MODE = _viewModel.Data.CCHARGE_MODE!;
-                _oEventCallBack.CCURRENCY_CODE = _viewModel.Data.CCURRENCY_CODE!;
-                */
 
                 // Lakukan pemanggilan async
                 await InvokeTabEventCallbackAsync(_oEventCallBack);
@@ -1123,7 +1111,7 @@ namespace PMT01700FRONT
                     {
                         var loErr = R_FrontUtility.R_GetError(typeof(Resources_PMT01700_Class), "ValidationSalesman");
                         loException.Add(loErr);
-                    }            
+                    }
 
                 }
                 if (loData.DSTART_DATE > loData.DEND_DATE)

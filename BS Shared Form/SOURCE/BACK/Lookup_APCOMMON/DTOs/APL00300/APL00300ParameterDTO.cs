@@ -14,5 +14,6 @@ namespace Lookup_APCOMMON.DTOs.APL00300
         public string CTAX_DATE { get; set; } = "";
         public string CCATEGORY_ID { get; set; } = "";
         public string CSEARCH_CODE { get; set; } = "";
+        public string CBUYSELL { get; set; } = "";
     }
 }

@@ -7,6 +7,7 @@ using Lookup_GLCOMMON.Loggers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using R_BackEnd;
 using R_Common;
 using System.Diagnostics;
 
@@ -42,6 +43,9 @@ namespace Lookup_GLSERVICES
                 var loCls = new PublicLookupGLCls();
                 _loggerLookup.LogInfo("Call method GLL00100ReferenceNoLookUp");
                 var loParam = R_Utility.R_ConvertObjectToObject<GLL00100ParameterGetRecordDTO, GLL00100ParameterDTO>(poParameter);
+                loParam.CUSER_ID = R_BackGlobalVar.USER_ID;
+                loParam.CCOMPANY_ID = R_BackGlobalVar.COMPANY_ID;
+                loParam.CLANGUAGE_ID = R_BackGlobalVar.CULTURE;
                 var loTempList = loCls.GLL00100ReferenceNoLookUpDb(loParam);
 
                 _loggerLookup.LogInfo("Filter Search by text");
@@ -77,7 +81,11 @@ namespace Lookup_GLSERVICES
             {
                 var loCls = new PublicLookupGLCls();
                 _loggerLookup.LogInfo("Call method GLL00100ReferenceNoLookUpByPeriod");
+               
                 var loParam = R_Utility.R_ConvertObjectToObject<GLL00110ParameterGetRecordDTO, GLL00110ParameterDTO>(poParameter);
+                loParam.CUSER_ID = R_BackGlobalVar.USER_ID;
+                loParam.CCOMPANY_ID = R_BackGlobalVar.COMPANY_ID;
+                loParam.CLANGUAGE_ID = R_BackGlobalVar.CULTURE;
                 var loTempList = loCls.GLL00110ReferenceNoLookUpByPeriodDb(loParam);
 
                 _loggerLookup.LogInfo("Filter Search by text");

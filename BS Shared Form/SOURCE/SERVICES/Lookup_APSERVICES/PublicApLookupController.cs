@@ -164,7 +164,9 @@ namespace Lookup_APSERVICES
                 poParam.CTAXABLE_TYPE = R_Utility.R_GetStreamingContext<string>(ContextConstantPublicLookup.CTAXABLE_TYPE);
                 poParam.CACTIVE_TYPE = R_Utility.R_GetStreamingContext<string>(ContextConstantPublicLookup.CACTIVE_TYPE);
                 poParam.CCATEGORY_ID = R_Utility.R_GetStreamingContext<string>(ContextConstantPublicLookup.CCATEGORY_ID);
+                poParam.CBUYSELL = R_Utility.R_GetStreamingContext<string>(ContextConstantPublicLookup.CBUYSELL);
 
+                
                 _loggerAp.LogInfo("Call Back Method GetProductLookup");
                 var loResult = loCls.ProductLookup(poParam);
 

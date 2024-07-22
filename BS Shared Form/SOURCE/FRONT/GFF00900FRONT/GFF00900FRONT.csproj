@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\BACK\GFF00900COMMON\GFF00900COMMON.csproj" />
+    <ProjectReference Include="..\GFF00900FrontResources\GFF00900FrontResources.csproj" />
     <ProjectReference Include="..\GFF00900Model\GFF00900Model.csproj" />
   </ItemGroup>
 

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Lookup_GSModel.ViewModel
 {
-    public class LookupGSL0090ViewModel : R_ViewModel<GSL00510DTO>
+    public class LookupGSL00510ViewModel : R_ViewModel<GSL00510DTO>
     {
         private PublicLookupModel _model = new PublicLookupModel();
         private PublicLookupRecordModel _modelRecord = new PublicLookupRecordModel();

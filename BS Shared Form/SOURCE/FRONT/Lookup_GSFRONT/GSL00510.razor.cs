@@ -8,7 +8,7 @@ namespace Lookup_GSFRONT
 {
     public partial class GSL00510 : R_Page
     {
-        private LookupGSL0090ViewModel _viewModel = new LookupGSL0090ViewModel();
+        private LookupGSL00510ViewModel _viewModel = new LookupGSL00510ViewModel();
         private R_Grid<GSL00510DTO> GridRef;
 
         protected override async Task R_Init_From_Master(object poParameter)

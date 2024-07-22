@@ -118,7 +118,7 @@ namespace GLR00300Service
             R_Exception loException = new R_Exception();
             FileStreamResult loRtn = null;
             try
-            { 
+            {
                 //Get Parameter
                 loResultGUID = R_NetCoreUtility.R_DeserializeObjectFromByte<GLR00300ReportLogKeyDTO<GLR00300ParamDBToGetReportDTO>>(R_DistributedCache.Cache.Get(pcGuid));
 
@@ -190,7 +190,6 @@ namespace GLR00300Service
 
                     loData = new GLR00300AccountTrialBalanceResultFormat_EtoH_DTO()
                     {
-                        Title = "Account Trial Balance",
                         Header = new GLR00300HeaderAccountTrialBalanceDTO()
                         {
                             CPERIOD = getFirstDataToHeader.CPERIOD_NAME,
@@ -203,8 +202,7 @@ namespace GLR00300Service
                             CJOURNAL_ADJ_MODE_NAME = getFirstDataToHeader.CJOURNAL_ADJ_MODE_NAME,
                             CPRINT_METHOD_NAME = getFirstDataToHeader.CPRINT_METHOD_NAME,
                             CBUDGET_NO = getFirstDataToHeader.CBUDGET_NO
-                        },
-                        Column = new AccountTrialBalanceColumnDTO()
+                        }
                     };
                 }
                 else
@@ -212,7 +210,6 @@ namespace GLR00300Service
                     lcPeriod = poParam.CYEAR + "-" + poParam.CTO_PERIOD_NO;
                     loData = new GLR00300AccountTrialBalanceResultFormat_EtoH_DTO()
                     {
-                        Title = "Account Trial Balance",
                         Header = new GLR00300HeaderAccountTrialBalanceDTO()
                         {
                             CPERIOD = lcPeriod,
@@ -225,39 +222,42 @@ namespace GLR00300Service
                             CJOURNAL_ADJ_MODE_NAME = "Merged",
                             CPRINT_METHOD_NAME = "",
                             CBUDGET_NO = poParam.CBUDGET_NO,
-                        },
-                        Column = new AccountTrialBalanceColumnDTO()
-                        {
-                            Col_ACCOUNT_NO = R_Utility.R_GetMessage(typeof(Resources_GLR00300), "_accountNo", loCultureInfo),
-                            Col_ACCOUNT_NAME = R_Utility.R_GetMessage(typeof(Resources_GLR00300), "_accountName", loCultureInfo),
-                            Col_D_C = R_Utility.R_GetMessage(typeof(Resources_GLR00300), "_D/C", loCultureInfo),
-                            Col_BS_IS = R_Utility.R_GetMessage(typeof(Resources_GLR00300), "_BS/IS", loCultureInfo),
-                            Col_BEG_BALANCE = R_Utility.R_GetMessage(typeof(Resources_GLR00300), "_begBalance", loCultureInfo),
-                            Col_Center = R_Utility.R_GetMessage(typeof(Resources_GLR00300), "_center", loCultureInfo),
-                            Col_DEBIT = R_Utility.R_GetMessage(typeof(Resources_GLR00300), "_debit", loCultureInfo),
-                            Col_CREDIT = R_Utility.R_GetMessage(typeof(Resources_GLR00300), "_credit", loCultureInfo),
-                            Col_DEBIT_ADJ = R_Utility.R_GetMessage(typeof(Resources_GLR00300), "_debitAdj", loCultureInfo),
-                            Col_CREDIT_ADJ = R_Utility.R_GetMessage(typeof(Resources_GLR00300), "_creditAdj", loCultureInfo),
-                            Col_END_BALANCE = R_Utility.R_GetMessage(typeof(Resources_GLR00300), "_endBalance", loCultureInfo),
-                            Col_NBUDGET = R_Utility.R_GetMessage(typeof(Resources_GLR00300), "_mtdBudget", loCultureInfo)
-                        },
-                        Label = new GLR00300LabelDTO()
-                        {
-                            Label_Period = R_Utility.R_GetMessage(typeof(Resources_GLR00300), "_labelPeriod", loCultureInfo),
-                            Label_AccountNo = R_Utility.R_GetMessage(typeof(Resources_GLR00300), "_accountNo", loCultureInfo),
-                            Label_Center = R_Utility.R_GetMessage(typeof(Resources_GLR00300), "_center", loCultureInfo),
-                            Label_To = R_Utility.R_GetMessage(typeof(Resources_GLR00300), "_to", loCultureInfo),
-                            Label_TrialBalanceType = R_Utility.R_GetMessage(typeof(Resources_GLR00300), "_labelTrialBalanceType", loCultureInfo),
-                            Label_Currency = R_Utility.R_GetMessage(typeof(Resources_GLR00300), "_labelCurrency", loCultureInfo),
-                            Label_JournalAdjMode = R_Utility.R_GetMessage(typeof(Resources_GLR00300), "_labelJournalAdjMode", loCultureInfo),
-                            Label_PrintMethod = R_Utility.R_GetMessage(typeof(Resources_GLR00300), "_labelPrintMode", loCultureInfo),
-                            Label_BudgetNo = R_Utility.R_GetMessage(typeof(Resources_GLR00300), "_labelBudgetNo", loCultureInfo),
-                            Label_GrandTotal = R_Utility.R_GetMessage(typeof(Resources_GLR00300), "_labelGrandTotal", loCultureInfo),
-                            Label_Difference = R_Utility.R_GetMessage(typeof(Resources_GLR00300), "_labelDifference", loCultureInfo),
-                            Label_Note = R_Utility.R_GetMessage(typeof(Resources_GLR00300), "_note", loCultureInfo)
                         }
                     };
-                }
+                };
+
+                loData.Title = "Account Trial Balance";
+                loData.Column = new AccountTrialBalanceColumnDTO()
+                {
+                    Col_ACCOUNT_NO = R_Utility.R_GetMessage(typeof(Resources_GLR00300), "_accountNo", loCultureInfo),
+                    Col_ACCOUNT_NAME = R_Utility.R_GetMessage(typeof(Resources_GLR00300), "_accountName", loCultureInfo),
+                    Col_D_C = R_Utility.R_GetMessage(typeof(Resources_GLR00300), "_D/C", loCultureInfo),
+                    Col_BS_IS = R_Utility.R_GetMessage(typeof(Resources_GLR00300), "_BS/IS", loCultureInfo),
+                    Col_BEG_BALANCE = R_Utility.R_GetMessage(typeof(Resources_GLR00300), "_begBalance", loCultureInfo),
+                    Col_Center = R_Utility.R_GetMessage(typeof(Resources_GLR00300), "_center", loCultureInfo),
+                    Col_DEBIT = R_Utility.R_GetMessage(typeof(Resources_GLR00300), "_debit", loCultureInfo),
+                    Col_CREDIT = R_Utility.R_GetMessage(typeof(Resources_GLR00300), "_credit", loCultureInfo),
+                    Col_DEBIT_ADJ = R_Utility.R_GetMessage(typeof(Resources_GLR00300), "_debitAdj", loCultureInfo),
+                    Col_CREDIT_ADJ = R_Utility.R_GetMessage(typeof(Resources_GLR00300), "_creditAdj", loCultureInfo),
+                    Col_END_BALANCE = R_Utility.R_GetMessage(typeof(Resources_GLR00300), "_endBalance", loCultureInfo),
+                    Col_NBUDGET = R_Utility.R_GetMessage(typeof(Resources_GLR00300), "_mtdBudget", loCultureInfo)
+                };
+                loData.Label = new GLR00300LabelDTO()
+                {
+                    Label_Period = R_Utility.R_GetMessage(typeof(Resources_GLR00300), "_labelPeriod", loCultureInfo),
+                    Label_AccountNo = R_Utility.R_GetMessage(typeof(Resources_GLR00300), "_accountNo", loCultureInfo),
+                    Label_Center = R_Utility.R_GetMessage(typeof(Resources_GLR00300), "_center", loCultureInfo),
+                    Label_To = R_Utility.R_GetMessage(typeof(Resources_GLR00300), "_to", loCultureInfo),
+                    Label_TrialBalanceType = R_Utility.R_GetMessage(typeof(Resources_GLR00300), "_labelTrialBalanceType", loCultureInfo),
+                    Label_Currency = R_Utility.R_GetMessage(typeof(Resources_GLR00300), "_labelCurrency", loCultureInfo),
+                    Label_JournalAdjMode = R_Utility.R_GetMessage(typeof(Resources_GLR00300), "_labelJournalAdjMode", loCultureInfo),
+                    Label_PrintMethod = R_Utility.R_GetMessage(typeof(Resources_GLR00300), "_labelPrintMode", loCultureInfo),
+                    Label_BudgetNo = R_Utility.R_GetMessage(typeof(Resources_GLR00300), "_labelBudgetNo", loCultureInfo),
+                    Label_GrandTotal = R_Utility.R_GetMessage(typeof(Resources_GLR00300), "_labelGrandTotal", loCultureInfo),
+                    Label_Difference = R_Utility.R_GetMessage(typeof(Resources_GLR00300), "_labelDifference", loCultureInfo),
+                    Label_Note = R_Utility.R_GetMessage(typeof(Resources_GLR00300), "_note", loCultureInfo)
+                };
+
                 _loggerGLR00300Report.LogInfo("Set BaseHeader Report");
                 //Assign raw data to Data list display
                 loData.Data = loConvertData;
@@ -269,6 +269,8 @@ namespace GLR00300Service
                     CPRINT_NAME = "Account Trial Balance",
                     CUSER_ID = poParam.CUSER_ID,
                 };
+                var loBaseHeader = loCls.GetBaseHeaderLogoCompany(poParam);
+                loParam.BLOGO_COMPANY = loBaseHeader.CLOGO!;
                 _loggerGLR00300Report.LogInfo("Set Data Report");
                 loRtn.BaseHeaderData = loParam;
                 loRtn.GLR00300AccountTrialBalanceResult_FormatEtoH_DataFormat = loData;

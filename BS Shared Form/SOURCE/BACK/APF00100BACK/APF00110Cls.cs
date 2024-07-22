@@ -44,7 +44,7 @@ namespace APF00100BACK
             string lcQuery;
             try
             {
-                loConn = loDb.GetConnection("R_DefaultConnectionString");
+                loConn = loDb.GetConnection();
                 loCmd = loDb.GetCommand();
 
                 lcQuery = "EXEC RSP_AP_GET_ALLOC_TRX_TYPE_LIST " +
@@ -234,7 +234,7 @@ namespace APF00100BACK
 
             try
             {
-                loConn = loDb.GetConnection("R_DefaultConnectionString");
+                loConn = loDb.GetConnection();
                 loCmd = loDb.GetCommand();
 
                 lcQuery = "EXEC RSP_AP_GET_ALLOCATION " +
@@ -327,7 +327,7 @@ namespace APF00100BACK
 
             try
             {
-                loConn = loDb.GetConnection("R_DefaultConnectionString");
+                loConn = loDb.GetConnection();
                 loCmd = loDb.GetCommand();
 
                 lcQuery = "EXEC RSP_AP_SAVE_ALLOCATION " +

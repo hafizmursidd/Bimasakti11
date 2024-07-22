@@ -1,22 +1,51 @@
 @inherits R_Page
-@attribute [R_Page(Title = "REFERENCE NO LOOKUP")]
+@attribute [R_Page(Title = "Reference No. Lookup")]
+@inject R_ILocalizer<Resources_GLLookup_Class> _localizer
 
 
 <R_StackLayout Row>
     <R_Grid @ref="@_gridRef"
-            DataSource="_viewModel.ReferenceNoGrid"
+            DataSource="_viewModel.loList"
             R_ServiceGetListRecord="R_ServiceGetListRecordAsync"
+            R_GridType="@R_eGridType.Navigator"
             Pageable
-            PageSize="5">
+            PageSize="10"
+            Height="300px"
+            Width="900px">
         <R_GridColumns>
-            <R_GridTextColumn FieldName="CREF_NO" HeaderText="Reference No."></R_GridTextColumn>
-            <R_GridTextColumn FieldName="CREF_DATE" HeaderText="Reference Date"></R_GridTextColumn>
-            <R_GridTextColumn FieldName="CDOC_NO" HeaderText="Document No."></R_GridTextColumn>
-            <R_GridTextColumn FieldName="CDOC_DATE" HeaderText="Document Date"></R_GridTextColumn>
-            <R_GridTextColumn FieldName="CDEPT_CODE" HeaderText="Dept."></R_GridTextColumn>
-            <R_GridTextColumn FieldName="CCURRENCY" HeaderText="Currency"></R_GridTextColumn>
-            <R_GridNumericColumn FieldName="NTRANS_AMOUNT" HeaderText="Amount"></R_GridNumericColumn>
-            <R_GridTextColumn FieldName="CSTATUS_NAME" HeaderText="Status"></R_GridTextColumn>
+
+            <R_GridTextColumn Width="200px"
+                              FieldName="@nameof(GLL00100DTO.CREF_NO)"
+                              HeaderText=@_localizer["_ReferenceNo"] />
+
+            <R_GridDatePickerColumn Width="200px"
+                                    FieldName="@nameof(GLL00100DTO.DREF_DATE)"
+                                    HeaderText=@_localizer["_ReferenceDate"] />
+
+            <R_GridTextColumn Width="200px"
+                              FieldName="@nameof(GLL00100DTO.CDOC_NO)"
+                              HeaderText=@_localizer["_DocumentNo"] />
+
+            <R_GridDatePickerColumn Width="200px"
+                                    FieldName="@nameof(GLL00100DTO.DDOC_DATE)"
+                                    HeaderText=@_localizer["_DocumentDate"] />
+
+            <R_GridTextColumn Width="200px"
+                              FieldName="@nameof(GLL00100DTO.CDEPT_CODE)"
+                              HeaderText=@_localizer["_Dept"] />
+
+            <R_GridTextColumn Width="200px"
+                              FieldName="@nameof(GLL00100DTO.CCURRENCY)"
+                              HeaderText=@_localizer["_Currency"] />
+
+            <R_GridNumericColumn Width="200px"
+                                 FieldName="@nameof(GLL00100DTO.NTRANS_AMOUNT)"
+                                 HeaderText=@_localizer["_Amount"] />
+
+            <R_GridTextColumn Width="200px"
+                              FieldName="@nameof(GLL00100DTO.CSTATUS_NAME)"
+                              HeaderText=@_localizer["_Status"] />
+
         </R_GridColumns>
     </R_Grid>
 </R_StackLayout>

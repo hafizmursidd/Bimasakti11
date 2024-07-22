@@ -169,7 +169,7 @@ namespace PMR00150FRONT
                 LookupGSL00700ViewModel loLookupViewModel = new LookupGSL00700ViewModel();
                 var param = new GSL00700ParameterDTO
                 {
-                    CUSER_ID = clientHelper.UserId,
+                    CUSER_ID = clientHelper!.UserId,
                     CCOMPANY_ID = clientHelper.CompanyId,
                     CSEARCH_TEXT = _viewModel.lcDeptCodeFrom,
                 };
@@ -239,7 +239,7 @@ namespace PMR00150FRONT
                 LookupGSL00700ViewModel loLookupViewModel = new LookupGSL00700ViewModel();
                 var param = new GSL00700ParameterDTO
                 {
-                    CUSER_ID = clientHelper.UserId,
+                    CUSER_ID = clientHelper!.UserId,
                     CCOMPANY_ID = clientHelper.CompanyId,
                     CSEARCH_TEXT = _viewModel.lcDeptCodeTo,
                 };
@@ -400,8 +400,8 @@ namespace PMR00150FRONT
                 }
                 else
                 {
-                    _viewModel.lcSalesmanCodeTo = loResult.CSALESMAN_ID;
-                    _viewModel.lcSalesmanNameTo = loResult.CSALESMAN_NAME;
+                    _viewModel.lcSalesmanCodeTo = loResult.CSALESMAN_ID!;
+                    _viewModel.lcSalesmanNameTo = loResult.CSALESMAN_NAME!;
                 }
             }
             catch (Exception ex)

@@ -16,13 +16,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\BACK\Lookup_APCOMMON\Lookup_APCOMMON.csproj" />
-    <ProjectReference Include="..\..\BACK\Lookup_GSCOMMON\Lookup_GSCOMMON.csproj" />
     <ProjectReference Include="..\Lookup_APFrontResources\Lookup_APFrontResources.csproj" />
     <ProjectReference Include="..\Lookup_APModel\Lookup_APModel.csproj" />
-    <ProjectReference Include="..\Lookup_GSFrontResources\Lookup_GSFrontResources.csproj" />
     <ProjectReference Include="..\Lookup_GSFRONT\Lookup_GSFRONT.csproj" />
-    <ProjectReference Include="..\Lookup_GSModel\Lookup_GSModel.csproj" />
   </ItemGroup>
 	<ItemGroup>
 		<Reference Include="BlazorClientHelper">

@@ -191,6 +191,7 @@ namespace Lookup_APBACK
                 loDb.R_AddCommandParameter(loCmd, "@CACTIVE_TYPE", DbType.String, 10, poParameter.CACTIVE_TYPE);
                 loDb.R_AddCommandParameter(loCmd, "@CLANGUAGE_ID", DbType.String, 10, poParameter.CLANGUAGE_ID);
                 loDb.R_AddCommandParameter(loCmd, "@CTAX_DATE", DbType.String, 10, poParameter.CTAX_DATE);
+                loDb.R_AddCommandParameter(loCmd, "@CBUYSELL", DbType.String, 40, poParameter.CBUYSELL);
 
                 //Debug Logs
                 var loDbParam = loCmd.Parameters.Cast<DbParameter>()

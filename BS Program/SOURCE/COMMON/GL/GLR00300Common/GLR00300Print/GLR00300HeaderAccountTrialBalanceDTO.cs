@@ -16,6 +16,7 @@ namespace GLR00300Common.GLR00300Print
         public string CJOURNAL_ADJ_MODE_NAME { get; set; }
         public string CPRINT_METHOD_NAME { get; set; }
         public string CBUDGET_NO { get; set; }
+        public byte[]? CLOGO { get; set; }
     }
 
     #region Format A to Format D

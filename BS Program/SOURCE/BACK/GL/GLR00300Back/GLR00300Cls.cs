@@ -313,6 +313,44 @@ namespace GLR00300Back
             return loResult;
         }
 
+        public GLR00300HeaderAccountTrialBalanceDTO GetBaseHeaderLogoCompany(GLR00300ParamDBToGetReportDTO poParameter)
+        {
+            using Activity activity = _activitySource.StartActivity("GetBaseHeaderLogoCompany");
+            var loEx = new R_Exception();
+            GLR00300HeaderAccountTrialBalanceDTO loResult = null;
+
+            try
+            {
+                var loDb = new R_Db();
+                var loConn = loDb.GetConnection(R_Db.eDbConnectionStringType.ReportConnectionString);
+                var loCmd = loDb.GetCommand();
+
+
+                var lcQuery = "SELECT dbo.RFN_GET_COMPANY_LOGO(@CCOMPANY_ID) as CLOGO";
+                loCmd.CommandText = lcQuery;
+                loCmd.CommandType = CommandType.Text;
+                loDb.R_AddCommandParameter(loCmd, "@CCOMPANY_ID", DbType.String, 15, poParameter.CCOMPANY_ID);
+
+                //Debug Logs
+                var loDbParam = loCmd.Parameters.Cast<DbParameter>()
+                .Where(x => x != null && x.ParameterName.StartsWith("@")).Select(x => x.Value);
+                _loggerGLR00300.LogDebug("SELECT dbo.RFN_GET_COMPANY_LOGO({@CCOMPANY_ID}) as CLOGO", loDbParam);
+
+                var loDataTable = loDb.SqlExecQuery(loConn, loCmd, true);
+                loResult = R_Utility.R_ConvertTo<GLR00300HeaderAccountTrialBalanceDTO>(loDataTable).FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                loEx.Add(ex);
+                _loggerGLR00300.LogError(loEx);
+            }
+
+            loEx.ThrowExceptionIfErrors();
+
+            return loResult;
+        }
+
+
 
 
     }

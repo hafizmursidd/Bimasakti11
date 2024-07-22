@@ -164,6 +164,7 @@ namespace Lookup_APModel
                 R_FrontContext.R_SetStreamingContext(ContextConstantPublicLookup.CACTIVE_TYPE, poParam.CACTIVE_TYPE);
                 R_FrontContext.R_SetStreamingContext(ContextConstantPublicLookup.CCATEGORY_ID, poParam.CCATEGORY_ID);
                 R_FrontContext.R_SetStreamingContext(ContextConstantPublicLookup.CTAX_DATE, poParam.CTAX_DATE);
+                R_FrontContext.R_SetStreamingContext(ContextConstantPublicLookup.CBUYSELL, poParam.CBUYSELL);
 
                 R_HTTPClientWrapper.httpClientName = _HttpClientName;
                 loResult = await R_HTTPClientWrapper.R_APIRequestStreamingObject<APL00300DTO>(

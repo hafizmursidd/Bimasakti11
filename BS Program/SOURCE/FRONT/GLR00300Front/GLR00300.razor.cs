@@ -268,7 +268,7 @@ namespace GLR00300Front
                 var loGetData = _viewModelGLR00300.InitialProcess;
                 if (!string.IsNullOrWhiteSpace(loGetData.CMIN_GLACCOUNT_NO))
                 {
-                    LookupGSL0090ViewModel loLookupViewModel = new LookupGSL0090ViewModel();
+                    LookupGSL00510ViewModel loLookupViewModel = new LookupGSL00510ViewModel();
                     var param = new GSL00510ParameterDTO
                     {
                         CCOMPANY_ID = _clientHelper.CompanyId,
@@ -352,7 +352,7 @@ namespace GLR00300Front
                 var loGetData = _viewModelGLR00300.InitialProcess;
                 if (!string.IsNullOrWhiteSpace(loGetData.CMAX_GLACCOUNT_NO))
                 {
-                    LookupGSL0090ViewModel loLookupViewModel = new LookupGSL0090ViewModel();
+                    LookupGSL00510ViewModel loLookupViewModel = new LookupGSL00510ViewModel();
                     var param = new GSL00510ParameterDTO
                     {
                         CCOMPANY_ID = _clientHelper.CompanyId,
