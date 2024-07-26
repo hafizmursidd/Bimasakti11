@@ -507,7 +507,6 @@ namespace GLR00300Front
             }
             R_DisplayException(loEx);
         }
-
         private async Task LostFocusLookupToCenter()
         {
             var loEx = new R_Exception();

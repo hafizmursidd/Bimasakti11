@@ -22,8 +22,9 @@ namespace PMT01700COMMON.DTO._2._LOO._3._LOO___Unit___Charges.LOO___Unit___Charg
         public string? CINVGRP_NAME { get; set; }
         public string? CDESCRIPTION { get; set; }
 
-        //ADDTIONAL
+        
         public string? CTAX_ID { get; set; }
+        public string? CTAX_NAME { get; set; }
         public bool LCAL_UNIT { get; set; }
         public string? CINVOICE_PERIOD { get; set; }
         public List<PMT01700LOO_UnitCharges_Charges_ChargesItemDTO>? ChargeItemList { get; set; }

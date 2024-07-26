@@ -186,6 +186,49 @@
                     </R_ItemLayout>
                     </R_ItemLayout>
 
+                    @* Tax ID *@
+                    <R_ItemLayout col="12" Class="d-flex">
+                    <R_ItemLayout col="2">
+                    <R_Label>
+                    @_localizer["_TaxId"]
+                    </R_Label>
+                    </R_ItemLayout>
+
+                    <R_ItemLayout col="2">
+                    <R_TextBox @bind-Value="@_viewModel.Data.CTAX_ID"
+                           R_ConductorSource="@_conductorCharges"
+                           OnLostFocus="@OnLostFocusTaxCode"
+                           Enabled="@(_viewModel.LTAXABLE && !_oEventCallBack.LCRUD_MODE)"
+                           R_EnableAdd
+                           R_EnableEdit="false">
+                </R_TextBox>
+                </R_ItemLayout>
+
+                <R_ItemLayout col="8" Class="d-flex">
+
+                <R_ItemLayout col="1" Class="text-center">
+                    <R_Lookup R_ConductorSource="@_conductorCharges"
+                              @ref="@R_LookupTaxCodeLookup"                              
+                              Enabled="@(_viewModel.LTAXABLE && !_oEventCallBack.LCRUD_MODE)"
+                              R_EnableAdd
+                              R_EnableEdit="false"
+                              R_Before_Open_Lookup="@BeforeOpenLookUpTaxCodeLookup"
+                              R_After_Open_Lookup="@AfterOpenLookUpTaxCodeLookup">
+                        ...
+                    </R_Lookup>
+                    </R_ItemLayout>
+
+                    <R_ItemLayout col="11">
+                    <R_TextBox @bind-Value="@_viewModel.Data.CTAX_NAME"
+                               R_ConductorSource="@_conductorCharges"
+                               Enabled="false">
+                    </R_TextBox>
+                    </R_ItemLayout>
+
+
+                    </R_ItemLayout>
+                    </R_ItemLayout>
+
                     @* Tenure *@
                     <R_ItemLayout col="12" Class="d-flex">
 
@@ -476,7 +519,7 @@
 
     <R_ItemLayout col="4">
 
-        @* CheckBox For Total Area *@
+        @* CheckBox For Detils Item *@
         <R_ItemLayout Class="ps-1 d-flex">
             <R_ItemLayout>
                 <R_CheckBox Value="@_viewModel.Data.LCAL_UNIT"

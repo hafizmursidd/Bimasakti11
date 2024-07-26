@@ -26,7 +26,7 @@ namespace PMT01700MODEL.ViewModel
         public List<PMT01700ResponseUtilitiesCMeterNoParameterDTO> oComboBoxDataCMETER_NO = new List<PMT01700ResponseUtilitiesCMeterNoParameterDTO>();
         public PMT01700ParameterFrontChangePageDTO oParameterUtilities = new PMT01700ParameterFrontChangePageDTO();
 
-
+        public bool LTAXABLE = false;
 
         #region Program
         public async Task<bool> GetComboBoxDataCMETER_NO(PMT01700LOO_UnitUtilities_ParameterDTO poParameter)

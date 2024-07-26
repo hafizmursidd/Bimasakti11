@@ -113,12 +113,30 @@ namespace PMT01700FRONT
 
             try
             {
+                _viewModel.LTAXABLE = false;
                 var loParam = R_FrontUtility.ConvertObjectToObject<PMT01700LOO_UnitCharges_ChargesDetailDTO>(eventArgs.Data);
+                var loTempParam = R_FrontUtility.ConvertObjectToObject<PMT01700LOO_UnitUtilities_ParameterDTO>(loParam);
+
                 loParam.CDEPT_CODE = _viewModel.oParameterChargeTab.CDEPT_CODE;
                 loParam.CTRANS_CODE = _viewModel.oParameterChargeTab.CTRANS_CODE;
-                // var temp = _viewModel.oParameterChargeTab;
                 await _viewModel.GetEntityCharges(loParam);
 
+                //if (_viewModel.oEntityCharges != null)
+                //    _viewModel._cCurrencyCode = "";
+                //else
+                //    _viewModel._cCurrencyCode = "";
+
+                if (_viewModel.oEntityCharges!.LCAL_UNIT)
+                {
+                    if (!string.IsNullOrEmpty(loParam.CSEQ_NO))
+                    {
+                        await _gridItemCharges!.R_RefreshGrid(loTempParam);
+                    }
+                    else
+                    {
+                        loEx.Add("ErrDev", "SeqNo It's Not Supplied");
+                    }
+                }
                 eventArgs.Result = _viewModel.oEntityCharges;
 
             }
@@ -165,6 +183,7 @@ namespace PMT01700FRONT
 
             try
             {
+               
                 if (loData != null)
                 {
                     if (!string.IsNullOrEmpty(loData.CSEQ_NO))
@@ -330,7 +349,7 @@ namespace PMT01700FRONT
             R_Exception loEx = new R_Exception();
             try
             {
-                var res = await R_MessageBox.Show("", @_localizer["ValidationBeforeCancel"], R_eMessageBoxButtonType.YesNo);
+                var res = await R_MessageBox.Show("", @_localizer["ValidationBeforeCancelCharges"], R_eMessageBoxButtonType.YesNo);
                 if (res == R_eMessageBoxResult.No)
                 {
                     eventArgs.Cancel = true;
@@ -528,7 +547,7 @@ namespace PMT01700FRONT
         }
         #endregion
 
-        #region Lookup Button Charges Lookup
+        #region Lookup Button UTILITTY Charges Lookup
         private R_Lookup _BtnLookupCharges;
 
         private void BeforeOpenLookUpChargesLookup(R_BeforeOpenLookupEventArgs eventArgs)
@@ -563,6 +582,7 @@ namespace PMT01700FRONT
                 _viewModel.Data.CCHARGES_NAME = loTempResult.CCHARGES_NAME;
                 _viewModel.Data.CCHARGES_TYPE = loTempResult.CCHARGES_TYPE;
                 _viewModel.Data.CCHARGES_TYPE_DESCR = loTempResult.CCHARGES_TYPE_DESCR;
+                _viewModel.LTAXABLE = loTempResult.LTAXABLE;
             }
             catch (Exception ex)
             {
@@ -584,13 +604,17 @@ namespace PMT01700FRONT
                 if (string.IsNullOrWhiteSpace(_viewModel.Data.CCHARGES_ID))
                 {
                     loGetData.CCHARGES_ID = "";
+                    loGetData.CCHARGES_NAME = "";
+                    loGetData.CCHARGES_TYPE = "";
+                    loGetData.CCHARGES_TYPE_DESCR = "";
+                    _viewModel.LTAXABLE = false;
                     return;
                 }
 
                 LookupLML00200ViewModel loLookupViewModel = new LookupLML00200ViewModel();
                 LML00200ParameterDTO loParam = new LML00200ParameterDTO()
                 {
-                    CCOMPANY_ID = _clientHelper.CompanyId,
+                    CCOMPANY_ID = _clientHelper!.CompanyId,
                     CUSER_ID = _clientHelper.UserId,
                     CPROPERTY_ID = _viewModel.oParameterChargeTab.CPROPERTY_ID!,
                     CCHARGE_TYPE_ID = "01,02,05",
@@ -608,6 +632,7 @@ namespace PMT01700FRONT
                     loGetData.CCHARGES_NAME = "";
                     loGetData.CCHARGES_TYPE = "";
                     loGetData.CCHARGES_TYPE_DESCR = "";
+                    _viewModel.LTAXABLE = false;
                     //await GLAccount_TextBox.FocusAsync();
                 }
                 else
@@ -616,6 +641,7 @@ namespace PMT01700FRONT
                     loGetData.CCHARGES_NAME = loResult.CCHARGES_NAME;
                     loGetData.CCHARGES_TYPE = loResult.CCHARGES_TYPE;
                     loGetData.CCHARGES_TYPE_DESCR = loResult.CCHARGES_TYPE_DESCR;
+                    _viewModel.LTAXABLE = loResult.LTAXABLE;
                 }
             }
             catch (Exception ex)
@@ -705,6 +731,101 @@ namespace PMT01700FRONT
                 {
                     loGetData.CCURRENCY_CODE = loResult.CCURRENCY_CODE;
                     _viewModel._cCurrencyCode = loResult.CCURRENCY_CODE;
+                }
+            }
+            catch (Exception ex)
+            {
+                loEx.Add(ex);
+            }
+
+            R_DisplayException(loEx);
+        }
+        #endregion
+        #region Lookup Button Tax Code Lookup
+
+        private R_Lookup? R_LookupTaxCodeLookup;
+        private void BeforeOpenLookUpTaxCodeLookup(R_BeforeOpenLookupEventArgs eventArgs)
+        {
+            GSL00110ParameterDTO? param = null;
+            if (!string.IsNullOrEmpty(_viewModel.oParameterChargeTab.CPROPERTY_ID))
+            {
+                param = new GSL00110ParameterDTO
+                {
+                    CCOMPANY_ID = _clientHelper.CompanyId,
+                    CUSER_ID = _clientHelper.UserId,
+                    CTAX_DATE = DateTime.Now.ToString("yyyyMMdd")
+                };
+            }
+            eventArgs.Parameter = param;
+            eventArgs.TargetPageType = typeof(GSL00110);
+        }
+
+        private void AfterOpenLookUpTaxCodeLookup(R_AfterOpenLookupEventArgs eventArgs)
+        {
+            R_Exception loException = new R_Exception();
+            GSL00110DTO? loTempResult = null;
+            //LMM01500AgreementDetailDTO? loGetData = null;
+
+
+            try
+            {
+                loTempResult = (GSL00110DTO)eventArgs.Result;
+                if (loTempResult == null)
+                    return;
+
+                //loGetData = (LMM01500AgreementDetailDTO)_conductorFullPMT02500Agreement.R_GetCurrentData();
+
+                _viewModel.Data.CTAX_ID = loTempResult.CTAX_ID;
+                _viewModel.Data.CTAX_NAME = loTempResult.CTAX_NAME;
+            }
+            catch (Exception ex)
+            {
+                loException.Add(ex);
+            }
+
+            R_DisplayException(loException);
+
+        }
+
+        private async Task OnLostFocusTaxCode()
+        {
+            R_Exception loEx = new R_Exception();
+
+            try
+            {
+                var loGetData = _viewModel.Data;
+
+                if (string.IsNullOrWhiteSpace(_viewModel.Data.CTAX_ID))
+                {
+                    loGetData.CTAX_ID = "";
+                    loGetData.CTAX_NAME = "";
+                    return;
+                }
+
+                LookupGSL00110ViewModel loLookupViewModel = new LookupGSL00110ViewModel();
+                GSL00110ParameterDTO loParam = new GSL00110ParameterDTO()
+                {
+                    CCOMPANY_ID = _clientHelper.CompanyId,
+                    CUSER_ID = _clientHelper.UserId,
+                    CTAX_DATE = DateTime.Now.ToString("yyyyMMdd"),
+                    CSEARCH_TEXT = loGetData.CTAX_ID ?? "",
+                };
+
+                var loResult = await loLookupViewModel.GetTaxByDate(loParam);
+
+                if (loResult == null)
+                {
+                    loEx.Add(R_FrontUtility.R_GetError(
+                            typeof(Lookup_GSFrontResources.Resources_Dummy_Class),
+                            "_ErrLookup01"));
+                    loGetData.CTAX_ID = "";
+                    loGetData.CTAX_NAME = "";
+                    //await GLAccount_TextBox.FocusAsync();
+                }
+                else
+                {
+                    loGetData.CTAX_ID = loResult.CTAX_ID;
+                    loGetData.CTAX_NAME = loResult.CTAX_NAME;
                 }
             }
             catch (Exception ex)

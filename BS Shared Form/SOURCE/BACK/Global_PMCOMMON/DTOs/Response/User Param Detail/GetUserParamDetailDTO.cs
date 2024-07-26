@@ -1,5 +1,4 @@
-﻿using Global_PMCOMMON.DTOs.Base_Param;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 

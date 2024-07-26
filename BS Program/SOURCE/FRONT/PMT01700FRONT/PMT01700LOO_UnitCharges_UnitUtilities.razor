@@ -348,7 +348,7 @@
                         </R_Label>
                     </R_ItemLayout>
 
-                    <R_ItemLayout col="6" Class="pe-2">
+                    <R_ItemLayout col="5" Class="pe-5">
                         <R_DropDownList Data="@_viewModelUtilities.oComboBoxDataCCHARGES_TYPE"
                                         Value="@_viewModelUtilities.Data.CCHARGES_TYPE"
                                         ValueField="@nameof(PMT01700ComboBoxDTO.CCODE)"
@@ -356,18 +356,28 @@
                                         R_ConductorSource="@_conductorUtilities"
                                         ValueChanged="@((string value) => OnChangedCCHARGES_TYPE(value))"
                                             R_EnableAdd
-                                        R_EnableEdit="false"
-                                        PopupMaxHeight="75px"
-                                        >
+                                        R_EnableEdit="false">
                         </R_DropDownList>
                         </R_ItemLayout>
+                        <R_ItemLayout col="3" Class="d-flex">
+                        <R_ItemLayout col="4">
+                            <R_Label>
+                                @_localizer["_Status"]
+                            </R_Label>
+                        </R_ItemLayout>
 
+                        <R_ItemLayout col="8">
+                            <R_TextBox @bind-Value="@_viewModelUtilities.Data.CSTATUS_DESCR"
+                                       R_ConductorSource="@_conductorUtilities"
+                                       OnLostFocus="@OnLostFocusChargeID"
+                                       MaxLength="20"
+                                       Enabled="@false" />
+                        </R_ItemLayout>
+                        </R_ItemLayout>
                         </R_StackLayout>
 
                         <R_ItemLayout col="5">
-
                         <R_StackLayout Row>
-
                         <R_ItemLayout col="2">
                             <R_Label>
                                 @_localizer["_Charge"]*
@@ -426,12 +436,14 @@
 
                         <R_DropDownList Data="@_viewModelUtilities.oComboBoxDataCMETER_NO"
                                         Value="@_viewModelUtilities.Data.CMETER_NO"
+                                        PopupMaxHeight="100px"
                                         ValueField="@nameof(PMT01700ResponseUtilitiesCMeterNoParameterDTO.CMETER_NO)"
                                         TextField="@nameof(PMT01700ResponseUtilitiesCMeterNoParameterDTO.CMETER_NO)"
                                         ValueChanged="@((string value) => OnChangedCMETER_NO(value))"
                                         R_ConductorSource="@_conductorUtilities"
-                                        PopupMaxHeight="75px"
-                                        Enabled="@(_lControlCMeterNo && !_oEventCallBack.LCRUD_MODE)" />
+                                        Enabled="@(_lControlCMeterNo && !_oEventCallBack.LCRUD_MODE)"
+                                            R_EnableAdd
+                                            R_EnableEdit />
 
                     </R_ItemLayout>
 
@@ -475,38 +487,59 @@
                                                   Enabled="false">
                                 </R_NumericTextBox>
                             </R_ItemLayout>
-
                         </R_StackLayout>
-
                         </R_ItemLayout>
-
                         </R_StackLayout>
 
-                        <R_StackLayout Class="col-5" Row>
+                        @*TAX ID*@
+                        <R_ItemLayout col="5">
+                        <R_StackLayout Row>
+                        <R_ItemLayout col="2">
+                            <R_Label>
+                                @_localizer["_TaxId"]
+                            </R_Label>
+                        </R_ItemLayout>
+                        <R_ItemLayout col="3">
+                            <R_TextBox @bind-Value="@_viewModelUtilities.Data.CTAX_ID"
+                                       R_ConductorSource="@_conductorUtilities"
+                                       OnLostFocus="@OnLostFocusTaxCode"
+                                       MaxLength="20"
+                                       Enabled="@(_viewModelUtilities.LTAXABLE && !_oEventCallBack.LCRUD_MODE)"
+                                       R_EnableAdd
+                                       R_EnableEdit="false">
+                            </R_TextBox>
+                            </R_ItemLayout>
+                            <R_ItemLayout col="6" Class="d-flex">
 
-                    <R_ItemLayout col="2">
-                        <R_Label>
-                            @_localizer["_Status"]
-                        </R_Label>
-                    </R_ItemLayout>
+                            <R_ItemLayout col="2" Class="d-flex justify-content-center">
+                                <R_Lookup @ref="@R_LookupTaxCodeLookup"
+                                          R_Before_Open_Lookup="@BeforeOpenLookUpTaxCodeLookup"
+                                          R_After_Open_Lookup="@AfterOpenLookUpTaxCodeLookup"
+                                          R_ConductorSource="@_conductorUtilities"
+                                          Enabled="@(_viewModelUtilities.LTAXABLE && !_oEventCallBack.LCRUD_MODE)"
+                                          R_EnableAdd
+                                          R_EnableEdit="false">
+                                    ...
+                                </R_Lookup>
+                                </R_ItemLayout>
 
-                    <R_ItemLayout col="3">
-                        <R_TextBox @bind-Value="@_viewModelUtilities.Data.CSTATUS_DESCR"
-                                   R_ConductorSource="@_conductorUtilities"
-                                   OnLostFocus="@OnLostFocusChargeID"
-                                   MaxLength="20"
-                                   Enabled="@false" />
-                    </R_ItemLayout>
+                                <R_ItemLayout col="9">
+                                <R_TextBox @bind-Value="@_viewModelUtilities.Data.CTAX_NAME"
+                                           R_ConductorSource="@_conductorUtilities"
+                                           Enabled="false">
+                                </R_TextBox>
+                                </R_ItemLayout>
+                                </R_ItemLayout>
+                                </R_StackLayout>
+                                </R_ItemLayout>
 
-                </R_StackLayout>
+                                </R_ItemLayout>
 
-            </R_ItemLayout>
+                                </R_StackLayout>
 
-        </R_StackLayout>
+                                <R_StackLayout>
 
-        <R_StackLayout>
-
-            <R_StackLayout Row Spacing="3" Class="d-flex justify-content-between">
+                                <R_StackLayout Row Spacing="3" Class="d-flex justify-content-between">
 
                 <R_StackLayout Row>
 
@@ -515,11 +548,11 @@
                     </R_ItemLayout>
 
                     <R_ItemLayout>
-                        <R_EditButton  R_Conductor="@_conductorUtilities"></R_EditButton>
+                        <R_EditButton R_Conductor="@_conductorUtilities"></R_EditButton>
                     </R_ItemLayout>
 
                     <R_ItemLayout>
-                        <R_DeleteButton  R_Conductor="@_conductorUtilities"></R_DeleteButton>
+                        <R_DeleteButton R_Conductor="@_conductorUtilities"></R_DeleteButton>
                     </R_ItemLayout>
 
                 </R_StackLayout>
@@ -553,8 +586,8 @@
                  R_SetOther="@R_SetOther"
                       R_IsHeader />
 
-                      <R_Conductor @ref="@_conductorUtilities"
-             R_IsHeader
+<R_Conductor @ref="@_conductorUtilities"
+              R_IsHeader
              R_ViewModel="@_viewModelUtilities"
              R_ServiceGetRecord="@ServiceGetUtilitiesRecord"
              R_ServiceDelete="@ServiceDeleteUtilities"

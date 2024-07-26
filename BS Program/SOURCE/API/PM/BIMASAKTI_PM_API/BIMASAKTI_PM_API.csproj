@@ -21,6 +21,7 @@
 	  <ProjectReference Include="..\..\..\..\..\BS Shared Form\SOURCE\SERVICES\Global_PMSERVICES\Global_PMSERVICES.csproj" />
 	  <ProjectReference Include="..\..\..\..\..\BS Shared Form\SOURCE\SERVICES\Lookup_LMSERVICES\Lookup_PMSERVICES.csproj" />
 	  <ProjectReference Include="..\..\..\SERVICE\LM\LMT05500SERVICE\PMT05500SERVICE.csproj" />
+	  <ProjectReference Include="..\..\..\SERVICE\LM\PMB04000SERVICE\PMB04000SERVICE.csproj" />
 	  <ProjectReference Include="..\..\..\SERVICE\LM\PMM06000SERVICE\PMM06000SERVICE.csproj" />
 	  <ProjectReference Include="..\..\..\SERVICE\LM\PMR00150SERVICE\PMR00150SERVICE.csproj" />
 	  <ProjectReference Include="..\..\..\SERVICE\LM\PMT01700SERVICE\PMT01700SERVICE.csproj" />

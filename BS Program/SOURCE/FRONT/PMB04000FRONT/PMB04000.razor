@@ -1,0 +1,22 @@
+@inherits R_Page
+@page "/PMB04000"
+@using Global_PMCOMMON.DTOs.Response.Property;
+@attribute [R_Page(Title = "Generate Official Receipt")]
+@inject R_ILocalizer<Resources_PMB0400_Class> _localizer
+
+<R_StackLayout Class="ms-3">
+    <R_StackLayout Row>
+        <R_ItemLayout col="1">
+            <R_Label>@_localizer["_labelProperty"]</R_Label>
+        </R_ItemLayout>
+
+        <R_ItemLayout col="3">
+            <R_ComboBox Data="@_viewModel.loPropertyList"
+                        Value="_viewModel.oParameterInvoiceReceipt.CPROPERTY_ID"
+                        ValueField="@nameof(PropertyDTO.CPROPERTY_ID)"
+                        TextField="@nameof(PropertyDTO.CPROPERTY_NAME)"
+                        ValueChanged="@((string value)=> OnChangedProperty(value))" />
+        </R_ItemLayout>
+    </R_StackLayout>
+
+</R_StackLayout>

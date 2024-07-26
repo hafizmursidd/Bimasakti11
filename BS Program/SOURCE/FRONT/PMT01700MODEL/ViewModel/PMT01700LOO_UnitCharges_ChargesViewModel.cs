@@ -39,9 +39,12 @@ namespace PMT01700MODEL.ViewModel
 
         public PMT01700ParameterChargesTab oParameterChargeTab = new PMT01700ParameterChargesTab();
         //  public PMT01700LOO_UnitUtilities_ParameterDTO oParameterGetItemCharges = new PMT01700LOO_UnitUtilities_ParameterDTO();
+        #endregion
+        
         public string _cCurrencyCode = "";
         public decimal NTotalItemDetil;
-        #endregion
+        //CR02
+        public bool LTAXABLE = false;
 
         #region DataCBillingMode
 

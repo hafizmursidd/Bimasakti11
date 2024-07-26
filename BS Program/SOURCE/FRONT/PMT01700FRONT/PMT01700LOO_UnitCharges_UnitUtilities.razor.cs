@@ -117,16 +117,6 @@ namespace PMT01700FRONT
             {
                 var loData = (PMT01700LOO_UnitUtilities_UnitUtilities_AgreementUnitInfoListDTO)eventArgs.Data;
 
-                if (string.IsNullOrEmpty(loData.CFLOOR_ID))
-                {
-                    //if (!string.IsNullOrEmpty(loData.CUNIT_ID))
-                    //{
-
-                    //}
-
-                }
-
-
                 if (string.IsNullOrWhiteSpace(loData.COTHER_UNIT_ID))
                 {
                     var loErr = R_FrontUtility.R_GetError(typeof(Resources_PMT01700_Class), "ValidationUnit");
@@ -559,7 +549,7 @@ namespace PMT01700FRONT
 
             try
             {
-              //  var loParam = (PMT01700LOO_UnitUtilities_ParameterDTO)eventArgs.Parameter;
+                //  var loParam = (PMT01700LOO_UnitUtilities_ParameterDTO)eventArgs.Parameter;
                 await _viewModelUtilities.GetUtilitiesList();
                 if (_viewModelUtilities.oListUtilities.Any())
                 {
@@ -617,7 +607,7 @@ namespace PMT01700FRONT
                     };
                     bool llResult = await _viewModelUtilities.GetComboBoxDataCMETER_NO(loParamMeterNo);
                 }
-
+                _viewModelUtilities.LTAXABLE = false;
                 eventArgs.Result = _viewModelUtilities.oEntityUtilities;
             }
             catch (Exception ex)
@@ -682,98 +672,6 @@ namespace PMT01700FRONT
         }
 
         #endregion
-
-        #endregion
-
-        #region LookupCharge
-
-        private R_Lookup? R_Lookup_Charge;
-
-        private void BeforeOpenLookUp_ChargeID(R_BeforeOpenLookupEventArgs eventArgs)
-        {
-            var loEx = new R_Exception();
-            try
-            {
-                var param = new LML00400ParameterDTO()
-                {
-                    CCOMPANY_ID = _clientHelper.CompanyId,
-                    CPROPERTY_ID = _viewModelUtilities.oParameterUtilities.CPROPERTY_ID!,
-                    CCHARGE_TYPE_ID = _viewModelUtilities.Data.CCHARGES_TYPE!,
-                    CUSER_ID = _clientHelper.UserId
-                };
-                eventArgs.Parameter = param;
-                eventArgs.TargetPageType = typeof(LML00400);
-            }
-            catch (Exception ex)
-            {
-                loEx.Add(ex);
-            }
-            loEx.ThrowExceptionIfErrors();
-
-        }
-
-        private void AfterOpenLookUp_ChargeID(R_AfterOpenLookupEventArgs eventArgs)
-        {
-            var loTempResult = (LML00400DTO)eventArgs.Result;
-            if (loTempResult == null)
-                return;
-
-            var loGetData = (PMT01700LOO_UnitUtilities_UnitUtilities_UtilitiesDTO)_conductorUtilities.R_GetCurrentData();
-
-            loGetData.CCHARGES_ID = loTempResult.CCHARGES_ID;
-            loGetData.CCHARGES_NAME = loTempResult.CCHARGES_NAME;
-
-        }
-
-        private async Task OnLostFocusChargeID()
-        {
-            R_Exception loEx = new R_Exception();
-
-            try
-            {
-                var loGetData = _viewModelUtilities.Data;
-
-                if (string.IsNullOrWhiteSpace(_viewModelUtilities.Data.CCHARGES_ID))
-                {
-                    loGetData.CCHARGES_ID = "";
-                    loGetData.CCHARGES_NAME = "";
-                    return;
-                }
-
-                LookupLML00400ViewModel loLookupViewModel = new LookupLML00400ViewModel();
-                LML00400ParameterDTO loParam = new LML00400ParameterDTO()
-                {
-                    CCOMPANY_ID = _clientHelper.CompanyId,
-                    CPROPERTY_ID = _viewModelUtilities.oParameterUtilities.CPROPERTY_ID!,
-                    CCHARGE_TYPE_ID = _viewModelUtilities.Data.CCHARGES_TYPE!,
-                    CUSER_ID = _clientHelper.UserId,
-                    CSEARCH_TEXT = loGetData.CCHARGES_ID ?? "",
-                };
-
-                var loResult = await loLookupViewModel.GetUtitlityCharges(loParam);
-
-                if (loResult == null)
-                {
-                    loEx.Add(R_FrontUtility.R_GetError(
-                            typeof(Lookup_GSFrontResources.Resources_Dummy_Class),
-                            "_ErrLookup01"));
-                    loGetData.CCHARGES_ID = "";
-                    loGetData.CCHARGES_NAME = "";
-                    //await GLAccount_TextBox.FocusAsync();
-                }
-                else
-                {
-                    loGetData.CCHARGES_ID = loResult.CCHARGES_ID;
-                    loGetData.CCHARGES_NAME = loResult.CCHARGES_NAME;
-                }
-            }
-            catch (Exception ex)
-            {
-                loEx.Add(ex);
-            }
-
-            R_DisplayException(loEx);
-        }
 
         #endregion
 
@@ -873,7 +771,7 @@ namespace PMT01700FRONT
 
         #endregion
 
-        #region Master LookUp
+        #region LookUp Other Unit
 
         private void Before_Open_LookupOtherUnitId(R_BeforeOpenGridLookupColumnEventArgs eventArgs)
         {
@@ -982,6 +880,194 @@ namespace PMT01700FRONT
         }
 
         #endregion
+        #region LookupCharge
+
+        private R_Lookup? R_Lookup_Charge;
+
+        private void BeforeOpenLookUp_ChargeID(R_BeforeOpenLookupEventArgs eventArgs)
+        {
+            var loEx = new R_Exception();
+            try
+            {
+                var param = new LML00400ParameterDTO()
+                {
+                    CCOMPANY_ID = _clientHelper.CompanyId,
+                    CPROPERTY_ID = _viewModelUtilities.oParameterUtilities.CPROPERTY_ID!,
+                    CCHARGE_TYPE_ID = _viewModelUtilities.Data.CCHARGES_TYPE!,
+                    CUSER_ID = _clientHelper.UserId
+                };
+                eventArgs.Parameter = param;
+                eventArgs.TargetPageType = typeof(LML00400);
+            }
+            catch (Exception ex)
+            {
+                loEx.Add(ex);
+            }
+            loEx.ThrowExceptionIfErrors();
+
+        }
+
+        private void AfterOpenLookUp_ChargeID(R_AfterOpenLookupEventArgs eventArgs)
+        {
+            var loTempResult = (LML00400DTO)eventArgs.Result;
+            if (loTempResult == null)
+                return;
+
+            var loGetData = (PMT01700LOO_UnitUtilities_UnitUtilities_UtilitiesDTO)_conductorUtilities.R_GetCurrentData();
+
+            loGetData.CCHARGES_ID = loTempResult.CCHARGES_ID;
+            loGetData.CCHARGES_NAME = loTempResult.CCHARGES_NAME;
+            _viewModelUtilities.LTAXABLE = loTempResult.LTAXABLE;
+        }
+
+        private async Task OnLostFocusChargeID()
+        {
+            R_Exception loEx = new R_Exception();
+
+            try
+            {
+                var loGetData = _viewModelUtilities.Data;
+
+                if (string.IsNullOrWhiteSpace(_viewModelUtilities.Data.CCHARGES_ID))
+                {
+                    loGetData.CCHARGES_ID = "";
+                    loGetData.CCHARGES_NAME = "";
+                    return;
+                }
+
+                LookupLML00400ViewModel loLookupViewModel = new LookupLML00400ViewModel();
+                LML00400ParameterDTO loParam = new LML00400ParameterDTO()
+                {
+                    CCOMPANY_ID = _clientHelper.CompanyId,
+                    CPROPERTY_ID = _viewModelUtilities.oParameterUtilities.CPROPERTY_ID!,
+                    CCHARGE_TYPE_ID = _viewModelUtilities.Data.CCHARGES_TYPE!,
+                    CUSER_ID = _clientHelper.UserId,
+                    CSEARCH_TEXT = loGetData.CCHARGES_ID ?? "",
+                };
+
+                var loResult = await loLookupViewModel.GetUtitlityCharges(loParam);
+
+                if (loResult == null)
+                {
+                    loEx.Add(R_FrontUtility.R_GetError(
+                            typeof(Lookup_GSFrontResources.Resources_Dummy_Class),
+                            "_ErrLookup01"));
+                    loGetData.CCHARGES_ID = "";
+                    loGetData.CCHARGES_NAME = "";
+                    _viewModelUtilities.LTAXABLE = false ;
+                }
+                else
+                {
+                    loGetData.CCHARGES_ID = loResult.CCHARGES_ID;
+                    loGetData.CCHARGES_NAME = loResult.CCHARGES_NAME;
+                    _viewModelUtilities.LTAXABLE = loResult.LTAXABLE;
+                }
+            }
+            catch (Exception ex)
+            {
+                loEx.Add(ex);
+            }
+
+            R_DisplayException(loEx);
+        }
+
+        #endregion
+        #region Lookup Button Tax Code Lookup
+
+        private R_Lookup? R_LookupTaxCodeLookup;
+        private void BeforeOpenLookUpTaxCodeLookup(R_BeforeOpenLookupEventArgs eventArgs)
+        {
+            GSL00110ParameterDTO? param = null;
+            if (!string.IsNullOrEmpty(_viewModelUtilities.oParameterUtilities.CPROPERTY_ID))
+            {
+                param = new GSL00110ParameterDTO
+                {
+                    CCOMPANY_ID = _clientHelper.CompanyId,
+                    CUSER_ID = _clientHelper.UserId,
+                    CTAX_DATE = DateTime.Now.ToString("yyyyMMdd")
+                };
+            }
+            eventArgs.Parameter = param;
+            eventArgs.TargetPageType = typeof(GSL00110);
+        }
+
+        private void AfterOpenLookUpTaxCodeLookup(R_AfterOpenLookupEventArgs eventArgs)
+        {
+            R_Exception loException = new R_Exception();
+            GSL00110DTO? loTempResult = null;
+            //LMM01500AgreementDetailDTO? loGetData = null;
+
+
+            try
+            {
+                loTempResult = (GSL00110DTO)eventArgs.Result;
+                if (loTempResult == null)
+                    return;
+
+                //loGetData = (LMM01500AgreementDetailDTO)_conductorFullPMT02500Agreement.R_GetCurrentData();
+
+                _viewModelUtilities.Data.CTAX_ID = loTempResult.CTAX_ID;
+                _viewModelUtilities.Data.CTAX_NAME = loTempResult.CTAX_NAME;
+            }
+            catch (Exception ex)
+            {
+                loException.Add(ex);
+            }
+
+            R_DisplayException(loException);
+
+        }
+
+        private async Task OnLostFocusTaxCode()
+        {
+            R_Exception loEx = new R_Exception();
+
+            try
+            {
+                var loGetData = _viewModelUtilities.Data;
+
+                if (string.IsNullOrWhiteSpace(_viewModelUtilities.Data.CTAX_ID))
+                {
+                    loGetData.CTAX_ID = "";
+                    loGetData.CTAX_NAME = "";
+                    return;
+                }
+
+                LookupGSL00110ViewModel loLookupViewModel = new LookupGSL00110ViewModel();
+                GSL00110ParameterDTO loParam = new GSL00110ParameterDTO()
+                {
+                    CCOMPANY_ID = _clientHelper.CompanyId,
+                    CUSER_ID = _clientHelper.UserId,
+                    CTAX_DATE = DateTime.Now.ToString("yyyyMMdd"),
+                    CSEARCH_TEXT = loGetData.CTAX_ID ?? "",
+                };
+
+                var loResult = await loLookupViewModel.GetTaxByDate(loParam);
+
+                if (loResult == null)
+                {
+                    loEx.Add(R_FrontUtility.R_GetError(
+                            typeof(Lookup_GSFrontResources.Resources_Dummy_Class),
+                            "_ErrLookup01"));
+                    loGetData.CTAX_ID = "";
+                    loGetData.CTAX_NAME = "";
+                    //await GLAccount_TextBox.FocusAsync();
+                }
+                else
+                {
+                    loGetData.CTAX_ID = loResult.CTAX_ID;
+                    loGetData.CTAX_NAME = loResult.CTAX_NAME;
+                }
+            }
+            catch (Exception ex)
+            {
+                loEx.Add(ex);
+            }
+
+            R_DisplayException(loEx);
+        }
+        #endregion
+
 
         public Task RefreshTabPageAsync(object poParam)
         {

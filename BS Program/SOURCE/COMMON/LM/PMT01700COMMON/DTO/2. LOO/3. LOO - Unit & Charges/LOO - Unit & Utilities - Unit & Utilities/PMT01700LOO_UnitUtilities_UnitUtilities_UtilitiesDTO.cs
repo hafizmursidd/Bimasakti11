@@ -29,6 +29,7 @@ namespace PMT01700COMMON.DTO._2._LOO._3._LOO___Unit___Charges.LOO___Unit___Charg
 
         //CR 09072024 origanal grid to navigator
         public string? CTAX_ID { get; set; } = "";
+        public string? CTAX_NAME { get; set; } = "";
         public int IMETER_START { get; set; } = 0;
         public string? CSTART_INV_PRD { get; set; } = "";
 

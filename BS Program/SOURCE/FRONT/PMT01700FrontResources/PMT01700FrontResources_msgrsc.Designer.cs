@@ -1249,6 +1249,15 @@ namespace PMT01700FrontResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string str {
+            get {
+                return ResourceManager.GetString("str", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Address is required..
         /// </summary>
         internal static string ValidationAddress {
@@ -1272,6 +1281,15 @@ namespace PMT01700FrontResources {
         internal static string ValidationBeforeCancel {
             get {
                 return ResourceManager.GetString("ValidationBeforeCancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure want to cancel this Charge?.
+        /// </summary>
+        internal static string ValidationBeforeCancelCharges {
+            get {
+                return ResourceManager.GetString("ValidationBeforeCancelCharges", resourceCulture);
             }
         }
         
@@ -1371,6 +1389,15 @@ namespace PMT01700FrontResources {
         internal static string ValidationEventName {
             get {
                 return ResourceManager.GetString("ValidationEventName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fee Amount cannot be less than 1.
+        /// </summary>
+        internal static string ValidationFeeAmount {
+            get {
+                return ResourceManager.GetString("ValidationFeeAmount", resourceCulture);
             }
         }
         

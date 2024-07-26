@@ -1,0 +1,17 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace PMB04000COMMON.Context
+{
+    public class PMB04000ContextDTO
+    {
+        public const string CPROPERTY_ID = "CPROPERTY_ID";
+        public const string CDEPT_CODE = "CDEPT_CODE";
+        public const string CTENANT_ID = "CTENANT_ID";
+        public const string LALL_TENANT = "LALL_TENANT";
+        public const string CINVOICE_TYPE = "CINVOICE_TYPE";
+        public const string CPERIOD = "CPERIOD";
+        public const string CTRANS_CODE = "CTRANS_CODE";
+    }
+}

@@ -13,9 +13,5 @@
 			<HintPath>..\..\..\..\SYSTEM\SOURCE\LIBRARY\Back\R_CommonFrontBackAPI.dll</HintPath>
 		</Reference>
 	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="Context Constant\" />
-	</ItemGroup>
 	
 </Project>

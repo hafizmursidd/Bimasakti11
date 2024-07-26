@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Global_PMCOMMON.DTOs.Base_Param
+namespace Global_PMCOMMON.DTOs
 {
-    public abstract class BaseParameterDTO
+    public abstract class BaseDTO
     {
         public string CCOMPANY_ID { get; set; } = "";
         public string CUSER_ID { get; set; } = "";
