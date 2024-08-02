@@ -6,10 +6,10 @@
 
 <R_StackLayout>
 
-    <!-- Offer No -->
-    <R_StackLayout Row>
 
-        <R_StackLayout Row Class="col-5">
+    <R_StackLayout Row>
+        <!-- Offer No -->
+        <R_StackLayout Row Class="col-4">
 
             <R_ItemLayout col="3">
                 <R_Label>
@@ -17,72 +17,40 @@
                 </R_Label>
             </R_ItemLayout>
 
-            <R_ItemLayout col="8">
+            <R_ItemLayout col="9" Class="pe-3">
                 <R_TextBox @bind-Value="@_viewModel.oHeaderEntity.CREF_NO"
                            Enabled="false" />
             </R_ItemLayout>
-
         </R_StackLayout>
 
         <R_StackLayout Row Class="col-5">
-
-            <R_ItemLayout col="2">
+            <R_ItemLayout col="2" Class="ms-4">
                 <R_Label>
                     @_localizer["_Tenant"]
                 </R_Label>
             </R_ItemLayout>
-
-            <R_ItemLayout col="2">
+            <R_ItemLayout col="3">
                 <R_TextBox @bind-Value="@_viewModel.oHeaderEntity.CTENANT_ID"
                            Enabled="false" />
             </R_ItemLayout>
-
-            <R_ItemLayout col="4">
+            <R_ItemLayout col="5">
                 <R_TextBox @bind-Value="@_viewModel.oHeaderEntity.CTENANT_NAME"
                            Enabled="false" />
             </R_ItemLayout>
-
         </R_StackLayout>
 
-        </R_StackLayout>
-
-        <!-- Total Net Size -->
-        <R_StackLayout Row>
-
-        <R_StackLayout Row Class="col-5">
-
-            <R_ItemLayout col="3">
+        <R_StackLayout Row Class="col-3">
+            <R_ItemLayout col="5">
                 <R_Label>
                     @_localizer["_TotalNetSize"]
                 </R_Label>
             </R_ItemLayout>
 
-            <R_ItemLayout col="4">
+            <R_ItemLayout col="7">
                 <R_NumericTextBox @bind-Value="@_viewModel.oHeaderEntity.NTOTAL_NET_AREA"
                                   Enabled="false"
                                   Arrows="false" />
             </R_ItemLayout>
-
-        </R_StackLayout>
-
-        <R_StackLayout Row Class="col-5">
-
-            <R_ItemLayout col="2">
-                <R_Label>
-                    @_localizer["_Building"]
-                </R_Label>
-            </R_ItemLayout>
-
-            <R_ItemLayout col="2">
-                <R_TextBox @bind-Value="@_viewModel.oHeaderEntity.CBUILDING_ID"
-                           Enabled="false" />
-            </R_ItemLayout>
-
-            <R_ItemLayout col="4">
-                <R_TextBox @bind-Value="@_viewModel.oHeaderEntity.CBUILDING_NAME"
-                           Enabled="false" />
-            </R_ItemLayout>
-
         </R_StackLayout>
 
         </R_StackLayout>
@@ -90,7 +58,7 @@
         <!-- Tenure -->
         <R_StackLayout Row>
 
-        <R_StackLayout Row Class="col-5">
+        <R_StackLayout Row Class="col-4">
 
             <R_ItemLayout col="3">
                 <R_Label>
@@ -98,7 +66,7 @@
                 </R_Label>
             </R_ItemLayout>
 
-            <R_ItemLayout col="8" Class="d-flex">
+            <R_ItemLayout col="9" Class="d-flex">
 
                 <R_ItemLayout col="4" Class="d-flex">
 
@@ -151,8 +119,71 @@
 
         </R_StackLayout>
 
+        <R_StackLayout Row Class="col-5">
+
+            <R_ItemLayout col="2" Class="ms-4">
+                <R_Label>
+                    @_localizer["_Building"]
+                </R_Label>
+            </R_ItemLayout>
+
+            <R_ItemLayout col="3">
+                <R_TextBox @bind-Value="@_viewModel.oHeaderEntity.CBUILDING_ID"
+                           Enabled="false" />
+            </R_ItemLayout>
+
+            <R_ItemLayout col="5">
+                <R_TextBox @bind-Value="@_viewModel.oHeaderEntity.CBUILDING_NAME"
+                           Enabled="false" />
+            </R_ItemLayout>
+
         </R_StackLayout>
 
+        <R_StackLayout Row Class="col-3">
+            <R_ItemLayout col="5">
+                <R_Label>
+                    @_localizer["_TotalGrossArea"]
+                </R_Label>
+            </R_ItemLayout>
+
+            <R_ItemLayout col="7">
+                <R_NumericTextBox @bind-Value="@_viewModel.oHeaderEntity.NTOTAL_GROSS_AREA"
+                                  Enabled="false"
+                                  Arrows="false" />
+            </R_ItemLayout>
+        </R_StackLayout>
+        </R_StackLayout>
+
+        <!-- CR 02/08/2024 -->
+        <R_StackLayout Row>
+            <!-- START DATE -->
+            <R_StackLayout Row Class="col-4">
+
+                <R_ItemLayout col="3">
+                    <R_Label>
+                        @_localizer["_StartDate"]
+                    </R_Label>
+                </R_ItemLayout>
+
+                <R_ItemLayout col="9" Class="pe-3">
+                    <R_DatePicker @bind-Value="@_viewModel.oHeaderEntity.DSTART_DATE"
+                               Enabled="false" />
+                </R_ItemLayout>
+            </R_StackLayout>
+
+            <R_StackLayout Row Class="col-5">
+                <R_ItemLayout col="2" Class="ms-4">
+                <R_Label>
+                    @_localizer["_StartDate"]
+                </R_Label>
+                </R_ItemLayout>
+                <R_ItemLayout col="8">
+                <R_DatePicker @bind-Value="@_viewModel.oHeaderEntity.DEND_DATE"
+                               Enabled="false" />
+                </R_ItemLayout>
+            </R_StackLayout>
+
+        </R_StackLayout>
         </R_StackLayout>
 
         @*/HEader*@

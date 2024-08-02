@@ -26,7 +26,7 @@ namespace CBT02300MODEL.ViewModel
         public CBT02300ChequeInfoFrontDTO BankInChequeInfo = new CBT02300ChequeInfoFrontDTO();
         public CBT02300DBFilterListParamDTO? loParamaterFilter = new CBT02300DBFilterListParamDTO();
         public CBT02300DBFilterListParamDTO? loTempParamaterFilter = new CBT02300DBFilterListParamDTO();
-        public bool _enabaleBtn;
+        public bool _enableBtn;
         public CBT02300BankInChequeDTO? _currentBankInCheque;
         CBT02300ProcessDataDTO _loProcessData = new CBT02300ProcessDataDTO();
 
@@ -78,11 +78,11 @@ namespace CBT02300MODEL.ViewModel
 
                     await GetChequeInfo(loTempFirstData);
 
-                    _enabaleBtn = true;
+                    _enableBtn = true;
                 }
                 else
                 {
-                    _enabaleBtn = false;
+                    _enableBtn = false;
                     var loErr = R_FrontUtility.R_GetError(typeof(Resources_CBT02300_Class), "Error_02301");
                     loEx.Add(loErr);
                     goto EndBlock;
@@ -682,7 +682,7 @@ namespace CBT02300MODEL.ViewModel
                     RESOURCE_NAME = "RSP_CB_PROCESS_BANK_IN_CHEQUE"
                 };
                 loCls = new R_ProcessAndUploadClient(
-                   pcModuleName: "GL",
+                   pcModuleName: "CB",
                    plSendWithContext: true,
                    plSendWithToken: true,
                    pcHttpClientName: "R_DefaultServiceUrlCB",
@@ -698,7 +698,7 @@ namespace CBT02300MODEL.ViewModel
                 loException.Add(ex);
             }
 
-        EndBlock:;
+        EndBlock:
             loException.ThrowExceptionIfErrors();
 
         }

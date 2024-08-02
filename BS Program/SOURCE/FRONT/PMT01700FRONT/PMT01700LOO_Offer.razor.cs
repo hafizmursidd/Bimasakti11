@@ -1150,7 +1150,16 @@ namespace PMT01700FRONT
                     var loErr = R_FrontUtility.R_GetError(typeof(Resources_PMT01700_Class), "ValidationBookingFee");
                     loException.Add(loErr);
                 }
-
+                if (loData.DSTART_DATE > loData.DFOLLOW_UP_DATE)
+                {
+                    var loErr = R_FrontUtility.R_GetError(typeof(Resources_PMT01700_Class), "ValidationFollowUpDate");
+                    loException.Add(loErr);
+                }
+                if (loData.DSTART_DATE > loData.DEXPIRED_DATE)
+                {
+                    var loErr = R_FrontUtility.R_GetError(typeof(Resources_PMT01700_Class), "ValidationExpiredDate");
+                    loException.Add(loErr);
+                }
             }
             catch (Exception ex)
             {
@@ -1614,7 +1623,7 @@ namespace PMT01700FRONT
         }
 
         #endregion
-        #region Lookup Button BillingRule Lookup
+        #region Lookup Button Currency Lookup
 
         private R_Lookup? R_LookupCurrencyLookup;
 
@@ -1664,7 +1673,7 @@ namespace PMT01700FRONT
             {
                 PMT01700LOO_Offer_SelectedOfferDTO loGetData = _viewModel.Data;
 
-                if (string.IsNullOrWhiteSpace(_viewModel.Data.CBILLING_RULE_CODE))
+                if (string.IsNullOrWhiteSpace(_viewModel.Data.CCURRENCY_CODE))
                 {
                     loGetData.CCURRENCY_CODE = "";
                     return;

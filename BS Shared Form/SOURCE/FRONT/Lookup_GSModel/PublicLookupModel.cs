@@ -1273,6 +1273,7 @@ namespace Lookup_GSModel
             {
                 //Set Context
                 R_FrontContext.R_SetStreamingContext(ContextConstantPublicLookup.CPROPERTY_ID, string.IsNullOrWhiteSpace(poParameter.CPROPERTY_ID) ? "" : poParameter.CPROPERTY_ID);
+                R_FrontContext.R_SetStreamingContext(ContextConstantPublicLookup.CBUILDING_ID, string.IsNullOrWhiteSpace(poParameter.CBUILDING_ID) ? "" : poParameter.CBUILDING_ID);
                 R_FrontContext.R_SetStreamingContext(ContextConstantPublicLookup.LEVENT, poParameter.LEVENT);
 
                 R_HTTPClientWrapper.httpClientName = _HttpClientName;

@@ -128,7 +128,7 @@ namespace Global_PMBACK
                 var lcQuery = @"RSP_GS_GET_GSB_CODE_LIST";
                 loCommand.CommandText = lcQuery;
                 loCommand.CommandType = CommandType.StoredProcedure;
-                loDb.R_AddCommandParameter(loCommand, "@CCLASS_APPLICATION", DbType.String, 20, poParameter.CCLASS_APPLICATION);
+                loDb.R_AddCommandParameter(loCommand, "@CAPPLICATION", DbType.String, 20, poParameter.CCLASS_APPLICATION);
                 loDb.R_AddCommandParameter(loCommand, "@CCOMPANY_ID", DbType.String, 8, poParameter.CCOMPANY_ID);
                 loDb.R_AddCommandParameter(loCommand, "@CCLASS_ID", DbType.String, 40, poParameter.CCLASS_ID);
                 loDb.R_AddCommandParameter(loCommand, "@CLANGUAGE_ID", DbType.String, 2, poParameter.CLANG_ID);

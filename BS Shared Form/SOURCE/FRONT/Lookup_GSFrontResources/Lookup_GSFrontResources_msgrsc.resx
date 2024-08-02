@@ -129,6 +129,9 @@
   <data name="_Actual" xml:space="preserve">
     <value>Actual</value>
   </data>
+  <data name="_AdditionalCharges" xml:space="preserve">
+    <value>Additional Charges</value>
+  </data>
   <data name="_BankCode" xml:space="preserve">
     <value>Bank Code</value>
   </data>
@@ -215,6 +218,9 @@
   </data>
   <data name="_DCDesc" xml:space="preserve">
     <value>D/C</value>
+  </data>
+  <data name="_DeducationCharges" xml:space="preserve">
+    <value>Deducation Charges</value>
   </data>
   <data name="_Departement" xml:space="preserve">
     <value>Departement</value>

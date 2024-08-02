@@ -46,7 +46,7 @@ namespace PMB04000BACK
                 loCommand.CommandType = CommandType.StoredProcedure;
 
                 loDb.R_AddCommandParameter(loCommand, "@CCOMPANY_ID", DbType.String, 20, poParameter.CCOMPANY_ID);
-                loDb.R_AddCommandParameter(loCommand, "@CPROPERTY_ID", DbType.String, 20, poParameter.CPROPERTY_ID);
+                loDb.R_AddCommandParameter(loCommand, "@CPROPERTY", DbType.String, 20, poParameter.CPROPERTY_ID);
                 loDb.R_AddCommandParameter(loCommand, "@CDEPT_CODE", DbType.String, 20, poParameter.CDEPT_CODE);
                 loDb.R_AddCommandParameter(loCommand, "@CTENANT_ID", DbType.String, 20, poParameter.CTENANT_ID);
                 loDb.R_AddCommandParameter(loCommand, "@LALL_TENANT", DbType.Boolean, 2, poParameter.LALL_TENANT);

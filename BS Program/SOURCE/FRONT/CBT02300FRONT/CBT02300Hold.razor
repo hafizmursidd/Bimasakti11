@@ -351,7 +351,7 @@
                 </R_ItemLayout>
                 <R_ItemLayout col="8" Class="pe-1">
                     <R_TextBox @bind-Value="@_viewModel.BankInChequeInfo.CREASON"
-                               Enabled="_viewModel._enabaleBtn">
+                               Enabled="_viewModel._enableBtn">
                     </R_TextBox>
                 </R_ItemLayout>
             </R_StackLayout>
@@ -359,7 +359,7 @@
         <R_ItemLayout>
             <R_Button Class="btn btn-light"
                       OnClick="@HoldBtn"
-                      Enabled="@_viewModel._enabaleBtn">
+                      Enabled="@_viewModel._enableBtn">
                 @_localizer["_hold"]
             </R_Button>
         </R_ItemLayout>

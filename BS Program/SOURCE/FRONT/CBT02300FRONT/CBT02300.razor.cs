@@ -139,7 +139,7 @@ namespace CBT02300FRONT
             _viewModel.BankInChequeList = new();
             _viewModel.BankInChequeInfo = new();
             _viewModel.loParamaterFilter = new();
-            _viewModel._enabaleBtn = false;
+            _viewModel._enableBtn = false;
         }
         #endregion
         #region Button

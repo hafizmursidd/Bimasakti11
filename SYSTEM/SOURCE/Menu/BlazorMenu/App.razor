@@ -21,14 +21,14 @@
     </Router>
 
     @* <ConventionRouter>
-        <Found Context="routeData">
-            <MenuTabsRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
-        </Found>
-        <NotFound>
-            <LayoutView Layout="@typeof(MainLayout)">
-                <p>Sorry, there's nothing at this address.</p>
-            </LayoutView>
-        </NotFound>
+    <Found Context="routeData">
+    <MenuTabsRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
+    </Found>
+    <NotFound>
+    <LayoutView Layout="@typeof(MainLayout)">
+    <p>Sorry, there's nothing at this address.</p>
+    </LayoutView>
+    </NotFound>
     </ConventionRouter> *@
 </CascadingAuthenticationState>
 
@@ -43,12 +43,14 @@
 
     //LM
         typeof(UtilityFront.TryLookUp).Assembly,
+
       //AP
      // typeof(PMM06000Front.LMM06000).Assembly,
       typeof(PMT05500Front.LMT05500Agreement).Assembly,
        typeof(PMR00150FRONT.PMR00150).Assembly,
        typeof(PMT01700FRONT.PMT01700).Assembly,
        typeof(PMT02000FRONT.PMT02000).Assembly,
+       typeof(PMB04000FRONT.PMB04000).Assembly,
     //GL
       typeof(GLB00200Front.GLB00200).Assembly,
       typeof(GLR00300Front.GLR00300).Assembly,

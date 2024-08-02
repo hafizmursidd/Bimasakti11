@@ -1123,6 +1123,15 @@ namespace PMT01700FrontResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Total Gross Area.
+        /// </summary>
+        internal static string _TotalGrossArea {
+            get {
+                return ResourceManager.GetString("_TotalGrossArea", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Total Net Size.
         /// </summary>
         internal static string _TotalNetSize {
@@ -1249,15 +1258,6 @@ namespace PMT01700FrontResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
-        /// </summary>
-        internal static string str {
-            get {
-                return ResourceManager.GetString("str", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Address is required..
         /// </summary>
         internal static string ValidationAddress {
@@ -1330,6 +1330,15 @@ namespace PMT01700FrontResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please choose date!.
+        /// </summary>
+        internal static string ValidationCreateDate {
+            get {
+                return ResourceManager.GetString("ValidationCreateDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Currency is required..
         /// </summary>
         internal static string ValidationCurrency {
@@ -1393,6 +1402,15 @@ namespace PMT01700FrontResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Expired date must be equal or greater than offer date.
+        /// </summary>
+        internal static string ValidationExpiredDate {
+            get {
+                return ResourceManager.GetString("ValidationExpiredDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Fee Amount cannot be less than 1.
         /// </summary>
         internal static string ValidationFeeAmount {
@@ -1402,11 +1420,29 @@ namespace PMT01700FrontResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Follow up date must be equal or greater than offer date.
+        /// </summary>
+        internal static string ValidationFollowUpDate {
+            get {
+                return ResourceManager.GetString("ValidationFollowUpDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Meter No is required..
         /// </summary>
         internal static string ValidationMeterNo {
             get {
                 return ResourceManager.GetString("ValidationMeterNo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please select at least 1(one)to Create Receipt!.
+        /// </summary>
+        internal static string ValidationNoDataSelected {
+            get {
+                return ResourceManager.GetString("ValidationNoDataSelected", resourceCulture);
             }
         }
         

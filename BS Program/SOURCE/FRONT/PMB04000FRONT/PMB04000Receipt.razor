@@ -1,0 +1,79 @@
+@inherits R_Page
+@inject R_ILocalizer<Resources_PMB0400_Class> _localizer
+
+<R_StackLayout Row Class="d-flex justify-content-end">
+    <R_ItemLayout>
+        <R_CheckBox @bind-Value="_viewModel.oParameterPrintReceipt.LPRINT_ONE_TIME" />
+        <R_Label>@_localizer["PrintOneTime"]</R_Label>
+    </R_ItemLayout>
+</R_StackLayout>
+
+<R_Grid @ref="@_grid"
+        DataSource="_viewModel.loOfficialReceipt"
+        R_ConductorGridSource="@_conductorRef"
+        Pageable
+        Height="325px"
+        R_GridType="@R_eGridType.Batch"
+        R_ServiceGetListRecord="@R_ServiceGetList"
+        R_Display="@R_Display"
+        AllowAddNewRow="false"
+        AllowEditRow="false"
+        AllowDeleteRow="false">
+    <R_GridColumns>
+
+        <R_GridCheckBoxSelectColumn Width="80px"
+                                    FieldName="@nameof(PMB04000DTO.LSELECTED)"
+                                                        ShowSelectAllHeader />
+        <R_GridTextColumn Width="175px"
+                          FieldName="@nameof(PMB04000DTO.CREF_NO)"
+                          HeaderText="@_localizer["ReceiptNo"]" />
+        <R_GridDateTimePickerColumn Width="175px"
+                                    FieldName="@nameof(PMB04000DTO.CREF_NO)"
+                                    HeaderText="@_localizer["ReceiptDate"]" />
+        <R_GridTextColumn Width="175px"
+                          FieldName="@nameof(PMB04000DTO.CTENANT_ID)"
+                          HeaderText="@_localizer["CustomerId"]" />
+        <R_GridTextColumn Width="175px"
+                          FieldName="@nameof(PMB04000DTO.CTENANT_NAME)"
+                          HeaderText="@_localizer["CustomerName"]" />
+        <R_GridNumericColumn Width="175px"
+                             FieldName="@nameof(PMB04000DTO.IPRINT)"
+                             HeaderText="@_localizer["PrintNo"]" />
+        <R_GridNumericColumn Width="175px"
+                             FieldName="@nameof(PMB04000DTO.IDISTRIBUTE)"
+                             HeaderText="@_localizer["DistributeNo"]" />
+    </R_GridColumns>
+</R_Grid>
+
+@* Buttom Button *@
+<R_StackLayout Row="true" Spacing="3" Class="d-flex justify-content-between">
+
+    <R_StackLayout Row>
+        <R_ItemLayout>
+            <R_Button Class="btn btn-light"
+                      OnClick="@BtnCancel">
+                @_localizer["Cancel"]
+            </R_Button>
+        </R_ItemLayout>
+    </R_StackLayout>
+
+    <R_StackLayout Row Class="d-flex justify-content-end">
+        <R_ItemLayout>
+            <R_Button Class="btn btn-light"
+                      OnClick="@BtnPrint">
+                @_localizer["Print"]
+            </R_Button>
+        </R_ItemLayout>
+        <R_ItemLayout>
+            <R_Button Class="btn btn-light"
+                      OnClick="@BtnCancel">
+                @_localizer["Distribute"]
+            </R_Button>
+        </R_ItemLayout>
+    </R_StackLayout>
+    </R_StackLayout>
+
+    <R_ConductorGrid @ref="@_conductorRef"
+                 R_IsHeader="true"
+                 R_ServiceSaveBatch="@ServiceSaveBatch"
+                 R_AfterSaveBatch="@AfterSaveBatch" />

@@ -39,6 +39,11 @@ namespace PMT01700FRONT
         [Inject] IClientHelper? _clientHelper { get; set; }
         #endregion
 
+
+        private R_TabStrip? _tabStripRef;
+        private R_TabPage? _tabLOO;
+        private R_TabPage? _tabLOC;
+
         protected override async Task R_Init_From_Master(object poParameter)
         {
             var loEx = new R_Exception();
@@ -145,15 +150,15 @@ namespace PMT01700FRONT
             try
             {
                 _viewModel.oProperty_oDataOtherUnit.CPROPERTY_ID = _viewModel.oProperty_oDataOtherUnit.CPROPERTY_ID = poParam;
-                await _gridRefPMT01700OtherUnit.R_RefreshGrid(null);
+                await _gridRefPMT01700OtherUnit!.R_RefreshGrid(null);
 
-                if (_tabStripRef.ActiveTab.Id == "LOO")
+                if (_tabStripRef!.ActiveTab.Id == "LOO")
                 {
-                    await _tabLOO.InvokeRefreshTabPageAsync(_viewModel.oProperty_oDataOtherUnit);
+                    await _tabLOO!.InvokeRefreshTabPageAsync(_viewModel.oProperty_oDataOtherUnit);
                 }
                 else if (_tabStripRef.ActiveTab.Id == "LOC")
                 {
-                    await _tabLOC.InvokeRefreshTabPageAsync(_viewModel.oProperty_oDataOtherUnit);
+                    await _tabLOC!.InvokeRefreshTabPageAsync(_viewModel.oProperty_oDataOtherUnit);
                 }
 
 
@@ -201,10 +206,6 @@ namespace PMT01700FRONT
 
 
         #endregion
-
-        private R_TabStrip? _tabStripRef;
-        private R_TabPage? _tabLOO;
-        private R_TabPage? _tabLOC;
 
         #region Tab Unit List
         private async Task OnActiveTabIndexChanged(R_TabStripTab eventArgs)

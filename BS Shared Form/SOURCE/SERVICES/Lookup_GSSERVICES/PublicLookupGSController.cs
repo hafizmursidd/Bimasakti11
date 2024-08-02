@@ -1252,6 +1252,7 @@ namespace Lookup_GSSERVICES
 
                 _Logger.LogInfo("Set Param GSL02700GetOtherUnitList");
                 var loCls = new PublicLookupCls();
+                poParameter.CBUILDING_ID = R_Utility.R_GetStreamingContext<string>(ContextConstantPublicLookup.CBUILDING_ID);
                 poParameter.CPROPERTY_ID = R_Utility.R_GetStreamingContext<string>(ContextConstantPublicLookup.CPROPERTY_ID);
                 poParameter.LEVENT = R_Utility.R_GetStreamingContext<bool>(ContextConstantPublicLookup.LEVENT);
 
@@ -1262,7 +1263,7 @@ namespace Lookup_GSSERVICES
                 loRtn = GetStream<GSL02700DTO>(loResult);
             }
             catch (Exception ex)
-            {
+            {   
                 loEx.Add(ex);
                 _Logger.LogError(loEx);
             }

@@ -780,7 +780,8 @@ namespace PMT01700FRONT
             {
                 var param = new GSL02700ParameterDTO()
                 {
-                    CPROPERTY_ID = _viewModel.oParameter.CPROPERTY_ID!,
+                    CPROPERTY_ID = _viewModel.oParameter!.CPROPERTY_ID!,
+                    CBUILDING_ID = _viewModel.oParameter.CBUILDING_ID!,
                     LEVENT = true
                 };
                 eventArgs.Parameter = param;
@@ -836,7 +837,8 @@ namespace PMT01700FRONT
                         LookupGSL02700ViewModel loLookupViewModel = new LookupGSL02700ViewModel();
                         var param = new GSL02700ParameterDTO
                         {
-                            CPROPERTY_ID = _viewModel.oParameter.CPROPERTY_ID!,
+                            CPROPERTY_ID = _viewModel.oParameter!.CPROPERTY_ID!,
+                            CBUILDING_ID = _viewModel.oParameter.CBUILDING_ID!,
                             LEVENT = true,
                             CSEARCH_TEXT = (string)eventArgs.Value,
                         };

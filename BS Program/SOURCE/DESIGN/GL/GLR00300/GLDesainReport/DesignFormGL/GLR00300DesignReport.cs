@@ -52,6 +52,16 @@ namespace DesignFormGL
             _loReport.RegisterData(loData, "ResponseDataModel");
             _loReport.Design();
         }
+
+        private void PMB04000_Click(object sender, EventArgs e)
+        {
+            ArrayList loData = new ArrayList
+            {
+                PMB04000COMMON.Print.Model.GenarateDataModel.DefaultDataWithHeader()
+            };
+            _loReport.RegisterData(loData, "ResponseDataModel");
+            _loReport.Design();
+        }
     }
 
 

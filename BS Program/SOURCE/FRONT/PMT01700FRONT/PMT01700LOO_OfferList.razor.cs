@@ -88,8 +88,6 @@ namespace PMT01700FRONT
         }
 
         #region Front Control
-
-
         private void OnChangeLCONTRACTOR(bool poParam)
         {
             var loException = new R_Exception();
@@ -106,8 +104,6 @@ namespace PMT01700FRONT
             loException.ThrowExceptionIfErrors();
 
         }
-
-
         private async Task OnChangedFromOfferDateAsync(DateTime? poValue)
         {
             R_Exception loException = new R_Exception();
@@ -124,9 +120,8 @@ namespace PMT01700FRONT
 
             R_DisplayException(loException);
         }
-
-
         #endregion
+
         #region Button
         private async Task SubmitBtn()
         {
@@ -456,9 +451,7 @@ namespace PMT01700FRONT
             {
                 loEx.Add(ex);
             }
-
             loEx.ThrowExceptionIfErrors();
-
         }
 
 
@@ -479,8 +472,6 @@ namespace PMT01700FRONT
             {
                 loException.Add(ex);
             }
-
-
             R_DisplayException(loException);
         }
         #endregion

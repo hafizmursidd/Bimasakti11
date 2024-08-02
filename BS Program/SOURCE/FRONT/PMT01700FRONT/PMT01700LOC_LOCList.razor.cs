@@ -288,21 +288,16 @@ namespace PMT01700FRONT
         public async Task RefreshTabPageAsync(object poParam)
         {
             R_Exception loException = new R_Exception();
-
             try
             {
                 var loParam = R_FrontUtility.ConvertObjectToObject<PMT01700ParameterFrontChangePageDTO>(poParam);
-
                 _viewModel.oParameter.CPROPERTY_ID = loParam.CPROPERTY_ID;
-
                 await _gridLOCList!.R_RefreshGrid(null);
             }
             catch (Exception ex)
             {
                 loException.Add(ex);
             }
-
-
             R_DisplayException(loException);
         }
         #endregion

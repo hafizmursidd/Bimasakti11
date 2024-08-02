@@ -53,7 +53,7 @@ namespace PMB04000SERVICE
                 loDbParameter.LALL_TENANT = R_Utility.R_GetStreamingContext<bool>(PMB04000ContextDTO.LALL_TENANT);
                 loDbParameter.CINVOICE_TYPE = R_Utility.R_GetStreamingContext<string>(PMB04000ContextDTO.CINVOICE_TYPE);
                 loDbParameter.CPERIOD = R_Utility.R_GetStreamingContext<string>(PMB04000ContextDTO.CPERIOD);
-                loDbParameter.CPROPERTY_ID = R_Utility.R_GetStreamingContext<string>(PMB04000ContextDTO.CPROPERTY_ID);
+                loDbParameter.CTRANS_CODE = R_Utility.R_GetStreamingContext<string>(PMB04000ContextDTO.CTRANS_CODE);
                 loDbParameter.CLANG_ID = R_BackGlobalVar.CULTURE;
                 _logger.LogDebug("DbParameter {@Parameter} ", loDbParameter);
 

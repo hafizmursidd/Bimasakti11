@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data.Common;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -48,19 +49,23 @@ namespace PMT01700MODEL.ViewModel
                     PMT01700LOO_UnitUtilities_ParameterDTO loParameter = R_FrontUtility.ConvertObjectToObject<PMT01700LOO_UnitUtilities_ParameterDTO>(oParameter);
 
                     var loResult = await _model.GetUnitChargesHeaderAsync(poParameter: loParameter);
+                    if (loResult != null)
+                    {
 
-                    //ASSSIGN Charge Mode
+                        loResult.DSTART_DATE = ConvertStringToDateTimeFormat(loResult.CSTART_DATE);
+                        loResult.DEND_DATE = ConvertStringToDateTimeFormat(loResult.CEND_DATE);
 
-                    oParameter.CCHARGE_MODE = loResult.CCHARGE_MODE;
+                        oParameter.CCHARGE_MODE = loResult.CCHARGE_MODE;
 
-                    oParameterChargesTab = R_FrontUtility.ConvertObjectToObject<PMT01700ParameterChargesTab>(oParameter);
-                    oParameterChargesTab.IYEARS = loResult.IYEARS;
-                    oParameterChargesTab.IMONTHS = loResult.IMONTHS;
-                    oParameterChargesTab.IDAYS = loResult.IDAYS;
-                    oParameterChargesTab.CSTART_DATE = loResult.CSTART_DATE;
-                    oParameterChargesTab.CEND_DATE=  loResult.CEND_DATE;
+                        oParameterChargesTab = R_FrontUtility.ConvertObjectToObject<PMT01700ParameterChargesTab>(oParameter);
+                        oParameterChargesTab.IYEARS = loResult.IYEARS;
+                        oParameterChargesTab.IMONTHS = loResult.IMONTHS;
+                        oParameterChargesTab.IDAYS = loResult.IDAYS;
+                        oParameterChargesTab.CSTART_DATE = loResult.CSTART_DATE;
+                        oParameterChargesTab.CEND_DATE = loResult.CEND_DATE;
 
-                    oHeaderEntity = loResult;
+                    }
+                    oHeaderEntity = loResult != null ? loResult : new PMT01700LOO_UnitCharges_UnitCharges_AgreementUnitHeaderDTO();
                 }
             }
             catch (Exception ex)
@@ -160,6 +165,34 @@ namespace PMT01700MODEL.ViewModel
             loEx.ThrowExceptionIfErrors();
         }
 
+        #endregion
+
+        #region Utilities
+
+        private DateTime? ConvertStringToDateTimeFormat(string? pcEntity)
+        {
+            if (string.IsNullOrWhiteSpace(pcEntity))
+            {
+                // Jika string kosong atau null, kembalikan DateTime.MinValue atau nilai default yang sesuai
+                //return DateTime.MinValue; // atau DateTime.MinValue atau DateTime.Now atau nilai default yang sesuai dengan kebutuhan Anda
+                return null;
+            }
+            else
+            {
+                // Parse string ke DateTime
+                DateTime result;
+                if (DateTime.TryParseExact(pcEntity, "yyyyMMdd", CultureInfo.InvariantCulture, DateTimeStyles.None, out result))
+                {
+                    return result;
+                }
+                else
+                {
+                    // Jika parsing gagal, kembalikan DateTime.MinValue atau nilai default yang sesuai
+                    //return DateTime.MinValue; // atau DateTime.MinValue atau DateTime.Now atau nilai default yang sesuai dengan kebutuhan Anda
+                    return null;
+                }
+            }
+        }
         #endregion
 
 

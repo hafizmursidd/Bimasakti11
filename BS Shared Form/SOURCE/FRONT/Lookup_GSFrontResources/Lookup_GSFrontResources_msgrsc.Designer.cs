@@ -97,6 +97,15 @@ namespace Lookup_GSFrontResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Additional Charges.
+        /// </summary>
+        internal static string _AdditionalCharges {
+            get {
+                return ResourceManager.GetString("_AdditionalCharges", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Bank Code.
         /// </summary>
         internal static string _BankCode {
@@ -354,6 +363,15 @@ namespace Lookup_GSFrontResources {
         internal static string _DCDesc {
             get {
                 return ResourceManager.GetString("_DCDesc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Deducation Charges.
+        /// </summary>
+        internal static string _DeducationCharges {
+            get {
+                return ResourceManager.GetString("_DeducationCharges", resourceCulture);
             }
         }
         

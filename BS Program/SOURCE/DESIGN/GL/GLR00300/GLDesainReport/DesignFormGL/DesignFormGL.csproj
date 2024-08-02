@@ -13,7 +13,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <ProjectReference Include="..\..\..\..\..\BACK\LM\PMB04000BACK\PMB04000BACK.csproj" />
 	  <ProjectReference Include="..\..\..\..\..\COMMON\GL\GLR00300Common\GLR00300Common.csproj" />
+	  <ProjectReference Include="..\..\..\..\..\COMMON\LM\PMB04000COMMON\PMB04000COMMON.csproj" />
 	  <ProjectReference Include="..\..\..\..\..\COMMON\LM\PMR00150COMMON\PMR00150COMMON.csproj" />
 	</ItemGroup>
 

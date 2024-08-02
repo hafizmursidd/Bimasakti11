@@ -60,4 +60,10 @@
 			<HintPath>..\..\..\..\..\SYSTEM\SOURCE\LIBRARY\Back\R_PluginsCommon.dll</HintPath>
 		</Reference>
 	</ItemGroup>
+
+	<ItemGroup>
+	  <None Update="Reports\PMB04000.frx">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	</ItemGroup>
 </Project>

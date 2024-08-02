@@ -1291,8 +1291,8 @@ namespace Lookup_GSLBACK
 
                 loDb.R_AddCommandParameter(loCmd, "@CCOMPANY_ID", DbType.String, 50, R_BackGlobalVar.COMPANY_ID);
                 loDb.R_AddCommandParameter(loCmd, "@CPROPERTY_ID", DbType.String, 50, poEntity.CPROPERTY_ID);
-                loDb.R_AddCommandParameter(loCmd, "@LAGREEMENT", DbType.Boolean, 10, poEntity.LAGREEMENT);
                 loDb.R_AddCommandParameter(loCmd, "@CUSER_ID", DbType.String, 50, R_BackGlobalVar.USER_ID);
+                loDb.R_AddCommandParameter(loCmd, "@LAGREEMENT", DbType.Boolean, 10, poEntity.LAGREEMENT);
 
                 //Debug Logs
                 var loDbParam = loCmd.Parameters.Cast<DbParameter>()
@@ -1499,12 +1499,13 @@ namespace Lookup_GSLBACK
                 var loConn = loDb.GetConnection();
                 var loCmd = loDb.GetCommand();
 
-                var lcQuery = "RSP_GS_GET_OTHER_UNIT_LIST";
+                var lcQuery = "RSP_GS_LOOKUP_OTHER_UNIT";
                 loCmd.CommandText = lcQuery;
                 loCmd.CommandType = CommandType.StoredProcedure;
 
                 loDb.R_AddCommandParameter(loCmd, "@CCOMPANY_ID", DbType.String, 50, R_BackGlobalVar.COMPANY_ID);
                 loDb.R_AddCommandParameter(loCmd, "@CPROPERTY_ID", DbType.String, 50, poEntity.CPROPERTY_ID);
+                loDb.R_AddCommandParameter(loCmd, "@CBUILDING_ID", DbType.String, 50, poEntity.CBUILDING_ID);
                 loDb.R_AddCommandParameter(loCmd, "@LEVENT", DbType.Boolean, 50, poEntity.LEVENT);
                 loDb.R_AddCommandParameter(loCmd, "@CUSER_ID", DbType.String, 50, R_BackGlobalVar.USER_ID);
 
