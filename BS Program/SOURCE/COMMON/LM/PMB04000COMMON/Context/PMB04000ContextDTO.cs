@@ -15,5 +15,6 @@ namespace PMB04000COMMON.Context
         public const string CTRANS_CODE = "CTRANS_CODE";
         public const string CCREATE_RECEIPT_DATE = "CCREATE_RECEIPT_DATE";
         public const string CTYPE_PROCESS = "CTYPE_PROCESS";
+        public const string LIST_REFNO = "LIST_REFNO";
     }
 }

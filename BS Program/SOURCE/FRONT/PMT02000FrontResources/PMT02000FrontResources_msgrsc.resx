@@ -183,6 +183,9 @@
   <data name="_Cancel" xml:space="preserve">
     <value>Cancel</value>
   </data>
+  <data name="_Capacity" xml:space="preserve">
+    <value>Capacity</value>
+  </data>
   <data name="_CF" xml:space="preserve">
     <value>CF</value>
   </data>
@@ -266,6 +269,9 @@
   </data>
   <data name="_LOIRef" xml:space="preserve">
     <value>LOI Ref No</value>
+  </data>
+  <data name="_MeterNo" xml:space="preserve">
+    <value>Meter No</value>
   </data>
   <data name="_MeterStart" xml:space="preserve">
     <value>Meter Start</value>

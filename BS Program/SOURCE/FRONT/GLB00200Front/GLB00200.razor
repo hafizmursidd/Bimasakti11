@@ -65,12 +65,14 @@
                 R_GridType="R_eGridType.Batch"
                 R_ServiceGetListRecord="GetList_ReversingJournal"
                 Pageable
-                R_RowRender="@((R_GridRowRenderEventArgs args) => R_RowForBackGround(args))"
                 AllowDeleteRow="false"
                 AllowAddNewRow="false"
                 AllowEditRow="false"
                 Height="500px"
-                R_Display="Service_Display">
+                R_Display="Service_Display"
+                 R_BeforeSaveBatch="@BeforeSaveBatch"
+                R_ServiceSaveBatch="@ServiceSaveBatch"
+                R_AfterSaveBatch="@AfterSaveBatch">
             <R_GridColumns>
                 <R_GridCheckBoxSelectColumn Width="75px" FieldName="LSELECTED"
                                             R_EnableEdit
@@ -150,7 +152,4 @@
 
 <R_ConductorGrid @ref="_conductorReversingJournal"
                  R_ViewModel="_viewModelGLB00200"
-                 R_IsHeader
-                 R_BeforeSaveBatch="@BeforeSaveBatch"
-                 R_ServiceSaveBatch="@ServiceSaveBatch"
-                 R_AfterSaveBatch="@AfterSaveBatch" />
+                 R_IsHeader />

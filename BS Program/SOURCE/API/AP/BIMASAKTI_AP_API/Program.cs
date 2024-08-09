@@ -6,7 +6,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.R_RegisterServices(
     startup =>
     {
-        //startup.R_DisableAuthentication();
+        startup.R_DisableAuthentication();
+        startup.R_DisableReportServerClient();
     }
 );
 

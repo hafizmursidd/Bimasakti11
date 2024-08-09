@@ -206,6 +206,9 @@ namespace PMB04000MODEL.ViewModel
                     case "PRINT":
                         lcResourceMessage = "ValidationDataSelectedPrint";
                         break;
+                    case "DISTRIBUTE":
+                        lcResourceMessage = "ValidationDataSelectedDistribute";
+                        break;
                     default:
                         break;
                 }
@@ -313,8 +316,8 @@ namespace PMB04000MODEL.ViewModel
             }
         }
         #endregion
-        #region "Process"
-        public async Task ProcessDataSelected(PMB04000ParamDTO poParam, List<PMB04000DTO> poListData)
+        #region "Process CANCEL AND CREATE RECEIPT"
+        public async Task CreateCancelReceipt(PMB04000ParamDTO poParam, List<PMB04000DTO> poListData)
         {
             var loEx = new R_Exception();
             try
@@ -353,7 +356,52 @@ namespace PMB04000MODEL.ViewModel
                 loEx.Add(ex);
             }
         }
+
         #endregion
+        #region Distribute PROCESS
+        private async Task DistributeProcess(PMB04000ParamReportDTO poParam)
+        {
+            var loEx = new R_Exception();
+            try
+            {
+                var loUserParameters = new List<R_KeyValue>();
+
+                // set Param
+                loUserParameters = new List<R_KeyValue>
+                {
+                    new R_KeyValue()
+                    {
+                        Key = PMB04000ContextDTO.CPROPERTY_ID, Value = poParam.CPROPERTY_ID!
+                    },
+                    new R_KeyValue()
+                    {
+                         Key = PMB04000ContextDTO.CDEPT_CODE, Value = poParam.CDEPT_CODE!
+                    }
+                };
+                //Instantiate ProcessClient
+                R_ProcessAndUploadClient loCls = new R_ProcessAndUploadClient(
+                    pcModuleName: "PM",
+                    plSendWithContext: true,
+                    plSendWithToken: true,
+                    pcHttpClientName: "R_DefaultServiceUrlPM",
+                    poProcessProgressStatus: this);
+
+                //prepare Batch Parameter
+                R_BatchParameter loUploadPar = new R_BatchParameter();
+                loUploadPar.COMPANY_ID = COMPANYID = poParam.CCOMPANY_ID!;
+                loUploadPar.USER_ID = USERID = poParam.CUSER_ID!;
+                loUploadPar.UserParameters = loUserParameters;
+                loUploadPar.ClassName = "PMB04000BACK.PMB04000BatchReportCls";
+                loUploadPar.BigObject = poParam.LIST_REFNO!;
+                await loCls.R_BatchProcess<List<string>>(loUploadPar, 100);
+            }
+            catch (Exception ex)
+            {
+                loEx.Add(ex);
+            }
+        }
+        #endregion
+
         #region ProgressBar
         public async Task ProcessComplete(string pcKeyGuid, eProcessResultMode poProcessResultMode)
         {

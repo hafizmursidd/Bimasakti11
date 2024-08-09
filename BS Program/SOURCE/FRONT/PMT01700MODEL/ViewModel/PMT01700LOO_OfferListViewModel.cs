@@ -64,11 +64,11 @@ namespace PMT01700MODEL.ViewModel
             R_Exception loEx = new R_Exception();
             try
             {
-                string lcdFilterFromOfferDate = ConvertDateToStringFormat(dFilterFromOfferDate) ?? "";
+                string lcdFilterFromOfferDate = oParameter.CTRANS_CODE == "802043" 
+                    ? ConvertDateToStringFormat(dFilterFromOfferDate) ?? "" : "";
 
                 if (!string.IsNullOrEmpty(oParameter.CPROPERTY_ID))
                 {
-
                     R_FrontContext.R_SetStreamingContext(PMT01700ContextDTO.CPROPERTY_ID, oParameter.CPROPERTY_ID);
                     R_FrontContext.R_SetStreamingContext(PMT01700ContextDTO.CTRANS_CODE, oParameter.CTRANS_CODE);
                     R_FrontContext.R_SetStreamingContext(PMT01700ContextDTO.CFROM_REF_DATE, lcdFilterFromOfferDate);

@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Report ScriptLanguage="CSharp" ReportInfo.Created="07/31/2024 14:43:45" ReportInfo.Modified="08/02/2024 09:39:36" ReportInfo.CreatorVersion="2023.2.21.0">
+<Report ScriptLanguage="CSharp" ReportInfo.Created="07/31/2024 14:43:45" ReportInfo.Modified="08/06/2024 10:02:25" ReportInfo.CreatorVersion="2023.2.21.0">
   <Dictionary>
     <BusinessObjectDataSource Name="ResponseDataModel" ReferenceName="ResponseDataModel" DataType="System.Collections.ArrayList" Enabled="true">
       <Column Name="Column" DataType="PMB04000COMMON.Print.Utility_DTO.PMB04000ColumnDTO, PMB04000COMMON, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
@@ -55,7 +55,7 @@
       <TextObject Name="Text6" Left="170.1" Top="9.45" Width="132.3" Height="18.9" Text=": [ResponseDataModel.Data.CREF_NO]" VertAlign="Center" Font="Arial Unicode MS, 10pt"/>
       <TextObject Name="Text7" Left="170.1" Top="37.8" Width="132.3" Height="18.9" Text=": [ResponseDataModel.Data.CTENANT_NAME]" VertAlign="Center" Font="Arial Unicode MS, 10pt"/>
       <TextObject Name="Text8" Left="170.1" Top="66.15" Width="132.3" Height="18.9" Text=": [ResponseDataModel.Data.CNOMINAL]" VertAlign="Center" Font="Arial Unicode MS, 10pt"/>
-      <TextObject Name="Text9" Left="170.1" Top="94.5" Width="132.3" Height="18.9" Text=": [ResponseDataModel.Label.Label_CUNIT_DESCRIPTION]" VertAlign="Center" Font="Arial Unicode MS, 10pt"/>
+      <TextObject Name="Text9" Left="170.1" Top="94.5" Width="132.3" Height="18.9" Text=": [ResponseDataModel.Data.CTRANS_DESC]" VertAlign="Center" Font="Arial Unicode MS, 10pt"/>
     </PageHeaderBand>
     <DataBand Name="Data1" Top="262.42" Width="718.2" Height="28.35" DataSource="Data">
       <TableObject Name="Table2" Left="18.9" Width="699.08" Height="28.35">

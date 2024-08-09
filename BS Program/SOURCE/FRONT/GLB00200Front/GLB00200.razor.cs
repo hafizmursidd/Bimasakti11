@@ -212,7 +212,7 @@ namespace GLB00200Front
             var loEx = new R_Exception();
             try
             {
-                await _conductorReversingJournal.R_SaveBatch();
+                await _gridReversing!.R_SaveBatch();
             }
             catch (Exception ex)
             {
@@ -307,19 +307,6 @@ namespace GLB00200Front
         }
 
         #endregion
-        #region Validation to Background red
-        private void R_RowForBackGround(R_GridRowRenderEventArgs eventArgs)
-        {
-            var loData = (GLB00200DTO)eventArgs.Data;
 
-            if (loData.LVALID == false)
-            {
-                eventArgs.RowStyle = new R_GridRowRenderStyle
-                {
-                    BackgroundColor = "RED"
-                };
-            }
-        }
-        #endregion
     }
 }

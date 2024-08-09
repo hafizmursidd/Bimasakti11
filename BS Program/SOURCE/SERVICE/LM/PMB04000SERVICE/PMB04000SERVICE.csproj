@@ -39,6 +39,18 @@
 		<Reference Include="R_ReportFastReportBack">
 		  <HintPath>..\..\..\..\..\SYSTEM\SOURCE\LIBRARY\Back\R_ReportFastReportBack.dll</HintPath>
 		</Reference>
+		<Reference Include="R_ReportServerClient">
+		  <HintPath>..\..\..\..\..\SYSTEM\SOURCE\LIBRARY\Back\R_ReportServerClient.dll</HintPath>
+		</Reference>
+		<Reference Include="R_ReportServerCommon">
+		  <HintPath>..\..\..\..\..\SYSTEM\SOURCE\LIBRARY\Back\R_ReportServerCommon.dll</HintPath>
+		</Reference>
+		<Reference Include="R_Storage">
+		  <HintPath>..\..\..\..\..\SYSTEM\SOURCE\LIBRARY\Back\R_Storage.dll</HintPath>
+		</Reference>
+		<Reference Include="R_StorageCommon">
+		  <HintPath>..\..\..\..\..\SYSTEM\SOURCE\LIBRARY\Back\R_StorageCommon.dll</HintPath>
+		</Reference>
 	</ItemGroup>
 
 

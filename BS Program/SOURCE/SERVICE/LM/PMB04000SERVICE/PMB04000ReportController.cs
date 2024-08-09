@@ -170,8 +170,8 @@ namespace PMB04000SERVICE
                 loHeader.CLOGO = loGetLogo.CLOGO!;
 
                 _logger.LogInfo("Set Column and Label Report");
-                var loColumn = AssignValuesWithMessages(typeof(PMB04000BackResources.Resources_PMB04000), loCultureInfo, new PMB04000ColumnDTO());
-                var loLabel = AssignValuesWithMessages(typeof(PMB04000BackResources.Resources_PMB04000), loCultureInfo, new PMB04000LabelDTO());
+                var loColumn = AssignValuesWithMessages(typeof(Resources_PMB04000), loCultureInfo, new PMB04000ColumnDTO());
+                var loLabel = AssignValuesWithMessages(typeof(Resources_PMB04000), loCultureInfo, new PMB04000LabelDTO());
 
 
                 //CONVERT DATA TO DISPLAY IF DATA EXIST

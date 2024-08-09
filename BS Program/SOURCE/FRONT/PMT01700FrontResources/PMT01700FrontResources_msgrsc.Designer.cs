@@ -1357,6 +1357,15 @@ namespace PMT01700FrontResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please select at least 1(one) Receipt to Distribute!.
+        /// </summary>
+        internal static string ValidationDataSelectedDistribute {
+            get {
+                return ResourceManager.GetString("ValidationDataSelectedDistribute", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The start date cannot be later than the end date..
         /// </summary>
         internal static string ValidationDate {

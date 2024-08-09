@@ -119,7 +119,20 @@ namespace PMB04000FRONT
             }
             R_DisplayException(loEx);
         }
-
+        private async Task BtnDistribute()
+        {
+            var loEx = new R_Exception();
+            try
+            {
+                _viewModel.pcTYPE_PROCESS = "DISTRIBUTE";
+                await _conductorRef.R_SaveBatch();
+            }
+            catch (Exception ex)
+            {
+                loEx.Add(ex);
+            }
+            R_DisplayException(loEx);
+        }
         public async Task RefreshTabPageAsync(object poParam)
         {
             R_Exception loException = new R_Exception();
@@ -144,7 +157,7 @@ namespace PMB04000FRONT
             {
                 var loList = (List<PMB04000DTO>)eventArgs.Data;
 
-            //    List<PMB04000DTO> poDataSelected = _viewModel.ValidationProcessData(loList);
+                List<PMB04000DTO> poDataSelected = _viewModel.ValidationProcessData(loList);
 
                 if (_viewModel.pcTYPE_PROCESS == "CANCEL_RECEIPT")
                 {
@@ -158,7 +171,7 @@ namespace PMB04000FRONT
                             CUSER_ID = _clientHelper!.UserId,
                             CTYPE_PROCESS = _viewModel.pcTYPE_PROCESS
                         };
-                       // await _viewModel.ProcessDataSelected(poParam: loParam, poListData: poDataSelected);
+                        await _viewModel.CreateCancelReceipt(poParam: loParam, poListData: poDataSelected);
                         //CLEAR OLD DATA
                         _grid!.DataSource.Clear();
                         //_viewModel.BankInChequeInfo = new();
@@ -166,7 +179,6 @@ namespace PMB04000FRONT
                 }
                 else if (_viewModel.pcTYPE_PROCESS == "PRINT")
                 {
-                   // var lcRefNoData = string.Join(",", poDataSelected.Where(x => x.LSELECTED).Select(x => x.CREF_NO));
                     var loParam = new PMB04000ParamReportDTO
                     {
                         CCOMPANY_ID = _clientHelper!.CompanyId,
@@ -183,6 +195,12 @@ namespace PMB04000FRONT
                                 "rpt/PMB04000Report/ReceiptReportPost",
                                 "rpt/PMB04000Report/ReceiptReportGet",
                                 loParam);
+                }
+                else if (_viewModel.pcTYPE_PROCESS == "DISTRIBUTE")
+                {
+                     string lcRefNoData = string.Join(",", poDataSelected.Where(x => x.LSELECTED).Select(x => x.CREF_NO));
+
+                    
                 }
             }
             catch (Exception ex)

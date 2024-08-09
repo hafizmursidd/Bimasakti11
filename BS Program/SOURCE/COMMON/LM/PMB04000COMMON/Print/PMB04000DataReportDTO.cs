@@ -6,7 +6,7 @@ using System.Text;
 namespace PMB04000COMMON.Print
 {
     public class PMB04000DataReportDTO : PMB04000BaseDTO
-    { 
+    {
         public string? CREF_NO { get; set; }
         public string? CTENANT_NAME { get; set; }
         public string? CNOMINAL { get; set; }

@@ -11,5 +11,6 @@ namespace PMB04000COMMON.Print.Param_DTO
         public string CDEPT_CODE { get; set; } = "";
         public string CREF_NO { get; set; } = "";
         public bool LPRINT { get; set; }
-    }
+        public string? LIST_REFNO { get; set; }
+}
 }

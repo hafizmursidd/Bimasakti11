@@ -161,6 +161,10 @@
     <value>Data Not Found For "Meter No" From Selected Utility Type</value>
     <comment>Data Not Found For "Meter No" From Selected Utility Type</comment>
   </data>
+  <data name="ValidationDataSelectedDistribute" xml:space="preserve">
+    <value>Please select at least 1(one) Receipt to Distribute!</value>
+    <comment>Please select at least 1(one) Receipt to Distribute!</comment>
+  </data>
   <data name="ValidationDate" xml:space="preserve">
     <value>The start date cannot be later than the end date.</value>
     <comment>The start date cannot be later than the end date.</comment>

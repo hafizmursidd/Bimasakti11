@@ -9,12 +9,7 @@ using R_BlazorFrontEnd.Controls.Tab;
 using R_BlazorFrontEnd.Enums;
 using R_BlazorFrontEnd.Exceptions;
 using R_BlazorFrontEnd.Helpers;
-using GLT00100FRONT;
-using GLT00100COMMON;
 using PMT05500COMMON;
-using CBT00200FRONT;
-using CBT01200FRONT;
-using CBT02200FRONT;
 using R_BlazorFrontEnd.Controls.Popup;
 
 namespace PMT05500Front
@@ -175,7 +170,8 @@ namespace PMT05500Front
                 };
 
                 eventArgs.Parameter = loParam;
-                eventArgs.TargetPageType = typeof(GLT00110);
+                eventArgs.PageNamespace = "UtilityFront.TryLookUp";
+                // eventArgs.TargetPageType = typeof(GLT00110);
             }
             catch (Exception ex)
             {
@@ -254,13 +250,16 @@ namespace PMT05500Front
                     switch (lcRefundValue)
                     {
                         case "00200":
-                            eventArgs.TargetPageType = typeof(CBT00220);
+                            eventArgs.PageNamespace = "UtilityFront.TryLookUp";
+                            //eventArgs.PageNamespace = typeof(CBT00220);
                             break;
                         case "01200":
-                            eventArgs.TargetPageType = typeof(CBT01210);
+                            eventArgs.PageNamespace = "UtilityFront.TryLookUp";
+                            // eventArgs.TargetPageType = typeof(CBT01210);
                             break;
                         case "02200":
-                            eventArgs.TargetPageType = typeof(CBT02220);
+                            eventArgs.PageNamespace = "UtilityFront.TryLookUp";
+                            //    eventArgs.TargetPageType = typeof(CBT02220);
                             break;
                     };
                 }

@@ -21,21 +21,21 @@
     </Router>
 
     @* <ConventionRouter>
-    <Found Context="routeData">
-    <MenuTabsRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
-    </Found>
-    <NotFound>
-    <LayoutView Layout="@typeof(MainLayout)">
-    <p>Sorry, there's nothing at this address.</p>
-    </LayoutView>
-    </NotFound>
+        <Found Context="routeData">
+            <MenuTabsRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
+        </Found>
+        <NotFound>
+            <LayoutView Layout="@typeof(MainLayout)">
+                <p>Sorry, there's nothing at this address.</p>
+            </LayoutView>
+        </NotFound>
     </ConventionRouter> *@
 </CascadingAuthenticationState>
 
 @code {
     private List<Assembly> lazyLoadedAssemblies = new()
     {
-        //typeof(GSM00100Front.GSM00100).Assembly,
+         //typeof(GSM00100Front.GSM00100).Assembly,
          //GS
         typeof(GSM04500Front.GSM04500).Assembly,
         typeof(GSM06500Front.GSM06500).Assembly,
@@ -59,6 +59,7 @@
       //AP
        typeof(APT00100FRONT.APT00100).Assembly,
        typeof(APT00200FRONT.APT00200).Assembly,
+
 
     };
 

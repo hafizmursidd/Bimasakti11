@@ -233,7 +233,7 @@ namespace PMB04000FRONT
                         CUSER_ID = _clientHelper!.UserId,
                         CTYPE_PROCESS = _viewModel.pcTYPE_PROCESS
                     };
-                    await _viewModel.ProcessDataSelected(poParam: loParam, poListData: poDataSelected);
+                    await _viewModel.CreateCancelReceipt(poParam: loParam, poListData: poDataSelected);
                     //CLEAR OLD DATA
                     _grid!.DataSource.Clear();
                     //_viewModel.BankInChequeInfo = new();

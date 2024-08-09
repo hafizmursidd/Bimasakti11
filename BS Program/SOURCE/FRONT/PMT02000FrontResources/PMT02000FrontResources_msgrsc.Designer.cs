@@ -196,6 +196,15 @@ namespace PMT02000FrontResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Capacity.
+        /// </summary>
+        internal static string _Capacity {
+            get {
+                return ResourceManager.GetString("_Capacity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to CF.
         /// </summary>
         internal static string _CF {
@@ -444,6 +453,15 @@ namespace PMT02000FrontResources {
         internal static string _LOIRef {
             get {
                 return ResourceManager.GetString("_LOIRef", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Meter No.
+        /// </summary>
+        internal static string _MeterNo {
+            get {
+                return ResourceManager.GetString("_MeterNo", resourceCulture);
             }
         }
         
